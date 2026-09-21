@@ -1,0 +1,17 @@
+[Unit]
+Description=Attendance Sync Daemon
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/path/to/project/backend
+ExecStart=/path/to/venv/bin/python attendance_scheduler_tasks/device_attendance_daemon.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
