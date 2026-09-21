@@ -12,10 +12,11 @@ from django.db.models import Q, F, Prefetch
 from django.utils import timezone
 from master.models import *
 from hrm_master.models import *
+from hrm_master.models import *
 import importlib
 from branch.models import Branch
 from django.contrib.auth.models import Group
-from master.api.serializers import DepartmentSerializer
+from hrm_master.api.serializers import DepartmentSerializer
 from django.apps import apps
 from rest_framework.decorators import action
 from datetime import datetime

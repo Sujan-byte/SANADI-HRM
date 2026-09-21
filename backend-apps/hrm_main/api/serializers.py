@@ -929,7 +929,7 @@ class SalaryCalculationSerializer(AuditModelMixinSerializer, ApprovalModelMixinS
 
     def create(self, validated_data):
         request = self.context.get('request')
-        master_service = importlib.import_module('master.api.service')
+        master_service = importlib.import_module('hrm_master.api.service')
         master_signal = master_service.MasterSignal
         self._fill_dates_from_month(validated_data)
         if validated_data.get('from_date') and validated_data.get('to_date'):
@@ -948,7 +948,7 @@ class SalaryCalculationSerializer(AuditModelMixinSerializer, ApprovalModelMixinS
 
     def update(self, instance, validated_data):
         request = self.context.get('request')
-        master_service = importlib.import_module('master.api.service')
+        master_service = importlib.import_module('hrm_master.api.service')
         master_signal = master_service.MasterSignal
         self._fill_dates_from_month(validated_data)
         if validated_data.get('from_date') and validated_data.get('to_date'):
@@ -2340,7 +2340,7 @@ class OTSalaryCalculationSerializer(AuditModelMixinSerializer, ApprovalModelMixi
         fields = '__all__'
 
     def create(self, validated_data):
-        master_service = importlib.import_module('master.api.service')
+        master_service = importlib.import_module('hrm_master.api.service')
         master_signal = master_service.MasterSignal
         master_signal.validate_dates(validated_data['from_date'], validated_data['to_date'])
         try:
@@ -2355,7 +2355,7 @@ class OTSalaryCalculationSerializer(AuditModelMixinSerializer, ApprovalModelMixi
         return instance
 
     def update(self, instance, validated_data):
-        master_service = importlib.import_module('master.api.service')
+        master_service = importlib.import_module('hrm_master.api.service')
         master_signal = master_service.MasterSignal
         master_signal.validate_dates(validated_data['from_date'], validated_data['to_date'])
         ot_employee_list = self.initial_data.pop('ot_employee_list', [])

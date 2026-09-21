@@ -21,8 +21,9 @@ from django.db.models import Q
 from hrm_utils.exceptions.utils import api_exception_handler
 from hrm_master.models import Department, Designation, Grade, EmployeeMaster
 from master.models import AppSettings, AppEnums, GlobalMaster
-from master.api.serializers import DepartmentSerializer, DesignationSerializer, \
-    GradeSerializer, EmployeeMasterSerializer, AppEnumsSerializer, GlobalMasterSerializer, AppSettingsSerializer
+from hrm_master.api.serializers import DepartmentSerializer, DesignationSerializer, \
+    GradeSerializer, EmployeeMasterSerializer
+from master.api.serializers import AppEnumsSerializer, GlobalMasterSerializer, AppSettingsSerializer
 from rest_framework.mixins import ListModelMixin
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response

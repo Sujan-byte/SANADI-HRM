@@ -1,4 +1,4 @@
-"""
+﻿"""
 Overstay shared utilities
 ==========================
 Shared between device_attendance_task.py and over_stay_signals.py.
@@ -38,7 +38,7 @@ def get_lop_on_overstay(emp_code, b_id, leave_type_name):
       - over_stay_signals._apply_over_stay (signal path)
     """
     from hrm_master.models import EmployeeMaster, LeavePolicy
-    from master.tasks.accrue_leave_task import get_leave_policies_for_employee, get_policy_for_date
+    from hrm_master.tasks.accrue_leave_task import get_leave_policies_for_employee, get_policy_for_date
     from django.utils.timezone import now
 
     try:
@@ -113,7 +113,7 @@ def get_active_overstay(emp_code, punch_date, leave_entry_cache, leave_app_cache
         status_name      = entry[5]
         extended_to_date = entry[6]
         # Overstay applies from the day after leave ends until the employee resumes.
-        # extended_to_date acts like resume_duty_on — overstay ends ON that date
+        # extended_to_date acts like resume_duty_on â€” overstay ends ON that date
         # (punch_date < extended_to_date). If extended_to_date is None, overstay is open-ended.
         if to_date and to_date < punch_date:
             if extended_to_date is None or punch_date < extended_to_date:

@@ -1,4 +1,4 @@
-import os
+﻿import os
 import uuid
 from datetime import timedelta
 from datetime import datetime, time
@@ -51,12 +51,12 @@ def get_grace_details(postgres_cursor, punch_date, employee_type, employee_group
         'total_work_hours': (master_grace_details[12] if master_grace_details else 720), # in mins
         'lop_on_absent': bool(master_grace_details[17]) if master_grace_details else False,
     }
-    # print(f"[GRACE] emp_type={employee_type} emp_group={employee_group} emp_reporting={employee_reporting} → {grace_details}")
+    # print(f"[GRACE] emp_type={employee_type} emp_group={employee_group} emp_reporting={employee_reporting} â†’ {grace_details}")
     return grace_details
 
 
 def get_grace_details_by_master(postgres_cursor, punch_in_date, emp_group, emp_reporting, emp_type, emp_shift=None):
-    # Query for Special type — shift match gives highest priority, NULL shift matches all
+    # Query for Special type â€” shift match gives highest priority, NULL shift matches all
     query_special = """
         SELECT
             type, break_time, description, emp_group, emp_reporting, emp_type, from_date,
@@ -117,7 +117,7 @@ def get_grace_details_by_master(postgres_cursor, punch_in_date, emp_group, emp_r
     result = postgres_cursor.fetchone()
 
     if not result:
-        # Query for Normal type — same shift-aware logic, no date range filter
+        # Query for Normal type â€” same shift-aware logic, no date range filter
         query_normal = """
             SELECT
                 type, break_time, description, emp_group, emp_reporting, emp_type, from_date,
@@ -1290,10 +1290,10 @@ def has_valid_attendance_data(login_time, logout_time):
     # If at least one is valid, return True (preserve record)
     return True
 
-# ── Bulk pre-load helpers ────────────────────────────────────────────────────
+# â”€â”€ Bulk pre-load helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 def _bulk_fetch_bio_punches(t_enter_conn, date_list, emp_codes):
-    """Single query to biometric DB for all employees × all dates."""
+    """Single query to biometric DB for all employees Ã— all dates."""
     from collections import defaultdict
     if not date_list or not emp_codes:
         return {}
@@ -1437,7 +1437,7 @@ def _bulk_fetch_pending_overstay(postgres_cursor, start_date, emp_codes):
     Fetch the most recent approved leave (LeaveEntry or LeaveApplication) per employee
     where the leave ended BEFORE the run's start_date and no resume/extended date is set.
 
-    These are leaves that finished in a previous period — the normal leave cache misses
+    These are leaves that finished in a previous period â€” the normal leave cache misses
     them because it only fetches records overlapping the current date range.
 
     Returns dict: emp_code -> list of overstay candidates
@@ -1450,7 +1450,7 @@ def _bulk_fetch_pending_overstay(postgres_cursor, start_date, emp_codes):
     placeholders = ','.join(['%s'] * len(emp_codes))
     result = defaultdict(list)
 
-    # ── LeaveEntry: to_date < start_date, no extended_to_date ────────────────
+    # â”€â”€ LeaveEntry: to_date < start_date, no extended_to_date â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     entry_query = f"""
         SELECT DISTINCT ON (me.employee_code)
             me.employee_code,
@@ -1473,8 +1473,8 @@ def _bulk_fetch_pending_overstay(postgres_cursor, start_date, emp_codes):
     for row in postgres_cursor.fetchall():
         result[row[0]].append(('entry', row[1], row[2], None))
 
-    # ── LeaveApplication: end_date < start_date, no resume_duty_on ───────────
-    # LeaveApplication always corresponds to Annual Leave — the attendance task
+    # â”€â”€ LeaveApplication: end_date < start_date, no resume_duty_on â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # LeaveApplication always corresponds to Annual Leave â€” the attendance task
     # uses get_annual_leave_code() which hardcodes 'Annual Leave' as the status.
     app_query = f"""
         SELECT DISTINCT ON (me.employee_code)
@@ -1505,7 +1505,7 @@ def _bulk_fetch_resume_punches(t_enter_conn, pending_overstay_cache, auto_punch_
     For each NON-auto-punch employee that could be in overstay, find the earliest
     date on which they have a real bio swipe in iclock_transaction AFTER their leave ended.
 
-    Auto-punch employees are excluded — they always have generated records so a
+    Auto-punch employees are excluded â€” they always have generated records so a
     punch record does not mean they physically returned.
 
     Covers all three overstay sources:
@@ -1688,7 +1688,7 @@ def _get_grace_details_from_cache(grace_cache, postgres_cursor, punch_date, emp_
     return result
 
 
-# ── Patched helpers that accept pre-loaded holiday list ──────────────────────
+# â”€â”€ Patched helpers that accept pre-loaded holiday list â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 def _calculation_fun_fast(data, holiday_list, grace_master_data, is_ot_eligible, weekly_off):
     """calculation_fun using pre-loaded holiday list instead of cursor."""
@@ -1825,7 +1825,7 @@ def _update_row_status_fast(row_data, punch_in_date, weekly_off, holiday_list):
     return row_data
 
 
-# ── Phase 6 helpers: policy-driven WO→LOP ────────────────────────────────────
+# â”€â”€ Phase 6 helpers: policy-driven WOâ†’LOP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 def _get_subsequent_weekly_offs(absent_date, weekly_off_parsed, holiday_list, max_days=14):
     """
@@ -1840,10 +1840,10 @@ def _get_subsequent_weekly_offs(absent_date, weekly_off_parsed, holiday_list, ma
         if check_if_weekly_off(check, weekly_off_parsed):
             result.append(check)
         elif check_only_holiday(check, holiday_list):
-            # holidays don't break the chain — skip over them
+            # holidays don't break the chain â€” skip over them
             pass
         else:
-            break  # hit a normal working day — stop
+            break  # hit a normal working day â€” stop
         check += _td(days=1)
     return result
 
@@ -1866,7 +1866,7 @@ def _apply_lop_on_absent(postgres_cursor, emp_code, emp_name, absent_date, weekl
         existing = postgres_cursor.fetchone()
         lop_code = str(Status.LOP.value)
         if existing:
-            # Only overwrite if it's currently WeeklyOff — don't touch leave/holiday/OT rows
+            # Only overwrite if it's currently WeeklyOff â€” don't touch leave/holiday/OT rows
             if str(existing[1]) == str(Status.WeeklyOff.value):
                 postgres_cursor.execute(
                     """
@@ -1877,7 +1877,7 @@ def _apply_lop_on_absent(postgres_cursor, emp_code, emp_name, absent_date, weekl
                     (lop_code, existing[0])
                 )
         # If no record exists yet for that WO day, it will be created as WO when the
-        # scheduler processes that date normally — the absent→LOP recheck will run then.
+        # scheduler processes that date normally â€” the absentâ†’LOP recheck will run then.
 
 
 def _revert_lop_on_absent(postgres_cursor, emp_code, absent_date, weekly_off_parsed, holiday_list):
@@ -1922,7 +1922,7 @@ def _get_lop_status_if_preceding_absent(postgres_cursor, emp_code, wo_date, week
         if check_if_weekly_off(check, weekly_off_parsed):
             check -= _td(days=1)
             continue
-        # Found the preceding working day — check its status in DB
+        # Found the preceding working day â€” check its status in DB
         postgres_cursor.execute(
             """
             SELECT status FROM public.hrm_attendancedetails
@@ -1943,8 +1943,8 @@ def _get_preceding_workday_leave_type(leave_entry_cache, leave_app_cache, emp_co
     working day (not WO, not holiday) and return its leave type name if
     that day was on leave (LeaveEntry or LeaveApplication), else None.
 
-    leave_entry_cache: emp_code → list of (from_date, to_date, status_code, travel_or_leave, type_of_days, status_name)
-    leave_app_cache:   emp_code → list of (start_date, end_date, type_of_days, leave_type_name)
+    leave_entry_cache: emp_code â†’ list of (from_date, to_date, status_code, travel_or_leave, type_of_days, status_name)
+    leave_app_cache:   emp_code â†’ list of (start_date, end_date, type_of_days, leave_type_name)
     """
     from datetime import timedelta as _td
     check = current_date - _td(days=1)
@@ -1956,7 +1956,7 @@ def _get_preceding_workday_leave_type(leave_entry_cache, leave_app_cache, emp_co
         if check_only_holiday(check_date, holiday_list):
             check -= _td(days=1)
             continue
-        # Working day — check LeaveEntry first
+        # Working day â€” check LeaveEntry first
         for entry in leave_entry_cache.get(emp_code, []):
             from_date, to_date, status_code, travel_or_leave, type_of_days, status_name = entry[0], entry[1], entry[2], entry[3], entry[4], entry[5]
             if from_date <= check_date <= to_date:
@@ -1966,7 +1966,7 @@ def _get_preceding_workday_leave_type(leave_entry_cache, leave_app_cache, emp_co
             start, end, type_of_days, leave_type_name = row[0], row[1], row[2], row[3] if len(row) > 3 else ''
             if start <= check_date <= end and leave_type_name:
                 return leave_type_name
-        return None  # working day but not on leave — stop walking back
+        return None  # working day but not on leave â€” stop walking back
     return None
 
 
@@ -1978,7 +1978,7 @@ def _should_lop_weekly_off(emp_type, emp_group, emp_reporting, b_id, leave_type_
     if not leave_type_name:
         return False
     try:
-        from master.tasks.accrue_leave_task import get_leave_policies_for_employee, get_policy_for_date
+        from hrm_master.tasks.accrue_leave_task import get_leave_policies_for_employee, get_policy_for_date
         from django.utils.timezone import now
         policies_by_lt = get_leave_policies_for_employee(emp_type, emp_group, emp_reporting, b_id)
         today = now().date()
@@ -1999,11 +1999,11 @@ def _bulk_fetch_lop_dates(postgres_cursor, start_date, end_date, emp_codes):
     due to allow_beyond_eligible on a LeaveApplication, LeaveExtension, or LeaveEntry.
 
     Three sources:
-      1. LeaveApplication with allow_beyond_eligible=True — LOP days are
+      1. LeaveApplication with allow_beyond_eligible=True â€” LOP days are
          attendance rows with status='22' within the leave date range.
-      2. LeaveExtension with allow_beyond_eligible=True — LOP days are
+      2. LeaveExtension with allow_beyond_eligible=True â€” LOP days are
          stored in extension_lop_attendance_ids (JSON array of att IDs).
-      3. LeaveEntry with allow_beyond_eligible=True AND is_paid_beyond=False —
+      3. LeaveEntry with allow_beyond_eligible=True AND is_paid_beyond=False â€”
          LOP days are stored in extension_lop_attendance_ids (JSON array of att IDs).
 
     All are resolved against hrm_attendancedetails so we get actual dates.
@@ -2014,7 +2014,7 @@ def _bulk_fetch_lop_dates(postgres_cursor, start_date, end_date, emp_codes):
     placeholders = ','.join(['%s'] * len(emp_codes))
     result = set()
 
-    # Source 1: LeaveApplication allow_beyond — attendance rows status='22'
+    # Source 1: LeaveApplication allow_beyond â€” attendance rows status='22'
     # within the leave date range for this employee
     try:
         query1 = f"""
@@ -2041,7 +2041,7 @@ def _bulk_fetch_lop_dates(postgres_cursor, start_date, end_date, emp_codes):
     except Exception as e:
         print(f"[LOP-fetch] Source1 error: {e}")
 
-    # Source 2: LeaveExtension allow_beyond — extension_lop_attendance_ids array
+    # Source 2: LeaveExtension allow_beyond â€” extension_lop_attendance_ids array
     try:
         query2 = f"""
             SELECT ad.employee_code, ad.date::text
@@ -2063,7 +2063,7 @@ def _bulk_fetch_lop_dates(postgres_cursor, start_date, end_date, emp_codes):
     except Exception as e:
         print(f"[LOP-fetch] Source2 error: {e}")
 
-    # Source 3: LeaveEntry allow_beyond + unpaid (is_paid_beyond=False) —
+    # Source 3: LeaveEntry allow_beyond + unpaid (is_paid_beyond=False) â€”
     # extension_lop_attendance_ids stores the att IDs marked as LOP.
     # Cast to jsonb first to handle both jsonb and text-stored columns.
     try:
@@ -2121,7 +2121,7 @@ def transfer_attendance_details(**kwargs):
 
     employees = get_employees(postgres_cursor, start_date=start_date, end_date=end_date)
 
-    # ── Filter employees by code if provided ─────────────────────────────────
+    # â”€â”€ Filter employees by code if provided â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     filter_codes = kwargs.get("employee_codes")
     if filter_codes:
         filter_set = {str(c).strip() for c in filter_codes}
@@ -2130,7 +2130,7 @@ def transfer_attendance_details(**kwargs):
             print(f"No employees found for codes: {filter_codes}")
             return
 
-    # ── Build date list ──────────────────────────────────────────────────────
+    # â”€â”€ Build date list â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     date_list = []
     d = start_date_obj
     while d <= end_date_obj:
@@ -2140,7 +2140,7 @@ def transfer_attendance_details(**kwargs):
     emp_codes  = [e[2] for e in employees]
     emp_cards  = [e[3] for e in employees]
 
-    # ── Pre-load everything in bulk — zero per-iteration DB round trips ──────
+    # â”€â”€ Pre-load everything in bulk â€” zero per-iteration DB round trips â”€â”€â”€â”€â”€â”€
     print("Pre-loading static data...")
     holiday_list      = get_holiday_master(postgres_cursor)                           # once
     annual_leave_code = get_annual_leave_code(postgres_cursor)                        # once
@@ -2160,9 +2160,9 @@ def transfer_attendance_details(**kwargs):
                                                         leave_entry_cache, leave_app_cache)                  # first real bio-punch after leave end (bio employees only)
     lop_date_set           = _bulk_fetch_lop_dates(postgres_cursor, start_date, end_date, emp_codes)         # (emp_code, date_str) pairs marked LOP by allow_beyond
 
-    grace_cache = {}  # keyed by (emp_type, emp_group, emp_reporting, shift_id, date_str) — lazy
+    grace_cache = {}  # keyed by (emp_type, emp_group, emp_reporting, shift_id, date_str) â€” lazy
 
-    print(f"Processing {len(employees)} employees × {len(date_list)} days...")
+    print(f"Processing {len(employees)} employees Ã— {len(date_list)} days...")
 
     for employee in employees:
         emp_name      = employee[0]
@@ -2204,7 +2204,7 @@ def transfer_attendance_details(**kwargs):
             attendance_data = None
 
             if attendance_details:
-                # Process using pre-loaded data — no DB reads inside
+                # Process using pre-loaded data â€” no DB reads inside
                 if len(attendance_details) > 1:
                     login_time  = remove_seconds_from_time(attendance_details[0][1])
                     logout_time = remove_seconds_from_time(attendance_details[-1][1])
@@ -2269,7 +2269,7 @@ def transfer_attendance_details(**kwargs):
                     insert_attendance_details(attendance_data, postgres_cursor)
 
             else:
-                # No biometric punch — determine status from leave / auto-punch / absent
+                # No biometric punch â€” determine status from leave / auto-punch / absent
                 punch_in_date = current_date.date()
                 login_time  = '0000'
                 logout_time = '0000'
@@ -2299,7 +2299,7 @@ def transfer_attendance_details(**kwargs):
                 existing_status = existing_att[2] if existing_att and len(existing_att) > 2 else None
                 existing_hours  = int(existing_att[3] or 0) if existing_att and len(existing_att) > 3 else 0
 
-                # ── Priority 1: LOP (allow_beyond leave application or entry) ─────────
+                # â”€â”€ Priority 1: LOP (allow_beyond leave application or entry) â”€â”€â”€â”€â”€â”€â”€â”€â”€
                 # For allow_beyond leaves: the last lop_days_from_extension days of the
                 # leave are LOP ('22'). Compute the split date and check if today falls
                 # in the LOP portion. This takes priority over Annual Leave and auto_punch.
@@ -2347,9 +2347,9 @@ def transfer_attendance_details(**kwargs):
                     login_time = logout_time = '0000'
                     total_worked_hrs = '0'
                     shift_in = shift_out = '00:00'
-                    # Keep work_time (Base Hrs) as scheduled shift hours — do NOT zero it
+                    # Keep work_time (Base Hrs) as scheduled shift hours â€” do NOT zero it
 
-                # ── Priority 2: Overstay ──────────────────────────────────────────────
+                # â”€â”€ Priority 2: Overstay â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                 # Leave ended, employee hasn't resumed. Overrides WO / Holiday / auto_punch.
                 # Overstay: leave ended and employee hasn't resumed (resume_duty_on not reached).
                 # lop_on_overstay flag in the leave policy governs whether to mark overstay
@@ -2367,13 +2367,13 @@ def transfer_attendance_details(**kwargs):
                             login_time = logout_time = '0000'
                             total_worked_hrs = '0'
                             shift_in = shift_out = '00:00'
-                            # Keep work_time (Base Hrs) as scheduled shift hours — do NOT zero it
+                            # Keep work_time (Base Hrs) as scheduled shift hours â€” do NOT zero it
                         else:
-                            # lop_on_overstay=False in policy — fall through to normal flow
+                            # lop_on_overstay=False in policy â€” fall through to normal flow
                             is_overstay = False
 
                     if not is_overstay:
-                        # No overstay — normal flow for days after leave with no active leave
+                        # No overstay â€” normal flow for days after leave with no active leave
                         if is_weekly_off:
                             if existing_status == str(Status.WeeklyOffOvertime.value) or existing_hours > 0:
                                 status = existing_status or str(Status.WeeklyOffOvertime.value)
@@ -2410,7 +2410,7 @@ def transfer_attendance_details(**kwargs):
                                     punch_in_date, weekly_off_parsed, holiday_list
                                 )
 
-                # ── Priority 3–8: Active leave covers this day ────────────────────────
+                # â”€â”€ Priority 3â€“8: Active leave covers this day â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                 else:
                     # Resolve type_of_days for leave entry and leave application
                     leave_entry_calendar = None
@@ -2437,7 +2437,7 @@ def transfer_attendance_details(**kwargs):
                             login_time = logout_time = '0000'
                             total_worked_hrs = '0'
                             shift_in = shift_out = '00:00'
-                            # Keep work_time (Base Hrs) as scheduled shift hours — do NOT zero it
+                            # Keep work_time (Base Hrs) as scheduled shift hours â€” do NOT zero it
                         else:
                             login_time, logout_time, total_worked_hrs = get_standard_punch_times(grace_master_data)
                         status = leave_code
@@ -2447,7 +2447,7 @@ def transfer_attendance_details(**kwargs):
                         login_time = logout_time = '0000'
                         total_worked_hrs = '0'
                         shift_in = shift_out = '00:00'
-                        # Keep work_time (Base Hrs) as scheduled shift hours — do NOT zero it
+                        # Keep work_time (Base Hrs) as scheduled shift hours â€” do NOT zero it
                         status = annual_leave_code
 
                     # Priority 5: Weekly Off
@@ -2485,7 +2485,7 @@ def transfer_attendance_details(**kwargs):
                             login_time = logout_time = '0000'
                             total_worked_hrs = '0'
                             shift_in = shift_out = '00:00'
-                            # Keep work_time (Base Hrs) as the scheduled shift hours — do NOT zero it
+                            # Keep work_time (Base Hrs) as the scheduled shift hours â€” do NOT zero it
                         else:
                             login_time, logout_time, total_worked_hrs = get_standard_punch_times(grace_master_data)
                         status = leave_code
@@ -2495,10 +2495,10 @@ def transfer_attendance_details(**kwargs):
                         login_time = logout_time = '0000'
                         total_worked_hrs = '0'
                         shift_in = shift_out = '00:00'
-                        # Keep work_time (Base Hrs) as the scheduled shift hours — do NOT zero it
+                        # Keep work_time (Base Hrs) as the scheduled shift hours â€” do NOT zero it
                         status = annual_leave_code
 
-                    # Priority 9: Auto punch (within leave period — shouldn't normally reach here)
+                    # Priority 9: Auto punch (within leave period â€” shouldn't normally reach here)
                     elif auto_punch:
                         login_time, logout_time, total_worked_hrs = get_standard_punch_times(grace_master_data)
                         status = str(Status.OnTime.value)
@@ -2545,12 +2545,12 @@ def transfer_attendance_details(**kwargs):
                 if int(att_data['total_hours']) > 0:
                     att_data = _calculate_ot_minutes_fast(att_data, login_time, logout_time, work_time, grace_master_data, is_ot_eligible, weekly_off_parsed, holiday_list)
                     att_data = _calculation_fun_fast(att_data, holiday_list, grace_master_data, is_ot_eligible, weekly_off_parsed)
-                    # If this day was previously Absent and now has hours, revert subsequent WO→LOP back to WO
+                    # If this day was previously Absent and now has hours, revert subsequent WOâ†’LOP back to WO
                     if grace_master_data.get('lop_on_absent') and existing_att and str(existing_att[2]) == str(Status.Absent.value):
                         _revert_lop_on_absent(postgres_cursor, emp_code, punch_in_date, weekly_off_parsed, holiday_list)
 
                 # Override status to NoPayPenalty if an approved penalty covers this date
-                # (keeps actual punch times/hours intact — only pay is affected)
+                # (keeps actual punch times/hours intact â€” only pay is affected)
                 if _is_no_pay_penalty(postgres_cursor, emp_code, punch_in_date):
                     att_data['status'] = str(Status.NoPayPenalty.value)
 
@@ -2751,7 +2751,7 @@ def get_t_enter_connection():
 def _fetch_new_punches(t_enter_conn, since_upload_time):
     """
     Fetch iclock_transaction rows uploaded after since_upload_time.
-    Uses upload_time (when row hit DB) not punch_time — correctly handles
+    Uses upload_time (when row hit DB) not punch_time â€” correctly handles
     offline devices that reconnect and bulk-upload old punch_time dates.
     Returns list of (emp_code, punch_date_str, punch_time_str, upload_time).
     """
@@ -2772,12 +2772,12 @@ def _fetch_new_punches(t_enter_conn, since_upload_time):
 
 def transfer_attendance_incremental(since_upload_time=None):
     """
-    Incremental sync — called by the daemon immediately after a NOTIFY.
+    Incremental sync â€” called by the daemon immediately after a NOTIFY.
     Processes only (emp_code, date) pairs uploaded after since_upload_time.
     Returns max upload_time of processed punches so the daemon can advance
     the watermark file.
 
-    since_upload_time: datetime — reads only rows after this timestamp.
+    since_upload_time: datetime â€” reads only rows after this timestamp.
                        If None, defaults to 1 hour ago (safe fallback).
     """
     from datetime import timezone
@@ -2788,7 +2788,7 @@ def transfer_attendance_incremental(since_upload_time=None):
     postgres_conn, postgres_cursor = get_postgres_connection()
 
     try:
-        # ── 1. Fetch punches after watermark (by upload_time) ────────────────
+        # â”€â”€ 1. Fetch punches after watermark (by upload_time) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         new_punches = _fetch_new_punches(t_enter_connection, since_upload_time)
         if not new_punches:
             logger.info("No new punches since last sync. Nothing to do.")
@@ -2797,7 +2797,7 @@ def transfer_attendance_incremental(since_upload_time=None):
         max_upload_time = max(row[3] for row in new_punches)
         logger.info(f"Found {len(new_punches)} new punch rows. Max upload_time: {max_upload_time}")
 
-        # ── 2. Find unique (emp_code, date) pairs affected ───────────────────
+        # â”€â”€ 2. Find unique (emp_code, date) pairs affected â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         affected_pairs = set()
         for emp_code, punch_date, _, _ in new_punches:
             affected_pairs.add((emp_code, punch_date))
@@ -2805,9 +2805,9 @@ def transfer_attendance_incremental(since_upload_time=None):
         affected_dates = sorted({date for _, date in affected_pairs})
         affected_emp_cards = sorted({emp for emp, _ in affected_pairs})
 
-        logger.info(f"Affected: {len(affected_emp_cards)} employees × {len(affected_dates)} dates")
+        logger.info(f"Affected: {len(affected_emp_cards)} employees Ã— {len(affected_dates)} dates")
 
-        # ── 3. Load only the affected employees ─────────────────────────────
+        # â”€â”€ 3. Load only the affected employees â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         all_employees = get_employees(postgres_cursor)
         # emp_card is index 3; filter to only affected cards
         employees = [e for e in all_employees if e[3] in set(affected_emp_cards)]
@@ -2818,7 +2818,7 @@ def transfer_attendance_incremental(since_upload_time=None):
         emp_codes = [e[2] for e in employees]
         emp_cards = [e[3] for e in employees]
 
-        # ── 4. Pre-load all bulk data for affected scope only ────────────────
+        # â”€â”€ 4. Pre-load all bulk data for affected scope only â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         start_date = affected_dates[0]
         end_date   = affected_dates[-1]
 
@@ -2836,7 +2836,7 @@ def transfer_attendance_incremental(since_upload_time=None):
 
         grace_cache = {}
 
-        # ── 5. Process only affected (emp, date) pairs ───────────────────────
+        # â”€â”€ 5. Process only affected (emp, date) pairs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         for employee in employees:
             emp_name       = employee[0]
             shift_id       = employee[1]
@@ -2924,7 +2924,7 @@ def transfer_attendance_incremental(since_upload_time=None):
                     attendance_data = att_data
 
                 else:
-                    # No bio punch — only update if record already exists (don't create absent rows for partial reprocessing)
+                    # No bio punch â€” only update if record already exists (don't create absent rows for partial reprocessing)
                     if existing_att:
                         punch_in_date = current_date.date()
                         login_time  = existing_att[0] or '0000'
@@ -3014,7 +3014,7 @@ def transfer_attendance_incremental(since_upload_time=None):
                     else:
                         insert_attendance_details(attendance_data, postgres_cursor)
 
-        # ── 6. Commit ─────────────────────────────────────────────────────────
+        # â”€â”€ 6. Commit â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         postgres_conn.commit()
         logger.info("Incremental sync complete.")
         return max_upload_time
