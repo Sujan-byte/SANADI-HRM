@@ -45,7 +45,7 @@ export class DisciplinaryActionFormConfig {
         (dataFromComponent?: any, initialData?: DisciplinaryActionModel, isEditMode?: boolean, data?: DisciplinaryActionModel) => {
             initialData = new DisciplinaryActionModel();
             const userId = localStorage.getItem('user_id');
-            const isHR = !!this.permissionService.getPermission('hrm.custom_can_approve_disciplinary_action');
+            const isHR = !!this.permissionService.getPermission('hrm_main.custom_can_approve_disciplinary_action');
 
             const defaultEmployee = isEditMode && data?.employee
                 ? { id: data.employee, employee_code: data.employee_code, first_name: data.employee_name }

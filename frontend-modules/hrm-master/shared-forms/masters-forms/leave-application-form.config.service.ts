@@ -84,13 +84,13 @@ export class LeaveApplicationFormConfig {
 
 
 
-        const isReversalInitiator = !(data?.approval_status == 'APPROVED' && this.check_permission("master.custom_enable_leave_reversal") || this.secureStorage.getItemSync('is_superuser') === 'true')
+        const isReversalInitiator = !(data?.approval_status == 'APPROVED' && this.check_permission("hrm_master.custom_enable_leave_reversal") || this.secureStorage.getItemSync('is_superuser') === 'true')
         isEditMode ? data?.location : initialData.location = this.secureStorage.getItemSync('branchName');
         isEditMode ? data?.leave_eligible_as_on : initialData.leave_eligible_as_on = moment(new Date()).format('DD-MM-YYYY');
 
         let default_delegated_reviewer_obj = isEditMode ? data.default_delegated_reviewer_object : {};
 
-        const isReveiwer = this.permissionService.getPermission("master.custom_approval_stage_approver");
+        const isReveiwer = this.permissionService.getPermission("hrm_master.custom_approval_stage_approver");
 
         let isDelegatedReveiwerHidden = true
         if (isReveiwer && isEditMode) {

@@ -201,7 +201,7 @@ export class DisciplinaryActionComponent {
       newButton: true,
     },
     saveConfig: {
-      permission: ['hrm.custom_can_approve_disciplinary_action'],
+      permission: ['hrm_main.custom_can_approve_disciplinary_action'],
     },
     dialogData: {},
     isShowDialog: true,
@@ -209,7 +209,7 @@ export class DisciplinaryActionComponent {
     customDialog: false,
     // Keep approval dropdown enabled even after approval so HR can reject
     approveDropdownDisabled: (_item: any) => {
-      const hasPermission = this.checkPermission('hrm.custom_can_approve_disciplinary_action') || this.checkIsSuperUser();
+      const hasPermission = this.checkPermission('hrm_main.custom_can_approve_disciplinary_action') || this.checkIsSuperUser();
       return !hasPermission;
     },
   });
@@ -222,7 +222,7 @@ export class DisciplinaryActionComponent {
 
   getParams() {
     if (this.checkIsSuperUser()) return {};
-    if (this.checkPermission('hrm.custom_can_approve_disciplinary_action')) return {};
+    if (this.checkPermission('hrm_main.custom_can_approve_disciplinary_action')) return {};
     return { approval_stages__user: localStorage.getItem('user_id') };
   }
 

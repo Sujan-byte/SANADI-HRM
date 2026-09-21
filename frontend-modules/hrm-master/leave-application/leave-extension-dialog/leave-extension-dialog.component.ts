@@ -133,7 +133,7 @@ export class LeaveExtensionDialogComponent implements OnInit {
         clearButton:    false,
       },
       saveConfig: {
-        permission: ['master.add_leaveextension'],
+        permission: ['hrm_master.add_leaveextension'],
       },
       actions: [
         { label: '', icon: 'pencil', getById: true, actionType: 'EDIT', tooltip: 'Edit' },

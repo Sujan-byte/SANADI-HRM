@@ -173,7 +173,7 @@ export class LeaveMasterComponent {
   }
 
   return_get_url(){
-    const custom_show_all_employees = this.permissionService.getPermission("master.custom_show_all_employees");
+    const custom_show_all_employees = this.permissionService.getPermission("hrm_master.custom_show_all_employees");
     if(custom_show_all_employees){
       return   '/master/leave-master/'
     }

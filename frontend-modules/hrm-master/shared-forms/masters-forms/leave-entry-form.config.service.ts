@@ -94,9 +94,9 @@ export class leaveEntryConfig {
         let available_label = isEditMode ? data?.travel_or_leave == 'Work From Home' ? 'Available Work From Home' : 'Available Leaves' : 'Available Leaves';
         let default_leave_type_object = isEditMode ? data.leave_type_default_object : {};
         let default_delegated_reviewer_obj = isEditMode ? data.default_delegated_reviewer_object : {};
-        const isReversalInitiator = !(data?.approval_status == 'APPROVED' && this.check_permission("master.custom_enable_leave_reversal"))
-        const isReveiwer = this.permissionService.getPermission("master.custom_approval_stage_approver");
-        const isInitiator = this.permissionService.getPermission("master.custom_approval_stage_initiator");
+        const isReversalInitiator = !(data?.approval_status == 'APPROVED' && this.check_permission("hrm_master.custom_enable_leave_reversal"))
+        const isReveiwer = this.permissionService.getPermission("hrm_master.custom_approval_stage_approver");
+        const isInitiator = this.permissionService.getPermission("hrm_master.custom_approval_stage_initiator");
 
         let isDelegatedReveiwerHidden = true
         if ((isReveiwer || isInitiator) && isEditMode) {

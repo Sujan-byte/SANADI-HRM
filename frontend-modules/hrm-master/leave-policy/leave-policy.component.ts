@@ -92,7 +92,7 @@ export class LeavePolicyComponent {
         icon: 'trash',
         actionType: 'DELETE',
         tooltip: 'Delete',
-        protectFunction: (data: LeavePolicyModel) => (!(this.checkPermission("master.delete_leavepolicy"))),
+        protectFunction: (data: LeavePolicyModel) => (!(this.checkPermission("hrm_master.delete_leavepolicy"))),
       },
       {
         label: '',
@@ -104,7 +104,7 @@ export class LeavePolicyComponent {
     toolBarActionConfig: {
       activeButton: false,
       inActiveButton: false,
-      newButton: (this.checkPermission("master.add_leavepolicy")),
+      newButton: (this.checkPermission("hrm_master.add_leavepolicy")),
     },
     dialogData: {},
     dialogConfig: {
@@ -133,7 +133,7 @@ export class LeavePolicyComponent {
   }
 
   getEmployeeType(){
-    if(this.checkPermission('master.custom_approval_stage_initiator')){
+    if(this.checkPermission('hrm_master.custom_approval_stage_initiator')){
       return { };
     }
     return { employee_type__in: ['All','Staff'].toString() };

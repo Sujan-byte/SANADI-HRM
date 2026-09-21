@@ -133,7 +133,7 @@ export class LeaveExtensionComponent implements OnInit {
       newButton:      false,   // extensions created only from leave application 3-dots
     },
     saveConfig: {
-      permission: ['master.add_leaveextension'],
+      permission: ['hrm_master.add_leaveextension'],
     },
     dialogData:      {},
     isShowDialog:    true,

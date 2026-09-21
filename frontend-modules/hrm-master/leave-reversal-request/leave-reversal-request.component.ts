@@ -165,7 +165,7 @@ export class LeaveReversalRequestComponent {
 
     },
         saveConfig: {
-      permission: ["master.custom_enable_leave_reversal"],
+      permission: ["hrm_master.custom_enable_leave_reversal"],
     },
     dialogData: {},
     isShowDialog: true,
@@ -201,7 +201,7 @@ export class LeaveReversalRequestComponent {
       return {}
     }
     const userId = await this.secureStorage.getItem('user_id');
-    if (this.checkPermission("master.custom_approval_stage_HR")) {
+    if (this.checkPermission("hrm_master.custom_approval_stage_HR")) {
       return { initiator_reviewer__user: userId }
     }
     return { approval_stages__user: userId }

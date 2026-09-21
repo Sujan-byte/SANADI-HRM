@@ -215,7 +215,7 @@ export class LeaveApplicationComponent {
     isShowDialog: true,
     customDialog: false,
     saveConfig: {
-      permission: ["master.custom_enable_leave_reversal"]
+      permission: ["hrm_master.custom_enable_leave_reversal"]
     }
 
   });
@@ -234,7 +234,7 @@ export class LeaveApplicationComponent {
 
   getUsersExceptMd() {
     //  console.log("this.checkIsSuperUser()",this.checkIsSuperUser())
-    if (!this.checkIsSuperUser()&&!this.check_permission("master.custom_approval_stage_HR")) {
+    if (!this.checkIsSuperUser()&&!this.check_permission("hrm_master.custom_approval_stage_HR")) {
       return { approval_stages__user: localStorage.getItem('user_id') }
     }
     else {
@@ -314,7 +314,7 @@ export class LeaveApplicationComponent {
         customDialog:    false,
         dialogData:      modifiedData,   // ← initialData in DialogComponent
         saveConfig: {
-          permission: ['master.add_leaveextension'],
+          permission: ['hrm_master.add_leaveextension'],
         },
       },
       this.leaveExtensionForm(),

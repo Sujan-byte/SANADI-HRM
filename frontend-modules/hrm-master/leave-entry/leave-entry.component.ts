@@ -212,7 +212,7 @@ export class LeaveEntryComponent {
       inActiveButton: false
     },
     saveConfig: {
-      permission: ["master.custom_enable_leave_reversal"],
+      permission: ["hrm_master.custom_enable_leave_reversal"],
     },
     dialogData: {},
     isShowDialog: true,
@@ -324,7 +324,7 @@ export class LeaveEntryComponent {
         customDialog:  false,
         dialogData:    modifiedData,
         saveConfig: {
-          permission: ['master.add_leaveextension'],
+          permission: ['hrm_master.add_leaveextension'],
         },
       },
       this.leaveExtensionForm(),
@@ -373,7 +373,7 @@ export class LeaveEntryComponent {
 
   getParams() {
     console.log("this.checkIsSuperUser()", this.checkIsSuperUser())
-    if (!this.checkIsSuperUser()&&!this.check_permission("master.custom_approval_stage_HR")) {
+    if (!this.checkIsSuperUser()&&!this.check_permission("hrm_master.custom_approval_stage_HR")) {
       return { approval_stages__user: localStorage.getItem('user_id') }
     }
     else {

@@ -66,8 +66,8 @@ export class LeaveReversalConfig {  // ✅ Changed to PascalCase
             let default_delegated_reviewer_obj = isEditMode ? data?.default_delegated_reviewer_obj : {};
             let default_initiator_reviewer_obj = isEditMode ? data?.default_initiator_reviewer_obj : {};
             
-            const isReveiwer = this.permissionService.getPermission("master.custom_approval_stage_approver");
-            const isInitiator = this.permissionService.getPermission("master.custom_approval_stage_HR");
+            const isReveiwer = this.permissionService.getPermission("hrm_master.custom_approval_stage_approver");
+            const isInitiator = this.permissionService.getPermission("hrm_master.custom_approval_stage_HR");
             
             console.log("isReveiwer", isReveiwer, isInitiator, data);
             
