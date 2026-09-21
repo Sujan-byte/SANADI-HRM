@@ -1,0 +1,274 @@
+<div style="width: 99%">
+    <div class="flex flex-row justify-content-between">
+        <div class="m-2 flex align-items-center" style="width:30%;">
+            <div>
+                <h3>Welcome! {{username}}</h3>
+            </div>
+        </div>
+        <div class="m-2 flex flex-row justify-content-around align-items-center leave-button-tab h-4rem"
+            style="width:30%;">
+            <div>
+                <button pButton label="Leave Details" class="p-3 text-black-alpha-90"
+                    style="background-color: transparent;border: transparent;" (click)="handleLeaveDetails()"></button>
+            </div>
+            <div>
+                <button pButton label="Leave Entry" class="p-3 text-black-alpha-90"
+                    style="background-color: transparent;border: transparent;" (click)="handleLeaveEntry()"></button>
+            </div>
+            <div *ngxPermissionsOnly="['master.custom_approval_stage_initiator']">
+                <button pButton label="Leave Application" class="p-3 text-black-alpha-90"
+                    style="background-color: transparent;border: transparent;"
+                    (click)="handleLeaveApplication()"></button>
+            </div>
+            <div>
+                <button pButton label="Leave Policy" class="p-3 text-black-alpha-90"
+                    style="background-color: transparent;border: transparent;" (click)="handleLeavePolicy()"></button>
+            </div>
+        </div>
+    </div>
+    <div class="p-4 flex flex-row"
+        style="box-shadow: 0px 0px 0px 1px #1B1F2326, 0px 1px 3px 0px #00000005;border-radius: 20px;gap: 20px;">
+        <div class="w-9">
+            <div>
+                <div class="text-2xl mb-3">
+                    Employee Overview
+                </div>
+                <div class="flex flex-row">
+                    <div class="flex flex-column p-3 w-9">
+                        <div class="flex flex-row">
+                            <div class="flex flex-row w-6">
+                                <div class="p-2">
+                                    <img src="assets/images/Diamond gradient.png" height="30" width="30" />
+                                </div>
+                                <div class="p-2">
+                                    <div style="color: #00000082;">Employee Code</div>
+                                    <div class="text-xl mt-2">{{this.employeeCode}}</div>
+                                </div>
+                            </div>
+                            <div class="flex flex-row w-6">
+                                <div class="p-2">
+                                    <img src="assets/images/Diamond gradient.png" height="30" width="30" />
+                                </div>
+                                <div class="p-2">
+                                    <div style="color: #00000082;">Date Of Joining</div>
+                                    <div class="text-xl mt-2">{{this.doj}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-row">
+                            <div class="flex flex-row w-6">
+                                <div class="p-2">
+                                    <img src="assets/images/Diamond gradient.png" height="30" width="30" />
+                                </div>
+                                <div class="p-2">
+                                    <div style="color: #00000082;">Department</div>
+                                    <div class="text-xl mt-2">{{this.employeeDepartmentName}}</div>
+                                </div>
+                            </div>
+                            <div class="flex flex-row w-6">
+                                <div class="p-2">
+                                    <img src="assets/images/Diamond gradient.png" height="30" width="30" />
+                                </div>
+                                <div class="p-2">
+                                    <div style="color: #00000082;">Designation</div>
+                                    <div class="text-xl mt-2">{{this.employeeDesignationName}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="w-3 p-3">
+                        <div style="background: #ECE4FF;border-radius: 8px;" class="p-2 w-10rem">
+                            <div
+                                class="flex align-items-center justify-content-center p-3 text-xs font-normal text-center">
+                                Available Annual
+                                Leaves</div>
+                            <div class="flex align-items-center justify-content-center p-2 text-6xl font-medium">
+                                {{this.availableAnnualLeave}}
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <div class="h-12rem p-3 mt-3"
+                style="box-shadow: 0px 0px 0px 1.24px #1B1F2326, 0px 1.24px 3.73px 0px #00000005;border-radius: 10px;">
+                <div class="text-base font-bold">
+                    Availed Leaves
+                </div>
+                <div class="p-2 flex flex-row" style="gap: 15px;">
+                    <div style="background: #ECE4FF;border-radius: 8px;box-shadow: 0px 0px 0px 1px #0000000D;"
+                        class="p-2 w-10rem" *ngFor="let leave of leaveDetails">
+                        <div class="flex align-items-center justify-content-center p-2 text-xs font-normal">
+                            {{leave.leave_type}}</div>
+                        <div class="flex align-items-center justify-content-center p-2 text-5xl font-medium">
+                            {{leave.utilized_leaves}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="w-7">
+            <div class="h-13rem p-3" style="box-shadow: 0px 0px 0px 1.24px #1B1F2326, 0px 1.24px 3.73px 0px #00000005;border-radius: 10px;">
+                <div class="text-base font-bold">
+                    Available Leaves
+                </div>
+                <div class="p-2 flex flex-row" style="gap: 15px;">
+                    <div style="background: #ECE4FF;border-radius: 8px;" class="p-2 w-10rem" *ngFor="let leave of leaveDetails">
+                        <div class="flex align-items-center justify-content-center p-3 text-xs font-normal">{{leave.leave_type}}</div>
+                        <div class="flex align-items-center justify-content-center p-2 text-6xl font-medium">{{leave.available_leaves}}</div>
+                    </div>
+                </div>
+                <div class="font-bold">
+                    You have <span style="color:#2B0CA6;" class="text-lg font-bold">{{this.carryForwardLeave}}</span> carry forward leaves and <span style="color:#2B0CA6;" class="text-lg font-bold">{{this.lapseLeave}}</span> lapse leaves as on 31-Mar-{{this.endYear}}
+                </div>
+            </div>
+            <div class="h-11rem p-3 mt-3" style="box-shadow: 0px 0px 0px 1.24px #1B1F2326, 0px 1.24px 3.73px 0px #00000005;border-radius: 10px;">
+                <div class="text-base font-bold">
+                    Availed Leaves
+                </div>
+                <div class="p-2 flex flex-row" style="gap: 15px;">
+                    <div style="background: #ECE4FF;border-radius: 8px;box-shadow: 0px 0px 0px 1px #0000000D;" class="p-2 w-10rem" *ngFor="let leave of leaveDetails">
+                        <div class="flex align-items-center justify-content-center p-2 text-xs font-normal">{{leave.leave_type}}</div>
+                        <div class="flex align-items-center justify-content-center p-2 text-5xl font-medium">{{leave.utilized_leaves}}</div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div class="h-27rem p-4 w-3 flex align-items-center justify-content-center"
+            style="box-shadow: 0px 0px 0px 1.24px #1B1F2326, 0px 1.24px 3.73px 0px #00000005;border-radius: 10px;">
+            <div class="p-3 flex flex-column align-items-center justify-content-center"style="gap: 10px;">
+                <div style="background: #ECE4FF;border-radius: 8px;" class="p-2 w-14rem">
+                    <div
+                        class="flex align-items-center justify-content-center p-3 text-xl font-normal text-center">
+                        Available Annual
+                        Leaves</div>
+                    <div class="flex align-items-center justify-content-center p-2 text-7xl font-medium">
+                        {{this.availableAnnualLeave}}
+                    </div>
+                </div>
+                <div class="font-bold text-lg p-2">
+                    You have <span style="color:#2B0CA6;" class="text-lg font-bold">{{this.carryForwardLeave}}</span> carry
+                    forward leaves and <span style="color:#2B0CA6;" class="text-lg font-bold">{{this.lapseLeave}}</span>
+                    lapse leaves as on 31-Mar-{{this.endYear}}
+                </div>
+            </div>
+            <!-- <div class="text-base font-bold mb-1">
+                Leave graph
+            </div>
+            <div>
+                <div *ngFor="let label of chartLabels;let index = index;">
+                    <span [ngStyle]="{
+                        'height': '10px',
+                        'width': '10px',
+                        'display': 'inline-block',
+                        'background-color': chartColors[index]
+                      }" class="mr-2"></span> <span>{{label}}</span>
+                </div>
+            </div>
+            <div class="w-12 flex flex-column align-items-center justify-content-center">
+                <div class="donut-wrapper" style="position: relative; width: 150px; height: 150px;">
+                    <p-chart type="doughnut" [data]="chartData" [options]="chartOptions"
+                        style="position: relative; z-index: 1;" />
+                    <div class="donut-center-content">
+                        <div class="text-lg" style="color: #878787;">Total Leaves</div>
+                        <span class="center-text text-4xl">{{totalLeaves}}</span>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <div class="p-3"
+            style="box-shadow: 0px 0px 0px 1px #1B1F2326, 0px 1px 3px 0px #00000005;border-radius: 10px;gap: 10px;">
+            <p-calendar class="holiday-date" [inline]="true" selectionMode="multiple" [(ngModel)]="dates"
+                (onMonthChange)="onMonthChange($event)">
+                <ng-template pTemplate="date" let-date>
+                    <span [pTooltip]="getDescription(date)" style="cursor: pointer;">
+                        {{date.day}}
+                    </span>
+                </ng-template>
+            </p-calendar>
+        </div>
+    </div>
+    <div class="flex flex-row justify-content-between" style="gap: 20px;">
+        <div class="mt-4 w-full"
+            style="box-shadow: 0px 0px 0px 1px #1B1F2326, 0px 1px 3px 0px #00000005;border-radius: 10px;">
+            <div class="p-3">
+                <div class="text-xl font-semibold pb-3">Applied Leaves</div>
+                <div class="text-sm font-semibold text-black-alpha-30">Check Out Your Application Status</div>
+            </div>
+            <div>
+                @if (dataReady) {
+                <p-table #po [columns]="appliedLeaveColumns" [value]="appliedLeaveData" [paginator]="true" [rows]="10"
+                    [tableStyle]="{ 'min-width': '30rem' }" [loading]="appliedLeaveLoading"
+                    (onLazyLoad)="onAppliedLeavePageChange($event)" [totalRecords]="appliedLeaveTotalRecords"
+                    [lazy]="true">
+                    >
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns">
+                                {{ col.header }}
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr>
+                            <td *ngFor="let col of columns">
+                                @if(col.field == 'status')
+                                {
+                                <div class="serial-container" style="display: flex; align-items: center;">
+                                    <p
+                                        style="background-color: #f4f4f5; font-size: 9px; border: solid 1px #e2e8f0; border-radius: 999px; padding: 3px 5px; text-wrap: nowrap;">
+                                        {{ rowData[col.field] }}
+                                    </p>
+                                </div>
+                                }
+                                @else {
+                                {{ rowData[col.field] }}
+                                }
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                }
+            </div>
+        </div>
+        <div *ngxPermissionsOnly="['master.custom_approval_stage_initiator','master.custom_approval_stage_approver']" class="mt-4 w-full"
+            style="box-shadow: 0px 0px 0px 1px #1B1F2326, 0px 1px 3px 0px #00000005;border-radius: 10px;">
+            <div class="p-3">
+                <div class="text-xl font-semibold pb-3">Leave Application</div>
+                <div class="text-sm font-semibold text-black-alpha-30">Check Out Leave Application Status</div>
+            </div>
+            <div>
+                <p-table #po [columns]="appliedLeaveApplicationColumns" [value]="appliedLeaveApplicationData"
+                    [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '30rem' }"
+                    [loading]="appliedLeaveApplicationLoading"
+                    (onLazyLoad)="onAppliedLeaveApplicationPageChange($event)"
+                    [totalRecords]="appliedLeaveApplicationTotalRecords" [lazy]="true">
+                    >
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns">
+                                {{ col.header }}
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr>
+                            <td *ngFor="let col of columns">
+                                @if(col.field == 'status' || col.field == 'approval_remarks')
+                                {
+                                <div class="serial-container" style="display: flex; align-items: center;">
+                                    <p
+                                        style="background-color: #f4f4f5; font-size: 9px; border: solid 1px #e2e8f0; border-radius: 999px; padding: 3px 5px; text-wrap: nowrap;">
+                                        {{ rowData[col.field] }}
+                                    </p>
+                                </div>
+                                }
+                                @else {
+                                {{ rowData[col.field] }}
+                                }
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>

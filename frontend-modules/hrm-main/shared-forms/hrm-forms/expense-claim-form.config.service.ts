@@ -14,7 +14,7 @@ import {
   ExpenseClaimEnum,
   ExpenseClaimLineEnum,
   expenseClaimPaidByOptions,
-} from 'src/app/core/shared/common/enum/hrm-enum/expense-claim.enum';
+} from 'src/app/modules/hrm-main/hrm-enum/expense-claim.enum';
 
 import {
   ExpenseClaimModel,

@@ -7,7 +7,7 @@ import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.b
 import { FileField } from 'src/app/core/shared/common/forms/core/builders/file.builder';
 import { TaDaDetails } from 'src/app/core/shared/common/model/hrm/ta-da.model';
 import { CarouselField } from 'src/app/core/shared/common/forms/core/builders/carousel.builder';
-import { TaDaDetailsEnum } from 'src/app/core/shared/common/enum/hrm-enum/ta-da.enum';
+import { TaDaDetailsEnum } from 'src/app/modules/hrm-main/hrm-enum/ta-da.enum';
 
 
 @Injectable({

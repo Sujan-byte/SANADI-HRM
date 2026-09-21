@@ -5,7 +5,7 @@ import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.b
 import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
 import { TextBuilder } from 'src/app/core/shared/common/forms/core/builders/textarea.builder';
 import { SalaryHoldModel } from 'src/app/core/shared/common/model/hrm/salary-hold.model';
-import { SalaryHoldEnum } from 'src/app/core/shared/common/enum/hrm-enum/salary-hold.enum';
+import { SalaryHoldEnum } from 'src/app/modules/hrm-main/hrm-enum/salary-hold.enum';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { CustomDialogService } from 'src/app/core/shared/services/custom-dialog';
 import { DynamicTableComponent } from 'src/app/sanadi-library/sanadi-components/dynamic-table/dynamic-table.component';

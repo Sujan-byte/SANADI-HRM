@@ -10,7 +10,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
 import { SalaryIncrementModel, SalaryIncrementEarning, SalaryIncrementDeduction } from 'src/app/core/shared/common/model/hrm/salary-increment.model';
-import { SalaryIncrementEnum, SalaryIncrementReasonEnum } from 'src/app/core/shared/common/enum/hrm-enum/salary-increment.enum';
+import { SalaryIncrementEnum, SalaryIncrementReasonEnum } from 'src/app/modules/hrm-main/hrm-enum/salary-increment.enum';
 import { SalaryComponentsModel } from 'src/app/core/shared/common/model/masters/salary-components.model';
 import { SalaryComponentsEnum } from 'src/app/core/shared/common/enum/masters_enum/salary-components-enum';
 

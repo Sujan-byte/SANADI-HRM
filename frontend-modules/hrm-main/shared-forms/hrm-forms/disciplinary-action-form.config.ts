@@ -8,7 +8,7 @@ import { InputField } from 'src/app/core/shared/common/forms/core/builders/input
 import { FileField } from 'src/app/core/shared/common/forms/core/builders/file.builder';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { DisciplinaryActionEnum } from 'src/app/core/shared/common/enum/hrm-enum/disciplinary-action.enum';
+import { DisciplinaryActionEnum } from 'src/app/modules/hrm-main/hrm-enum/disciplinary-action.enum';
 import { DisciplinaryActionModel } from 'src/app/core/shared/common/model/hrm/disciplinary-action.model';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { GlobalMasterFormConfig } from 'src/app/core/shared/common/forms/masters-forms/global-master-from.config.service';

@@ -5,7 +5,7 @@ import { InputField } from 'src/app/core/shared/common/forms/core/builders/input
 import { ToggleBuilder } from 'src/app/core/shared/common/forms/core/builders/toggle.builder';
 import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
 
-import { ExpenseClaimCategoryEnum } from 'src/app/core/shared/common/enum/hrm-enum/expense-claim-category.enum';
+import { ExpenseClaimCategoryEnum } from 'src/app/modules/hrm-main/hrm-enum/expense-claim-category.enum';
 import { ExpenseClaimCategoryModel } from 'src/app/core/shared/common/model/hrm/expense-claim-category.model';
 
 @Injectable({

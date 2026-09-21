@@ -1,0 +1,100 @@
+<p-contextMenu #cm [model]="contextitems" />
+<p-table #tb [value]="timeSheetDetails()" dataKey="id" editableRow [scrollable]="true" [scrollHeight]="innerHeight"
+    [columns]="getTableSchema()" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [lazy]="true" [style]="{'font-size':'1rem','width':'100%','padding':'5px'}" [loading]="loading"
+    styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped" [resizableColumns]="true"
+    columnResizeMode="expand" [columnResizeMode]="'expand'" responsiveLayout="scroll" paginator="true"
+    [showCurrentPageReport]="true" [rowsPerPageOptions]="[50,100,150,200,300,500]"
+    [totalRecords]="totalTimeSheetRecords"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rows]="50" [(contextMenuSelection)]="conetxtMenuSelectedItem" [contextMenu]="cm"
+    (onContextMenuSelect)="onContextMenuSelect($event)">
+
+
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th pFrozenColumn [style]="{'width': '20px'}">
+                Sl No.
+            </th>
+            @for(col of getTableSchema(); track col.label){
+            <ng-container>
+                <th [pSortableColumn]="col?.field">
+                    {{ col.label }}
+                </th>
+            </ng-container>
+            }
+            <th pFrozenColumn [style]="{'width': '20px'}">
+                Action
+            </th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-item let-editing="editing" let-ri="rowIndex">
+        <tr [pContextMenuRow]="item" [pEditableRow]="item">
+            <td pFrozenColumn>
+                {{ri+1}}
+            </td>
+            <ng-container>
+                @for(action of getTableSchema(); track action?.field){
+                <td *ngIf="!action.editable">{{item[action.field]}}</td>
+                <td *ngIf="action.editable" pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            @if(action.type=='status'){
+                            <p-dropdown id="status" [options]="attendanceStatusList()" [optionValue]="'code'"
+                                [optionLabel]="'status_name'" [(ngModel)]="item[action.field]"
+                                (ngModelChange)="onChangeStatusValue(item)" (onClick)="cloneDropdownRow(item)"
+                                placeholder="Select status" class="footer-dropdown" [filter]="true"
+                                [appendTo]="'body'"></p-dropdown>
+                            }
+                            @else if(action.type=='time'){
+                            <input pInputText type="time" [value]="item[action.field]"
+                                (change)="onChangeTime($event, item, action.field)"
+                                (keydown)="disableNavigation($event)" placeholder="Select time" />
+                            }
+                            @else{
+                            <input pInputText [value]="item[action.field]"
+                                (input)="onChangeCellValue($event,item,action.field)"
+                                (keydown)="disableNavigation($event)">
+                            }
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            @if(action.type=='status'){
+                            {{ getStatusText(item[action.field])}}
+                            }@else {
+                            {{item[action.field]}}
+                            }
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                }
+
+
+
+            </ng-container>
+            <td pFrozenColumn alignFrozen="right" [frozen]="true">
+                <div class="flex gap-2">
+                    <button pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                        (click)="onRowEditSave(item)" class="p-button-rounded p-button-text p-button-success p-mr-2"
+                        [pTooltip]="'Approve'" [tooltipPosition]="'left'" [label]="'Approve'"></button>
+                    <p-confirmPopup></p-confirmPopup>
+
+                    <button *ngIf="item?.editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                        (click)="onRowEditCancel(item, ri)" class="p-button-rounded p-button-text p-button-danger"
+                        [pTooltip]="'Cancel'"></button>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+            <td colspan="100">
+                <div class="flex flex-column justify-content-center align-items-center h-full w-full mt-7 mb-7"
+                    id="print">
+                    <img src="../../../../../../assets/images/no-content.png" [height]="'200'" [width]="'200'" />
+                    <p class="text-2xl font-bold">Nothing to show...!</p>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

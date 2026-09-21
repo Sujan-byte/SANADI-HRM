@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from 'src/app/core/services/api.service';
 import { matchModeOptionsDate } from 'src/app/core/shared/common/enum/app.enum';
-import { TravelPlanningEnum } from 'src/app/core/shared/common/enum/hrm-enum/travel-planning.enum';
+import { TravelPlanningEnum } from 'src/app/modules/hrm-main/hrm-enum/travel-planning.enum';
 import { DynamicTableModel } from 'src/app/core/shared/common/model/app.model';
 import { CustomDialogService } from 'src/app/core/shared/services/custom-dialog';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';

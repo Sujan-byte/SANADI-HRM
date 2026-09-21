@@ -13,7 +13,7 @@ import {
   PettyCashTransactionEnum,
   pettyCashTransactionTypeOptions,
   pettyCashTransactionSourceTypeOptions,
-} from 'src/app/core/shared/common/enum/hrm-enum/petty-cash-transaction.enum';
+} from 'src/app/modules/hrm-main/hrm-enum/petty-cash-transaction.enum';
 
 import { PettyCashTransactionModel } from 'src/app/core/shared/common/model/hrm/petty-cash-transaction.model';
 

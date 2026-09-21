@@ -19,7 +19,7 @@ import {
   OTEmployeeListEnum,
   otPayrollTypeList,
   otFilterTypeList,
-} from 'src/app/core/shared/common/enum/hrm-enum/ot-salary-calculation.enum';
+} from 'src/app/modules/hrm-main/hrm-enum/ot-salary-calculation.enum';
 
 // Only Allowance is selectable (computed by backend; user may want to hide it)
 const SELECTABLE_COLUMNS = [

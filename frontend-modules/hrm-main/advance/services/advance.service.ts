@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AdvanceEnum } from 'src/app/core/shared/common/enum/hrm-enum/advance.enum';
+import { AdvanceEnum } from 'src/app/modules/hrm-main/hrm-enum/advance.enum';
 
 @Injectable({
   providedIn: 'root'

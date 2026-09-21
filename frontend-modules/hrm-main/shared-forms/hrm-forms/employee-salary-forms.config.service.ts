@@ -8,7 +8,7 @@ import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.b
 import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
 import { NumberField } from 'src/app/core/shared/common/forms/core/builders/number.builder';
 import { EmployeeSalaryModel, GrossDeductions, GrossEarnings } from 'src/app/core/shared/common/model/hrm/employee-salary-model';
-import { EmployeeSalaryEnum, GrossDeductionsEnum, GrossEarningsEnum } from 'src/app/core/shared/common/enum/hrm-enum/employee-salary-enum';
+import { EmployeeSalaryEnum, GrossDeductionsEnum, GrossEarningsEnum } from 'src/app/modules/hrm-main/hrm-enum/employee-salary-enum';
 import { OverlayPanelBuilder, TableBuilder } from 'src/app/core/shared/common/forms/core/builders/table.builder';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';

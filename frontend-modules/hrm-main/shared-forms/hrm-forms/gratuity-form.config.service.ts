@@ -13,7 +13,7 @@ import { GratuityModel } from 'src/app/core/shared/common/model/hrm/gratuity.mod
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
 import * as moment from 'moment';
-import { GratuityEnum } from 'src/app/core/shared/common/enum/hrm-enum/gratuity.enum';
+import { GratuityEnum } from 'src/app/modules/hrm-main/hrm-enum/gratuity.enum';
 
 const GRATUITY_BASE_URL = '/hrm/gratuityEmployeeFrom/';
 

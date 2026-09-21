@@ -4,7 +4,7 @@ import { InputField } from 'src/app/core/shared/common/forms/core/builders/input
 import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
 import { ApiService } from 'src/app/core/services/api.service';
 import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
-import { AttendanceDetailsEnum, AttendanceImportEnum } from 'src/app/core/shared/common/enum/hrm-enum/attendance.enum';
+import { AttendanceDetailsEnum, AttendanceImportEnum } from 'src/app/modules/hrm-main/hrm-enum/attendance.enum';
 import { AttendanceDetails, AttendanceImportModel } from 'src/app/core/shared/common/model/hrm/attendance.model';
 import { FileField } from 'src/app/core/shared/common/forms/core/builders/file.builder';
 import { TableBuilder } from 'src/app/core/shared/common/forms/core/builders/table.builder';

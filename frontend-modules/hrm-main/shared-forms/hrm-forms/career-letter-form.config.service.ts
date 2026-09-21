@@ -7,7 +7,7 @@ import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.b
 import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
 import { NumberField } from 'src/app/core/shared/common/forms/core/builders/number.builder';
 import { CareerLetterModel } from 'src/app/core/shared/common/model/hrm/career-letter.model';
-import { CareerLetterEnum } from 'src/app/core/shared/common/enum/hrm-enum/career-letter.enum';
+import { CareerLetterEnum } from 'src/app/modules/hrm-main/hrm-enum/career-letter.enum';
 import { GlobalMasterFormConfig } from 'src/app/core/shared/common/forms/masters-forms/global-master-from.config.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';

@@ -6,7 +6,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
 import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
 import { NumberField } from 'src/app/core/shared/common/forms/core/builders/number.builder';
-import { AdvanceEnum } from 'src/app/core/shared/common/enum/hrm-enum/advance.enum';
+import { AdvanceEnum } from 'src/app/modules/hrm-main/hrm-enum/advance.enum';
 import { AdvanceModel } from 'src/app/core/shared/common/model/hrm/advance.model';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { CalenderDateEnum, FilterOptions, MomentDateEnum } from 'src/app/core/shared/common/enum/app.enum';

@@ -10,7 +10,7 @@ import { GratuityModel } from 'src/app/core/shared/common/model/hrm/gratuity.mod
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
 import * as moment from 'moment';
-import { FinalSettlementAllowanceEnum, FinalSettlementDeductionsEnum, FinalSettlementEnum } from 'src/app/core/shared/common/enum/hrm-enum/final-settlement-enum';
+import { FinalSettlementAllowanceEnum, FinalSettlementDeductionsEnum, FinalSettlementEnum } from 'src/app/modules/hrm-main/hrm-enum/final-settlement-enum';
 import { FinalSettlementAllowance, FinalSettlementDeductions, FinalSettlementModel } from 'src/app/core/shared/common/model/hrm/final-settlement.model';
 import { TableBuilder } from 'src/app/core/shared/common/forms/core/builders/table.builder';
 

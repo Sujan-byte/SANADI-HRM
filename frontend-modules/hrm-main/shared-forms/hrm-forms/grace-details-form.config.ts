@@ -4,7 +4,7 @@ import { InputField } from 'src/app/core/shared/common/forms/core/builders/input
 import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
 import { ApiService } from 'src/app/core/services/api.service';
 import { GraceDetailsModel } from 'src/app/core/shared/common/model/hrm/grace-details.model';
-import { GraceDetailsEnum } from 'src/app/core/shared/common/enum/hrm-enum/grace-details.enum';
+import { GraceDetailsEnum } from 'src/app/modules/hrm-main/hrm-enum/grace-details.enum';
 import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
 import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
 import { NumberField } from 'src/app/core/shared/common/forms/core/builders/number.builder';

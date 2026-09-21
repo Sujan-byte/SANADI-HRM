@@ -6,7 +6,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
 import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
 import { EmployeeList, SalaryCalculationModel } from 'src/app/core/shared/common/model/hrm/salary-calculation.model';
-import { EmployeeListEnum, SalaryCalculationEnum } from 'src/app/core/shared/common/enum/hrm-enum/salary-calculation.enum';
+import { EmployeeListEnum, SalaryCalculationEnum } from 'src/app/modules/hrm-main/hrm-enum/salary-calculation.enum';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
 import { TableBuilder } from 'src/app/core/shared/common/forms/core/builders/table.builder';

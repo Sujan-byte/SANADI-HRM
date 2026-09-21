@@ -6,7 +6,7 @@ import { FormConfig } from 'src/app/core/shared/common/form-config.service';
 import { TableFilterComponent } from 'src/app/sanadi-library/table-filter/table-filter.component';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 
-import { pettyCashFundStatusOptions } from 'src/app/core/shared/common/enum/hrm-enum/petty-cash-fund.enum';
+import { pettyCashFundStatusOptions } from 'src/app/modules/hrm-main/hrm-enum/petty-cash-fund.enum';
 
 @Component({
   selector: 'sanadi-petty-cash-fund',

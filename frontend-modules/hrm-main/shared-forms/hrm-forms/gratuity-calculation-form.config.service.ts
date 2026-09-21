@@ -4,7 +4,7 @@ import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.b
 import { ApiService } from 'src/app/core/services/api.service';
 import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
 import { GratuityCalculationModel } from 'src/app/core/shared/common/model/hrm/gratuity-calculation.model';
-import { GratuityCalculationEnum } from 'src/app/core/shared/common/enum/hrm-enum/gratuity-calculation.enum';
+import { GratuityCalculationEnum } from 'src/app/modules/hrm-main/hrm-enum/gratuity-calculation.enum';
 
 
 

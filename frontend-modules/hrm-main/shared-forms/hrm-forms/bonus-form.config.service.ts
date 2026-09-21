@@ -5,7 +5,7 @@ import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.b
 import { ApiService } from 'src/app/core/services/api.service';
 import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
 import { BonusDetails, BonusModel } from 'src/app/core/shared/common/model/hrm/bonus.model';
-import { BonusDetailsEnum, BonusEnum } from 'src/app/core/shared/common/enum/hrm-enum/bonus.enum';
+import { BonusDetailsEnum, BonusEnum } from 'src/app/modules/hrm-main/hrm-enum/bonus.enum';
 import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
 import { TableBuilder } from 'src/app/core/shared/common/forms/core/builders/table.builder';
 import { GradeFormConfig } from 'src/app/modules/hrm-master/shared-forms/masters-forms/grade-form.config.service';

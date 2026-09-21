@@ -11,7 +11,7 @@ import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.b
 import {
   PettyCashFundEnum,
   pettyCashFundStatusOptions,
-} from 'src/app/core/shared/common/enum/hrm-enum/petty-cash-fund.enum';
+} from 'src/app/modules/hrm-main/hrm-enum/petty-cash-fund.enum';
 
 import { PettyCashFundModel } from 'src/app/core/shared/common/model/hrm/petty-cash-fund.model';
 

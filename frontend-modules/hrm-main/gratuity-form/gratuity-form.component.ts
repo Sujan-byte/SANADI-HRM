@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
 import { FormConfig } from 'src/app/core/shared/common/form-config.service';
 import { TableFilterComponent } from 'src/app/sanadi-library/table-filter/table-filter.component';
-import { GratuityEnum } from 'src/app/core/shared/common/enum/hrm-enum/gratuity.enum';
+import { GratuityEnum } from 'src/app/modules/hrm-main/hrm-enum/gratuity.enum';
 
 // File fields on the gratuity form
 const FILE_FIELDS = [

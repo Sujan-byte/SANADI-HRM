@@ -1,0 +1,105 @@
+<div class="hrm-admin-container">
+
+  <h1 class="page-title">HR Notifications</h1>
+
+  <div class="tab-section-wrapper">
+    <p-tabView styleClass="outer-tabs">
+
+      <!-- ── CICPA ── -->
+      <p-tabPanel header="CICPA">
+        <div class="content-card">
+          <div class="toolbar-row">
+            <p-iconField iconPosition="left">
+              <p-inputIcon><i class="pi pi-search"></i></p-inputIcon>
+              <input pInputText type="text" (input)="globalEmpSearch($event)" placeholder="Search Keywords" />
+            </p-iconField>
+            <button type="button" class="filter-icon-btn">
+              <i class="pi pi-filter"></i>
+            </button>
+          </div>
+          <p-table [value]="empList" selectionMode="single" [scrollable]="true" [scrollHeight]="'78vh'"
+            styleClass="hrm-table" [loading]="empLoading" [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Employee ID</th>
+                <th>Employee Name</th>
+                <th>CICPA Number</th>
+                <th>Expiry Date</th>
+                <th>Actions</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-employee>
+              <tr>
+                <td>{{ employee.employee_code }}</td>
+                <td>{{ employee.first_name }}</td>
+                <td>{{ employee.cicpa_number }}</td>
+                <td>{{ employee.cicpa_expiry_date }}</td>
+                <td><span class="no-doc">-------</span></td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <p-paginator [rows]="empRows" [totalRecords]="empTotalRecords" (onPageChange)="onEmpPageChange($event)"
+            [showCurrentPageReport]="true" [showPageLinks]="true" [showJumpToPageDropdown]="false">
+          </p-paginator>
+        </div>
+      </p-tabPanel>
+
+      <!-- ── Employee document expiry ── -->
+      <p-tabPanel header="Employee Documents">
+        <div class="content-card">
+          <div class="toolbar-row">
+            <div class="filter-dropdown-wrapper">
+              <p-dropdown [options]="employeeDocumentOptions" [(ngModel)]="selectedEmployeeDocument"
+                (onChange)="onEmployeeDocumentFilterChange()" placeholder="Filter by Document" optionLabel="label"
+                optionValue="value" [showClear]="true" styleClass="toolbar-dropdown">
+              </p-dropdown>
+            </div>
+            <p-iconField iconPosition="left">
+              <p-inputIcon><i class="pi pi-search"></i></p-inputIcon>
+              <input pInputText type="text" (input)="globalOthersSearch($event)" placeholder="Search Keywords" />
+            </p-iconField>
+          </div>
+          <p-table [value]="othersList" selectionMode="single" [scrollable]="true" [scrollHeight]="'78vh'"
+            styleClass="hrm-table" [loading]="othersLoading" [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Employee ID</th>
+                <th>Employee Name</th>
+                <th>Document Name</th>
+                <th>Document No.</th>
+                <th>Valid Upto</th>
+                <th>Actions</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-document>
+              <tr>
+                <td>{{ document.employee_document_object?.employee_code || document.entity_code || 'N/A' }}</td>
+                <td>{{ document.employee_document_object?.first_name || document.entity_name || 'N/A' }}</td>
+                <td>{{ document.document_name || 'N/A' }}</td>
+                <td>{{ document.document_number || 'N/A' }}</td>
+                <td>{{ document.document_valid_upto || 'N/A' }}</td>
+                <td>
+                  <button *ngIf="document.document" pButton type="button" icon="pi pi-eye"
+                    class="p-button-sm p-button-info view-btn" (click)="viewDocument(document.document)"
+                    pTooltip="View Document" tooltipPosition="top">
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="6" class="empty-msg">No documents found</td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <p-paginator [rows]="othersRows" [totalRecords]="othersTotalRecords"
+            (onPageChange)="onothersPageChange($event)" [showCurrentPageReport]="true" [showPageLinks]="true"
+            [showJumpToPageDropdown]="false">
+          </p-paginator>
+        </div>
+      </p-tabPanel>
+
+    </p-tabView>
+  </div><!-- /.tab-section-wrapper -->
+
+</div>

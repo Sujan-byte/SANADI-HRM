@@ -9,7 +9,7 @@ import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-const
 import {
   pettyCashTransactionTypeOptions,
   pettyCashTransactionSourceTypeOptions,
-} from 'src/app/core/shared/common/enum/hrm-enum/petty-cash-transaction.enum';
+} from 'src/app/modules/hrm-main/hrm-enum/petty-cash-transaction.enum';
 
 @Component({
   selector: 'sanadi-petty-cash-transaction',

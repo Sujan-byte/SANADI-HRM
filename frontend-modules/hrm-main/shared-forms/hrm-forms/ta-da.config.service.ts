@@ -15,7 +15,7 @@ import { SharedService } from 'src/app/core/shared/services/shared.service';
 import * as moment from 'moment';
 import { CustomDialogService } from 'src/app/core/shared/services/custom-dialog';
 import { TaDaDetails, TaDaModel, TravelPlanningLogDetailsModel } from 'src/app/core/shared/common/model/hrm/ta-da.model';
-import { TaDaDetailsEnum, TaDaEnum, TravelPlanningLogDetailsEnum } from 'src/app/core/shared/common/enum/hrm-enum/ta-da.enum';
+import { TaDaDetailsEnum, TaDaEnum, TravelPlanningLogDetailsEnum } from 'src/app/modules/hrm-main/hrm-enum/ta-da.enum';
 import { CustomDialogComponent } from 'src/app/sanadi-library/custom-dialog/custom-dialog.component';
 import { tadaDetailsImageFormConfig } from './tada-details-images.config.service';
 import { MultiSelectField } from 'src/app/core/shared/common/forms/core/builders/multiselect.builder';
@@ -23,11 +23,11 @@ import { TaDaService } from 'src/app/modules/hrm-main/ta-da/services/ta-da.servi
 import { FormField } from 'src/app/core/shared/common/forms/core/form-builder';
 import { TravelPlanningModel } from 'src/app/core/shared/common/model/hrm/travel-planning.model';
 import { TableDynamicBuilder } from 'src/app/core/shared/common/forms/core/builders/table-dynamic.builder';
-import { TravelPlanningLogEnum } from 'src/app/core/shared/common/enum/hrm-enum/travel-planning-log.enum';
+import { TravelPlanningLogEnum } from 'src/app/modules/hrm-main/hrm-enum/travel-planning-log.enum';
 import { TravelPlanningLogModel } from 'src/app/core/shared/common/model/hrm/travel-planning-log.model';
 import { TableDynamicComponent } from 'src/app/sanadi-library/dynamic-form-generator/fields/table-dynamic/table-dynamic.component';
 import { filter } from 'rxjs';
-import { TravelPlanningEnum } from 'src/app/core/shared/common/enum/hrm-enum/travel-planning.enum';
+import { TravelPlanningEnum } from 'src/app/modules/hrm-main/hrm-enum/travel-planning.enum';
 
 
 @Injectable({

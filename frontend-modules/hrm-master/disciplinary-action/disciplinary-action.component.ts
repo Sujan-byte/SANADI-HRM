@@ -4,7 +4,7 @@ import { NgxPermissionsService } from 'ngx-permissions';
 import { ApprovalOptions, FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
 import { FormConfig } from 'src/app/core/shared/common/form-config.service';
 import { TableFilterComponent } from 'src/app/sanadi-library/table-filter/table-filter.component';
-import { DisciplinaryActionEnum } from 'src/app/core/shared/common/enum/hrm-enum/disciplinary-action.enum';
+import { DisciplinaryActionEnum } from 'src/app/modules/hrm-main/hrm-enum/disciplinary-action.enum';
 
 @Component({
   selector: 'sanadi-disciplinary-action',
