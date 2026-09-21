@@ -1,0 +1,113 @@
+<div class="page-wrapper">
+
+  <!-- Filter row -->
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="filter-row">
+
+    <div class="filter-field">
+      <label>Employee <span class="req">*</span></label>
+      <p-dropdown
+        formControlName="selected_employee"
+        [options]="employeeList"
+        placeholder="Search by name or code…"
+        [filter]="true"
+        [showClear]="true"
+        [emptyFilterMessage]="employeeLoading ? 'Searching…' : 'No employees found'"
+        emptyMessage="Type to search employees"
+        [autoDisplayFirst]="false"
+        appendTo="body"
+        [style]="{'width':'100%'}"
+        (onFilter)="onEmployeeFilter($event)"
+        (onChange)="onChangeEmployee($event.value)">
+      </p-dropdown>
+    </div>
+
+    <div class="filter-field">
+      <label>Year <span class="req">*</span></label>
+      <p-calendar
+        formControlName="selected_to_date"
+        [(ngModel)]="date"
+        dateFormat="yy"
+        view="year"
+        placeholder="Select Year"
+        [showClear]="true"
+        appendTo="body"
+        [style]="{'width':'100%'}">
+      </p-calendar>
+    </div>
+
+    <div class="filter-field" *ngIf="employeeForm.get('selected_to_date')?.value">
+      <label>Months <span class="req">*</span></label>
+      <p-multiSelect
+        [options]="months"
+        [(ngModel)]="selectedMonths"
+        [ngModelOptions]="{standalone: true}"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select Months"
+        [showToggleAll]="true"
+        [filter]="false"
+        [maxSelectedLabels]="2"
+        [selectedItemsLabel]="monthsLabel"
+        appendTo="body"
+        [style]="{'width':'100%'}"
+        (onChange)="onMonthChange()">
+      </p-multiSelect>
+    </div>
+
+    <div class="filter-field filter-field--btn">
+      <label>&nbsp;</label>
+      <button pButton type="submit" label="Generate" icon="pi pi-cog"
+        [disabled]="!isFormValid || isLoading" [loading]="isLoading">
+      </button>
+    </div>
+
+  </form>
+
+  <!-- Results table -->
+  <div *ngIf="submitted">
+
+    <div class="table-toolbar">
+      <span class="table-info" *ngIf="!isLoading">
+        <b>{{ filteredPayslipList.length }}</b> payslip{{ filteredPayslipList.length !== 1 ? 's' : '' }}
+        <ng-container *ngIf="getEmployeeName()"> — <b>{{ getEmployeeName() }}</b> ({{ getEmployeeCode() }})</ng-container>
+        <ng-container *ngIf="getYear()"> · <b>{{ getYear() }}</b></ng-container>
+      </span>
+      <button pButton type="button" icon="pi pi-download" label="Download All as ZIP"
+        class="p-button-outlined p-button-sm"
+        [disabled]="!filteredPayslipList.length || isDownloading"
+        [loading]="isDownloading"
+        (click)="downloadAll()">
+      </button>
+    </div>
+
+    <!-- Empty state -->
+    <div *ngIf="!isLoading && !filteredPayslipList.length" class="empty-state">
+      <i class="pi pi-inbox"></i>
+      <p>No payslips found for the selected filters.</p>
+    </div>
+
+    <!-- Tile grid -->
+    <div class="tile-grid" *ngIf="!isLoading && filteredPayslipList.length">
+      <div class="payslip-tile" *ngFor="let item of filteredPayslipList; let i = index">
+        <div class="tile-icon">
+          <i class="pi pi-file-pdf"></i>
+        </div>
+        <div class="tile-month">{{ getMonthName(item.date) }}</div>
+        <div class="tile-year">{{ getYear() }}</div>
+        <div class="tile-actions">
+          <button class="ps-btn ps-btn--view" (click)="viewPDF(item.pdf_url)" title="View">
+            <i class="pi pi-eye"></i> View
+          </button>
+          <button class="ps-btn ps-btn--download" (click)="downloadPDF(item.pdf_url, item.date)" title="Download">
+            <i class="pi pi-download"></i> Download
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<ngx-spinner bdColor="rgba(0,0,0,0.6)" size="large" color="#fff" type="ball-spin-rotate" [fullScreen]="true">
+  <p style="color:#fff; margin-top:10px">Generating Payslips…</p>
+</ngx-spinner>

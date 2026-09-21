@@ -1,0 +1,220 @@
+<div class="design-card flex justify-content-center">
+    <div snFlex snLayout="row" snLayoutGap="10px">
+        <div snFlex="17" snFlex.lt-sm="100" snFlex.lt-md="100" snFlexFill snLayout="column" snLayoutGap="10"
+            class="left-menu">
+
+            <div class="header-container">
+                <span>
+                    <button pButton class="p-button-info" icon="pi pi-arrow-left" (click)="goToBackLocation()"
+                        pTooltip="Back"></button>
+                </span>
+                <p class="file-name">{{ getTitleModifier() }}</p>
+            </div>
+
+            <div snLayoutAlign="center">
+                <div class="p-button-info-style p-button-rounded-style">
+                    {{ dataImportForm.import_code ? dataImportForm.import_code : 'Auto Generate' }}
+                </div>
+            </div>
+
+            <div snFlex snLayout="row" snLayoutAlign="center center">
+                <!-- <div class="flex"> -->
+                <div snLayout="column">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" [style]="{'width':'98%'}" [(ngModel)]="dataTableSearchText"
+                            (input)="globalSearch($event,tb)" placeholder="Search keyword" />
+                    </span>
+                </div>
+                <div snLayout="column">
+                    <button pButton class="p-button-info" icon="pi pi-filter-slash" (click)="dataTableClear(tb)"
+                        pTooltip="clear filters"></button>
+                </div>
+
+
+                <!-- </div> -->
+            </div>
+            <div class="panel-card ">
+                <hr>
+                <p-toast></p-toast>
+                <p-fileUpload #fileUploader name="file[]" [showCancelButton]="false" [showUploadButton]="false"
+                    [multiple]="false" accept=".xlsx, .csv, .xls" mode="advanced" [disabled]="dataImportForm.id">
+                    <ng-template pTemplate="toolbar">
+                        <button type="button" pButton pRipple icon="pi pi-upload" class="p-button-info p-button-rounded"
+                            pTooltip="Upload" (click)="onUpload(fileUploader)" tooltipPosition="bottom"
+                            style="margin-right: 0.5rem;"
+                            [disabled]="dataImportForm.id && !fileUploader.files.length || !fileUploader.files.length"></button>
+                        <button type="button" pButton pRipple icon="pi pi-times"
+                            class="p-button-danger p-button-rounded" pTooltip="cancel" tooltipPosition="bottom"
+                            style="margin-right: 0.5rem;" (click)="removeFile(fileUploader)"
+                            [disabled]="dataImportForm.id && !fileUploader.files.length || !fileUploader.files.length"></button>
+                    </ng-template>
+                    <ng-template let-file pTemplate="file">
+                        <div snLayout="row" snLayoutAlign="center">
+                            <div style="display: block; background-color: rgb(180, 180, 180); border-radius: 4px;">
+                                <p class="file-name">
+                                    <b>
+                                        <marquee scrollamount="5">{{ file.name }}</marquee>
+                                    </b>
+                                </p>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="content" let-files>
+                        <div *ngIf="dataImportForm.id && !fileUploader.files.length">
+                            <div style="display: block; background-color: rgb(180, 180, 180); border-radius: 4px;">
+                                <p class="file-name">
+                                    <b>
+                                        <marquee scrollamount="5">{{ dataImportForm.fileName || dataImportForm.file_name
+                                            }}</marquee>
+                                    </b>
+                                </p>
+                            </div>
+                            <div snLayout="row" snLayoutAlign="center center">
+                                <a [href]="dataImportForm.import_file" download="dataImportForm.file_name">Download</a>
+                            </div>
+                        </div>
+
+                    </ng-template>
+                </p-fileUpload>
+                <hr>
+                <div snLayout="row" snLayoutAlign="center center" snLayoutGap="20" *ngIf="uploading">
+                    <div snLayout="column">
+                        <p style="color: #8970f5;font-size: small;">{{'uploading_TC' | translate}}</p>
+                    </div>
+                    <div snLayout="column" class="dot-carousel"></div>
+                </div>
+                <p-progressBar [value]="progressValue"
+                    [ngClass]="{'progressBar-red': successResponse==false,'progressBar-green': progressValue > 80, 'progressBar-orange': progressValue < 50}"></p-progressBar>
+            </div>
+        </div>
+        <div snFlex="83" snFlex.lt-sm="100" snFlex.lt-md="100" snFlexFill snLayout="column" style="background-color:efefef;
+        border: 2px solid blanchedalmond;
+
+        /* box-shadow: blanchedalmond 0px 3px 8px; */
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+        border-radius: 12px;">
+            <div class="card" style="padding: 0 ;border-radius: 1px; border: 2px solid blanchedalmond;">
+                <p-table *ngIf="visibleDataTable" #tb [value]="excelDataImportedList" dataKey="id"
+                    [(selection)]="selectedData" [scrollable]="true" [scrollHeight]="innerHeight"
+                    [globalFilterFields]="dataTableFormInitialize" [columns]="dataTableFormInitialize"
+                    [lazy]="dataTableLazy" [style]="{'font-size':'1rem','width':'100%','padding':'5px'}"
+                    [loading]="importedDataLoading"
+                    styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped" [resizableColumns]="true"
+                    columnResizeMode="expand" [rows]="limit" [virtualScroll]="true" (onLazyLoad)="loadLazyData($event)"
+                    [columnResizeMode]="'expand'" responsiveLayout="scroll" [totalRecords]="totalImportedRecords"
+                    [virtualScrollDelay]="0">
+
+                    <ng-template pTemplate="loadingbody">
+                        <ng-container *ngFor="let _ of [1, 2, 3]">
+                            <tr style="height: 30px">
+                                <td *ngFor="let col of dataTableColumnSchema">
+                                    <p-skeleton [ngStyle]="{'width': '100%'}"></p-skeleton>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </ng-template>
+
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th pFrozenColumn [style]="{'width': '20px'}">
+                                {{ 'serialNo_TC' | translate }}
+                            </th>
+                            <ng-container *ngFor="let col of dataTableFormInitialize">
+                                <th pFrozenColumn [pSortableColumn]="col?.field">
+                                    {{ col.name | translate }}
+                                    <ng-container [ngSwitch]="true">
+                                        <ng-container *ngSwitchCase="col?.filter==false">
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="col?.type=='date'">
+                                        </ng-container>
+                                        <ng-container *ngSwitchDefault>
+                                            <p-columnFilter type="text" [field]="col?.field" display="menu"
+                                                [matchMode]="'contains'"></p-columnFilter>
+                                        </ng-container>
+                                    </ng-container>
+                                </th>
+                            </ng-container>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-rowData let-item let-ri="rowIndex">
+                        <tr>
+                            <td pFrozenColumn>
+                                {{ri+1}}
+                            </td>
+                            <ng-container>
+                                <td>{{item.date}}</td>
+                                <td>{{item.employee_code}}</td>
+                                <td style="width: 20%; word-wrap: break-word; white-space: normal;">
+                                    {{item.employee_name}}</td>
+                                <td pEditableColumn>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <input pInputText [(ngModel)]="rowData.login_time"
+                                                (keydown)="disableNavigation($event)">
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{rowData.login_time}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td pEditableColumn>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <input pInputText [(ngModel)]="rowData.logout_time"
+                                                (keydown)="disableNavigation($event)">
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{rowData.logout_time}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td pEditableColumn>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <input pInputText [(ngModel)]="rowData.working_time"
+                                                (keydown)="disableNavigation($event)">
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{rowData.working_time}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td pEditableColumn>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <p-dropdown appendTo="body" [options]="statusOptions"
+                                                [(ngModel)]="rowData.status" [style]="{'width':'100%'}"
+                                                (keydown)="disableNavigation($event)"></p-dropdown>
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{rowData.status}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+
+                                <td>
+                                    <button pButton pRipple class="p-button-success"
+                                        (click)="saveRow(rowData)">Save</button>
+                                </td>
+                            </ng-container>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="emptymessage" let-columns>
+                        <tr>
+                            <td colspan="92" class="" style="padding: 1.5rem;">
+                                <div snLayout="row" snLayoutAlign="start center">
+                                    <i class="pi pi-table"></i>&nbsp;&nbsp;<p>Nothing to show...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+
+            </div>
+        </div>
+    </div>
+</div>

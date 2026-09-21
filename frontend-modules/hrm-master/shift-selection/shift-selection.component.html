@@ -1,0 +1,72 @@
+<div class="simple-modal">
+  <div class="modal-header">
+    <h3>Select Operator</h3>
+  </div>
+
+  <div class="modal-content">
+    <div class="info-text">
+      <i class="pi pi-info-circle"></i>
+      <span>Double-click on operator to open timesheet</span>
+    </div>
+
+    <div class="operators-grid">
+      <!-- Shift One Operator -->
+      <div class="operator-card" 
+           [class.selected]="selectedOperatorType === 'shift_one'"
+           (click)="selectOperator('shift_one')"
+           (dblclick)="onOperatorDoubleClick('shift_one')">
+        <div class="shift-tag">Shift One</div>
+        
+        <div class="operator-info">
+          <div class="avatar" *ngIf="shiftOneOperator?.profileUrl">
+            <p-avatar [image]="shiftOneOperator.profileUrl" shape="circle"></p-avatar>
+          </div>
+          
+          <div class="avatar-fallback" *ngIf="!shiftOneOperator?.profileUrl && shiftOneOperator?.name">
+            {{ getInitials(shiftOneOperator.name) }}
+          </div>
+          
+          <div *ngIf="shiftOneOperator" class="operator-name">
+            {{ shiftOneOperator.name }}
+          </div>
+        </div>
+        
+        <div *ngIf="selectedOperatorType === 'shift_one'" class="selected-icon">
+          <i class="pi pi-check"></i>
+        </div>
+      </div>
+
+      <!-- Shift Two Operator -->
+      <div class="operator-card" 
+           [class.selected]="selectedOperatorType === 'shift_two'"
+           (click)="selectOperator('shift_two')"
+           (dblclick)="onOperatorDoubleClick('shift_two')">
+        <div class="shift-tag">Shift Two</div>
+        
+        <div class="operator-info">
+          <div class="avatar" *ngIf="shiftTwoOperator?.profileUrl">
+            <p-avatar [image]="shiftTwoOperator.profileUrl" shape="circle"></p-avatar>
+          </div>
+          
+          <div class="avatar-fallback" *ngIf="!shiftTwoOperator?.profileUrl && shiftTwoOperator?.name">
+            {{ getInitials(shiftTwoOperator.name) }}
+          </div>
+          
+          <div *ngIf="shiftTwoOperator" class="operator-name">
+            {{ shiftTwoOperator.name }}
+          </div>
+        </div>
+        
+        <div *ngIf="selectedOperatorType === 'shift_two'" class="selected-icon">
+          <i class="pi pi-check"></i>
+        </div>
+      </div>
+
+      <!-- No Operators Available -->
+      <div *ngIf="!shiftOneOperator && !shiftTwoOperator" class="no-operators">
+        <i class="pi pi-users"></i>
+        <p>No operators available</p>
+      </div>
+    </div>
+  </div>
+</div>

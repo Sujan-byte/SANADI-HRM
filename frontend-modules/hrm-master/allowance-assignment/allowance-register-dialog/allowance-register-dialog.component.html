@@ -1,0 +1,133 @@
+<div class="ar-wrapper">
+
+  <!-- ── Filter Bar ── -->
+  <div class="ar-filters">
+    <div class="filter-row">
+
+      <div class="filter-group">
+        <label>From Date</label>
+        <p-calendar
+          [ngModel]="fromDate()"
+          (ngModelChange)="fromDate.set($event)"
+          placeholder="From Date"
+          dateFormat="dd-mm-yy"
+          styleClass="ar-calendar"
+          appendTo="body">
+        </p-calendar>
+      </div>
+
+      <div class="filter-group">
+        <label>To Date</label>
+        <p-calendar
+          [ngModel]="toDate()"
+          (ngModelChange)="toDate.set($event)"
+          placeholder="To Date"
+          dateFormat="dd-mm-yy"
+          styleClass="ar-calendar"
+          appendTo="body">
+        </p-calendar>
+      </div>
+
+      <div class="filter-group">
+        <label>Group By</label>
+        <p-dropdown
+          [options]="groupByOptions"
+          optionLabel="label"
+          optionValue="value"
+          [ngModel]="groupBy()"
+          (ngModelChange)="groupBy.set($event)"
+          placeholder="Group By"
+          styleClass="ar-dropdown"
+          appendTo="body">
+        </p-dropdown>
+      </div>
+
+      <div class="filter-group">
+        <label>Columns</label>
+        <p-multiSelect
+          [options]="allColumns"
+          optionLabel="header"
+          optionValue="field"
+          [ngModel]="selectedFields()"
+          (ngModelChange)="selectedFields.set($event)"
+          placeholder="Select columns"
+          selectedItemsLabel="{0} selected"
+          [maxSelectedLabels]="0"
+          styleClass="ar-multiselect"
+          appendTo="body">
+        </p-multiSelect>
+      </div>
+
+      <div class="filter-actions">
+        <button pButton icon="pi pi-search" label="Apply"
+          class="p-button-sm primary"
+          (click)="applyFilters()"
+          [disabled]="loading()">
+        </button>
+        <button pButton icon="pi pi-file-excel" label="Excel"
+          class="p-button-sm excel-btn"
+          pTooltip="Export to Excel" tooltipPosition="top"
+          [disabled]="exporting() || rows().length === 0"
+          (click)="exportExcel()">
+        </button>
+        <span class="ar-count" *ngIf="rows().length > 0">
+          {{ rows().length }} record(s)
+        </span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Table ── -->
+  <div class="ar-table-wrapper">
+
+    <div *ngIf="loading()" class="ar-loading">
+      <p-progressSpinner strokeWidth="4" styleClass="ar-spinner"></p-progressSpinner>
+      <span>Loading...</span>
+    </div>
+
+    <p-table *ngIf="!loading()"
+      [value]="rows()"
+      [scrollable]="true"
+      scrollHeight="flex"
+      [resizableColumns]="true"
+      styleClass="p-datatable-sm p-datatable-gridlines"
+      [rowHover]="true">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th *ngFor="let col of visibleColumns()" pResizableColumn class="ar-th">
+            {{ col.header }}
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-row>
+        <!-- Group header row injected as a special row type -->
+        <tr *ngIf="row['_isGroupHeader']" class="ar-group-row">
+          <td [attr.colspan]="visibleColumns().length" class="ar-group-label">
+            {{ row['_groupLabel'] }}
+          </td>
+        </tr>
+        <tr *ngIf="!row['_isGroupHeader']">
+          <td *ngFor="let col of visibleColumns()" class="ar-td">
+            {{ row[col.field] ?? '' }}
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td [attr.colspan]="visibleColumns().length || 1" class="ar-empty">
+            <div class="ar-empty-inner">
+              <i class="pi pi-inbox ar-empty-icon"></i>
+              <span>No allowance records found. Adjust filters and click Apply.</span>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+    </p-table>
+  </div>
+
+</div>

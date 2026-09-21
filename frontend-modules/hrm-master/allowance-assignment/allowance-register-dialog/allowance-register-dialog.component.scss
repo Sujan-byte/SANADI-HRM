@@ -1,0 +1,139 @@
+.ar-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ── Filter bar ── */
+.ar-filters {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--surface-border, #dee2e6);
+  background: var(--surface-section, #f8f9fa);
+  flex-shrink: 0;
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 9rem;
+
+  label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-color-secondary, #6c757d);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  :deep(.ar-dropdown),
+  :deep(.ar-calendar),
+  :deep(.ar-multiselect) {
+    width: 100%;
+    min-width: 9rem;
+  }
+}
+
+.filter-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 0.05rem;
+
+  .excel-btn {
+    background: #1d6f42 !important;
+    border-color: #1d6f42 !important;
+    color: #fff !important;
+  }
+
+  .ar-count {
+    font-size: 0.8rem;
+    color: var(--text-color-secondary, #6c757d);
+    margin-left: 0.25rem;
+  }
+}
+
+/* ── Table area ── */
+.ar-table-wrapper {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+
+  :deep(.p-datatable) {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  :deep(.p-datatable-wrapper) {
+    flex: 1;
+    overflow: auto;
+  }
+}
+
+.ar-th {
+  white-space: nowrap;
+  font-size: 0.78rem;
+  background: var(--surface-100, #f3f4f6) !important;
+}
+
+.ar-td {
+  font-size: 0.82rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 14rem;
+}
+
+/* Group header rows */
+.ar-group-row .ar-group-label {
+  font-weight: 700;
+  font-size: 0.82rem;
+  background: #e8f0fe !important;
+  color: #1a56db;
+  padding: 0.4rem 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+/* Loading state */
+.ar-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  height: 100%;
+  color: var(--text-color-secondary, #6c757d);
+
+  :deep(.ar-spinner) {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+
+/* Empty state */
+.ar-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.ar-empty-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-color-secondary, #6c757d);
+}
+
+.ar-empty-icon {
+  font-size: 2.5rem;
+  opacity: 0.4;
+}
