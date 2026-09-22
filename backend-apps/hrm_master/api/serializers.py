@@ -33,10 +33,10 @@ from branch.models import BranchUser
 from hrm_main.api.service import EmployeeGraceDetails
 from hrm_main.api.time_sheet_cal import TimeSheetCal
 from hrm_master.models import Department, Designation, EmployeeLetterImages, EmployeeMaster, Grade, LeaveReversalRequest, GradeMonthlyAllowanceDetails, GradeMonthlyDeductionDetails, HolidayMaster, LeaveDetails, LeaveEntry, LeaveMaster, LeaveMasterDetailBreakup, LeaveMasterDetails, ShiftMaster, ShiftTimings
-from master.models import AppEnums, AppSettings, Editor, FormSettings
+from master.models import AppSettings, Editor, FormSettings
 from hrm_utils.custom_functions import CustomFunction, convert_base64
 from hrm_master.models import Department, Designation, Grade, LeaveDetails, EmployeeMaster, LeaveEntry, LeaveMaster, LeaveMasterDetails, HolidayMaster, ShiftTimings, LeaveMasterDetailBreakup
-from master.models import Editor, AppSettings, AppEnums, FormSettings
+from master.models import Editor, AppSettings, FormSettings
 from hrm_audit_fields.serializers import AuditModelMixinSerializer, ApprovalModelMixinSerializer
 from rest_framework.exceptions import PermissionDenied
 from django.contrib.auth.models import Permission
