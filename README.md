@@ -65,16 +65,20 @@ git submodule add https://github.com/Sujan-byte/SANADI-HRM.git sanadi-hrm
 3. **`hrm_master` is intentionally *not* included in `get_hrm_urlpatterns()`.** Its viewsets
    (`DepartmentViewSet`, `EmployeeMasterViewSet`, `ShiftMasterViewSet`, `LeavePolicyViewSet`, etc.)
    are meant to be registered on the host's **own** masters router, alongside the host's other
-   generic master-data endpoints, at whatever URL prefix that host already uses (e.g. `master/`):
+   generic master-data endpoints, at whatever URL prefix that host already uses (e.g. `master/`).
+   Use `get_hrm_master_router_registrations()` rather than hand-listing each viewset — this is what
+   404d silently on the first integration (twice: 8 viewsets added after the initial wiring, then 3
+   more that had never been registered at all) until someone diffed every `HrmServiceUrlConstants`
+   `/master/...` entry against the router by hand:
    ```python
-   from hrm_master.views import DepartmentViewSet, DesignationViewSet, EmployeeMasterViewSet, ...
-   router.register(r"department", DepartmentViewSet)
-   router.register(r"shift-master", ShiftMasterViewSet)
-   # ...one router.register() per hrm_master viewset the host's frontend routes call
+   from hrm_master.views import reset_password_employee  # anything that isn't a ViewSet, wire separately
+   from hrm_plugin_config import get_hrm_master_router_registrations
+
+   for prefix, viewset in get_hrm_master_router_registrations():
+       router.register(prefix, viewset)
    ```
-   **This is the single most common integration gap** — a viewset that exists in `hrm_master.views`
-   but was never registered here 404s with no other symptom. Cross-check every `HrmServiceUrlConstants`
-   entry whose value starts with `/master/` (not `/hrm/`) against this router's registrations.
+   This list lives in the submodule, not copied per host, so a host picks up a newly-added
+   `hrm_master` viewset on its next `git submodule update` instead of silently 404ing on it.
 4. If the host needs non-default cross-project foreign key targets (its own Employee/Department/etc.
    are not `hrm_master`'s), create `hrm_contract.py` at the project root (next to `manage.py`):
    ```python
