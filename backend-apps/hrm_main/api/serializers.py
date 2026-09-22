@@ -6,7 +6,7 @@ import json
 from datetime import datetime, timedelta
 from rest_framework import serializers
 from hrm_audit_fields.serializers import AuditModelMixinSerializer, ApprovalModelMixinSerializer
-from notifications.api.serializers import NotificationApprovalERPSerializer
+from hrm_utils.optional_notifications import create_optional_approval_notification
 from hrm_utils.constants import NumberConstructorConstants
 from hrm_audit_fields.models.approval_model_mixin import ApprovalModelMixin
 from hrm_utils.number_constuctor import NumberConstructor
@@ -1885,16 +1885,15 @@ class TaDaSerializer(AuditModelMixinSerializer, ApprovalModelMixinSerializer):
         tada_details = validated_data.pop('tada_details', [])
         instance = super().create(validated_data)
         self._create_or_update_tada_details(instance, tada_details, request=request)
-        # CREATE NOTIFICATION 
-        notification_serializer = NotificationApprovalERPSerializer(data={
-            "user": user.id,
-            "request_type": "Tada",   
-            "subject": f"TaDa request from {instance.employee.first_name}",
-            "message": f"TaDa request on {instance.created} by {instance.employee.first_name} is pending for Approval",
-            "form_id": instance.id,
-        }, context=self.context)
-        notification_serializer.is_valid(raise_exception=True)
-        notification_instance = notification_serializer.create(notification_serializer.validated_data)
+        # CREATE NOTIFICATION (best-effort - no-op if the host has no notifications app)
+        create_optional_approval_notification(
+            user=user.id,
+            request_type="Tada",
+            subject=f"TaDa request from {instance.employee.first_name}",
+            message=f"TaDa request on {instance.created} by {instance.employee.first_name} is pending for Approval",
+            form_id=instance.id,
+            context=self.context,
+        )
         return instance
 
     def update(self, instance, validated_data):

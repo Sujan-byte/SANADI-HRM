@@ -1,4 +1,5 @@
 import re
+import logging
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import transaction
@@ -9,6 +10,8 @@ from django.utils.html import strip_tags
 from branch.models import Branch
 from hrm_master.models import LeaveEntry
 from django.core.mail import EmailMultiAlternatives
+
+logger = logging.getLogger(__name__)
 
 def get_branch_name(branch_id):
     """Cache branch name lookup to avoid repeated queries"""
@@ -120,7 +123,16 @@ def send_leave_notification(sender, instance, created, **kwargs):
                 common_context
             )
 
-    transaction.on_commit(_send_notification)
+    def _send_notification_best_effort():
+        # Best-effort: a leave entry must save successfully even if the host hasn't
+        # provided its own email_templates/*.html (this plugin doesn't bundle any -
+        # they're expected to be host-provided, same as the SMTP settings themselves).
+        try:
+            _send_notification()
+        except Exception:
+            logger.warning("Skipping leave-entry email notification - could not send", exc_info=True)
+
+    transaction.on_commit(_send_notification_best_effort)
 
 
 def send_leave_request_notification(instance, approver_email, created_email, employee_email, context):

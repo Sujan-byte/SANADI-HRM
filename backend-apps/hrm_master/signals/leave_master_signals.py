@@ -1,7 +1,10 @@
 ﻿import re
+import logging
 from django.core.mail import EmailMultiAlternatives
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+logger = logging.getLogger(__name__)
 
 from hrm_audit_fields.models.approval_model_mixin import ApprovalModelMixin
 from hrm_master.models import LeavePolicy, LeaveMaster, LeaveMasterDetails, EmployeeMaster, LeavePolicyDetail
@@ -196,7 +199,16 @@ def send_leave_notification(sender, instance, created, **kwargs):
                 common_context
             )
 
-    transaction.on_commit(_send_notification)
+    def _send_notification_best_effort():
+        # Best-effort: a leave application must save successfully even if the host
+        # hasn't provided its own email_templates/*.html (this plugin doesn't bundle
+        # any - they're expected to be host-provided, same as the SMTP settings).
+        try:
+            _send_notification()
+        except Exception:
+            logger.warning("Skipping leave-application email notification - could not send", exc_info=True)
+
+    transaction.on_commit(_send_notification_best_effort)
 
 
 def send_leave_request_notification(instance, approver_email, created_email, employee_email, context):

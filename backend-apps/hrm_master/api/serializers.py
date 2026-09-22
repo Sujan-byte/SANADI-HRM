@@ -35,6 +35,7 @@ from hrm_main.api.time_sheet_cal import TimeSheetCal
 from hrm_master.models import Department, Designation, EmployeeLetterImages, EmployeeMaster, Grade, LeaveReversalRequest, GradeMonthlyAllowanceDetails, GradeMonthlyDeductionDetails, HolidayMaster, LeaveDetails, LeaveEntry, LeaveMaster, LeaveMasterDetailBreakup, LeaveMasterDetails, ShiftMaster, ShiftTimings
 from master.models import AppSettings, Editor, FormSettings
 from hrm_utils.custom_functions import CustomFunction, convert_base64
+from hrm_utils.optional_notifications import send_optional_signal
 from hrm_master.models import Department, Designation, Grade, LeaveDetails, EmployeeMaster, LeaveEntry, LeaveMaster, LeaveMasterDetails, HolidayMaster, ShiftTimings, LeaveMasterDetailBreakup
 from master.models import Editor, AppSettings, FormSettings
 from hrm_audit_fields.serializers import AuditModelMixinSerializer, ApprovalModelMixinSerializer
@@ -1867,8 +1868,7 @@ class LeaveEntrySerializer(ApprovalModelMixinSerializer,AuditModelMixinSerialize
         self.update_next_stage(instance,user)
         self._trigger_post_save_signal(instance, is_created=True)
 
-        from notifications.signals import leave_entry_created
-        leave_entry_created.send(sender=instance.__class__, instance=instance, user=request.user)
+        send_optional_signal('notifications.signals', 'leave_entry_created', sender=instance.__class__, instance=instance, user=request.user)
 
         return instance
 
@@ -1993,8 +1993,7 @@ class LeaveEntrySerializer(ApprovalModelMixinSerializer,AuditModelMixinSerialize
         # Handle notifications for approval status changes
         if instance.approval_status != old_instance.approval_status:
             if instance.approval_status != ApprovalModelMixin.PENDING_APPROVAL:
-                from notifications.signals import leave_entry_status_changed
-                leave_entry_status_changed.send(sender=instance.__class__, instance=instance, user=request.user, old_status=old_instance.approval_status)
+                send_optional_signal('notifications.signals', 'leave_entry_status_changed', sender=instance.__class__, instance=instance, user=request.user, old_status=old_instance.approval_status)
 
         # Skip duplicate date validation for allow_beyond leaves
         if not allow_beyond:
@@ -3248,8 +3247,7 @@ class LeaveApplicationSerializer(ApprovalModelMixinSerializer,AuditModelMixinSer
         self._trigger_post_save_signal(instance, is_created=True)
         self.update_next_stage(instance, user)
 
-        from notifications.signals import leave_application_created
-        leave_application_created.send(sender=instance.__class__, instance=instance, user=request.user)
+        send_optional_signal('notifications.signals', 'leave_application_created', sender=instance.__class__, instance=instance, user=request.user)
 
         return instance
 
@@ -3454,8 +3452,7 @@ class LeaveApplicationSerializer(ApprovalModelMixinSerializer,AuditModelMixinSer
 
         # ── Notifications ─────────────────────────────────────────────────────
         if previous_instance_approval_status != instance.approval_status and instance.approval_status != ApprovalModelMixin.PENDING_APPROVAL:
-            from notifications.signals import leave_application_status_changed
-            leave_application_status_changed.send(sender=instance.__class__, instance=instance, user=request.user, old_status=previous_instance_approval_status)
+            send_optional_signal('notifications.signals', 'leave_application_status_changed', sender=instance.__class__, instance=instance, user=request.user, old_status=previous_instance_approval_status)
 
         return instance
 
