@@ -48,3 +48,46 @@ def get_hrm_urlpatterns(client_param: str = 'client', dashboard_prefix: str = 'd
         path(f'api/v1/<str:{client_param}>/hrm/', include(hrm_urls)),
         path(f'api/v1/<str:{client_param}>/{dashboard_prefix}/', include(dashboard_urls)),
     ]
+
+
+def get_hrm_master_router_registrations():
+    """Returns (url_prefix, ViewSet) pairs for every hrm_master viewset, meant to be
+    registered on the host's OWN masters router - hrm_master is deliberately not part
+    of get_hrm_urlpatterns() (see that function's docstring) since its master-data
+    screens belong alongside a host's own generic masters, not off in a separate /hrm/
+    namespace. Call this from the host's own masters urls.py instead of hand-listing
+    each viewset:
+
+        from hrm_plugin_config import get_hrm_master_router_registrations
+        for prefix, viewset in get_hrm_master_router_registrations():
+            router.register(prefix, viewset)
+
+    Keeping this list here (not hand-copied per host) means a host picks up a newly
+    added hrm_master viewset on its next `git submodule update` instead of silently
+    404ing on it until someone notices and manually adds a router.register() line.
+    """
+    from hrm_master import views as v
+
+    return [
+        ('department', v.DepartmentViewSet),
+        ('designation', v.DesignationViewSet),
+        ('grade', v.GradeViewSet),
+        ('employee', v.EmployeeMasterViewSet),
+        ('document-type-master', v.DocumentTypeMasterViewSet),
+        ('leave-entry', v.LeaveEntryViewSet),
+        ('leave-details', v.LeaveDetailsViewSet),
+        ('leave-reversal-request', v.LeaveReversalRequestViewSet),
+        ('leave-master', v.LeaveMasterViewSet),
+        ('leave-master-details', v.LeaveMasterDetailsViewSet),
+        ('holiday-master', v.HolidayMasterViewSet),
+        ('shift-timings', v.ShiftTimingsViewSet),
+        ('leave-application', v.LeaveApplicationViewSet),
+        ('leave-policy', v.LeavePolicyViewSet),
+        ('leave-policy-detail', v.LeavePolicyDetailViewSet),
+        ('ticket-master', v.TicketMasterViewSet),
+        ('salary-components', v.SalaryComponentsViewSet),
+        ('shift-master', v.ShiftMasterViewSet),
+        ('allowance-master', v.AllowanceMasterViewSet),
+        ('allowance-assignment', v.AllowanceAssignmentViewSet),
+        ('leave-extension', v.LeaveExtensionViewSet),
+    ]
