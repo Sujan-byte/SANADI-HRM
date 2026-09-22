@@ -1,7 +1,7 @@
 import { CommonModule, DatePipe, DecimalPipe, NgForOf, NgIf } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { SalesQuotationEnums } from 'src/app/modules/hrm-shared/core/shared/common/enum/sales-enum/sales-quotation-enum';
 import { BranchBankDetailsModel, BranchModel } from 'src/app/modules/hrm-shared/core/shared/common/model/admin/branch.model';
 import { SalesQuotationDetailsModel, SalesQuotationModel } from 'src/app/modules/hrm-shared/core/shared/common/model/sales/sales-quotation.model';

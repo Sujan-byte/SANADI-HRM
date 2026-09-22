@@ -9,7 +9,7 @@ import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/for
 import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
 import { TableBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/table.builder';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { CustomDialogService } from 'src/app/modules/hrm-shared/core/shared/services/custom-dialog';
 import { DynamicTableComponent } from 'src/app/modules/hrm-shared/sanadi-library/sanadi-components/dynamic-table/dynamic-table.component';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';

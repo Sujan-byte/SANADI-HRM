@@ -6,7 +6,7 @@ import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/
 import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
 import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
 import { OverlayPanelBuilder, TableBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/table.builder';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
 import { FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';

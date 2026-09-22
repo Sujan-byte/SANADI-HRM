@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, inject, Input, OnDestroy, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { EncryptedStorageService } from 'src/app/modules/hrm-shared/core/shared/services/secure-cookie-service';
 import { Subscription } from 'rxjs';

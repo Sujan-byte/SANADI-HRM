@@ -1,6 +1,6 @@
 import { NgForOf, NgIf } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { BranchModel } from 'src/app/modules/hrm-shared/core/shared/common/model/admin/branch.model';
 import { DeliveryChallanDetailsModel, DeliveryChallanModel } from 'src/app/modules/hrm-shared/core/shared/common/model/purchase/delivery-challan.model';
 import { GRNDetailsModel, GRNModel } from 'src/app/modules/hrm-shared/core/shared/common/model/purchase/grn.model';

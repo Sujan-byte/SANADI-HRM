@@ -3,7 +3,7 @@ import { forEach } from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
 import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
 import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
 import { NumberField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/number.builder';

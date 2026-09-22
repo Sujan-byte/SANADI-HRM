@@ -2,7 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
 import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { LeaveMasterDetails, LeaveMasterModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/leave-master.model';
 import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';

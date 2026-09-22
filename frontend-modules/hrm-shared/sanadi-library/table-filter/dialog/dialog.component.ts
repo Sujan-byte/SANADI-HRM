@@ -2,7 +2,6 @@ import { Component, inject, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FormConfigService } from 'src/app/modules/hrm-shared/core/services/form-config.service';
-import { FormConfig } from 'src/app/modules/hrm-shared/core/shared/common/form-config.service';
 import { DynamicFormGeneratorModule } from '../../dynamic-form-generator/dynamic-form-generator.module';
 import { FormObserver } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/form-observer';
 import { FormBuilderComponent } from '../../dynamic-form-generator/components/form-builder/form-builder.component';
@@ -25,7 +24,6 @@ export class DialogComponent {
   private ref = inject(DynamicDialogRef);
   private config = inject(DynamicDialogConfig);
   private formConfig = inject(FormConfigService);
-  private formConfig2 = inject(FormConfig);
   private readonly formObserver = inject(FormObserver);
   @ViewChild(FormBuilderComponent) formBuilder: FormBuilderComponent;
 

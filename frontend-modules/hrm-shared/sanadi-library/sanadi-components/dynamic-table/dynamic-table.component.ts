@@ -2,7 +2,7 @@ import { Component, inject, ViewChild } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
 import * as _ from 'lodash';
 import { CommonModule, DecimalPipe } from '@angular/common';

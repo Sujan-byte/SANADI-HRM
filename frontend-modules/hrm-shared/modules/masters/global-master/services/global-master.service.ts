@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { filter } from 'rxjs';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { GlobalMasterFormConfig } from 'src/app/modules/hrm-shared/core/shared/common/forms/masters-forms/global-master-from.config.service';
 import { DynamicTableModel } from 'src/app/modules/hrm-shared/core/shared/common/model/app.model';
 import { GlobalMasterModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/global-master.model';

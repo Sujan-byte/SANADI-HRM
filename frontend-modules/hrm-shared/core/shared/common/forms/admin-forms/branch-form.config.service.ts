@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { InputField } from '../core/builders/input.builder';
 import { TabBuilder } from '../core/builders/tab.builder';
 import { TextBuilder } from '../core/builders/textarea.builder';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { BranchAddressModel, BranchBankDetailsModel, BranchModel, BranchUser } from '../../model/admin/branch.model';
 import { BranchAddressEnums, BranchBankDetailsEnums, BranchEnum } from '../../enum/admin-enum/branch.enum';
 import { NumberField } from '../core/builders/number.builder';

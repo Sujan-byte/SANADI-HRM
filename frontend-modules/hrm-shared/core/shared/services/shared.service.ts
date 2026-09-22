@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { BehaviorSubject, catchError, Observable, Subject } from 'rxjs';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { ApiService } from '../../services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { TranslateService } from '@ngx-translate/core';
 import { decimalDigits } from '../utils/common.constants';
 import { EncryptedStorageService } from './secure-cookie-service';

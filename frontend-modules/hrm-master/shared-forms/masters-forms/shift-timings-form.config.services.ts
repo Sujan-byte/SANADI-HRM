@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
 import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
 import { TextBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/textarea.builder';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { ShiftTimingsModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/shift-timings.model';
 import { ShiftTimingsEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/shift-timings.enum';
 import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';

@@ -6,7 +6,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { ChartModule } from 'primeng/chart';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { ApprovalOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
 import { CustomDialogService } from 'src/app/modules/hrm-shared/core/shared/services/custom-dialog';
 import { DialogHandlerService } from 'src/app/modules/hrm-shared/core/shared/services/dialog-form.service';

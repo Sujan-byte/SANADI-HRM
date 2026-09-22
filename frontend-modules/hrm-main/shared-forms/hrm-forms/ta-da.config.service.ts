@@ -2,7 +2,7 @@ import { Injectable, ViewChild, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
 import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
 import { TextBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/textarea.builder';
 import { OverlayPanelBuilder, TableBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/table.builder';

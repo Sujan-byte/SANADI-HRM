@@ -1,6 +1,6 @@
 import { CommonModule, DecimalPipe, NgForOf, NgIf } from '@angular/common';
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { PurchaseOrderModel } from 'src/app/modules/hrm-shared/core/shared/common/model/purchase/purchase-order.model';
 import { EncryptedStorageService } from 'src/app/modules/hrm-shared/core/shared/services/secure-cookie-service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';

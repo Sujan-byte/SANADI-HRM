@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TabBuilder } from '../core/builders/tab.builder';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { EditorEnum } from '../../enum/masters_enum/editor.enums';
 import { EditorModel } from '../../model/masters/editor.model';
 import { EditorJSBuilder } from '../core/builders/editor.builder';

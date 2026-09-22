@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { decimalDigits, numberLocale } from 'src/app/modules/hrm-shared/core/shared/utils/common.constants';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { PostingPreviewResponse } from './posting-preview.model';

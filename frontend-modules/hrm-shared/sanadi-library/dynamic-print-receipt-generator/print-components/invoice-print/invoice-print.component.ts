@@ -1,6 +1,6 @@
 import { CommonModule, DatePipe, NgForOf, NgIf } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { InvoiceModel } from 'src/app/modules/hrm-shared/core/shared/common/model/finance/invoice.model';
 import { BranchModel } from 'src/app/modules/hrm-shared/core/shared/common/model/admin/branch.model';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';

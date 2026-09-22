@@ -12,7 +12,7 @@ import { DialogComponent } from './dialog/dialog.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { DialogFooterComponent } from './dialog/dialog-footer/dialog-footer.component';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { MenuModule } from 'primeng/menu';
 import { FlexLayoutModule } from '../flex-layout/module';
 import { Router } from '@angular/router';

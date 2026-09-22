@@ -1,6 +1,6 @@
 import { CommonModule, NgForOf, NgIf } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { ProformaInvoiceModel } from 'src/app/modules/hrm-shared/core/shared/common/model/finance/proforma-invoice.model';
 import { BranchAddressModel, BranchBankDetailsModel, BranchModel } from 'src/app/modules/hrm-shared/core/shared/common/model/admin/branch.model';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';

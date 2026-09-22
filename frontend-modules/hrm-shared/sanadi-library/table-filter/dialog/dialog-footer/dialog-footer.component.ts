@@ -7,7 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ProgressBarModule } from 'primeng/progressbar';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { ApprovalOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
 import { ButtonConfig, ParamtersConfig, ReturnConfig, TableFilterFormConfig } from 'src/app/modules/hrm-shared/core/shared/common/model/app.model';
 import { SharedService } from 'src/app/modules/hrm-shared/core/shared/services/shared.service';

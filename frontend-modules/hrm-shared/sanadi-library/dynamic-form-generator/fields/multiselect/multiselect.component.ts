@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { debug } from 'console';
 import { MultiSelectRemoveEvent } from 'primeng/multiselect';
 import { Observable, debounceTime, distinctUntilChanged, pairwise, startWith } from 'rxjs';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { DialogHandlerService } from 'src/app/modules/hrm-shared/core/shared/services/dialog-form.service';
 import { SharedService } from 'src/app/modules/hrm-shared/core/shared/services/shared.service';
 

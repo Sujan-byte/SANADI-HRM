@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { ApprovalOptions, FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
 import { LeaveReversalEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/leave-reversal-enum';
 import { LeaveExtensionEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/leave-extension.enum';

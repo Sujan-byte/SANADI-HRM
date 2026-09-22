@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { CareerLetterModel } from 'src/app/modules/hrm-shared/core/shared/common/model/hrm/career-letter.model';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 @Injectable({

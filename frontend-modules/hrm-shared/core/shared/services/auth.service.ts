@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, firstValueFrom, of } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { tap } from 'rxjs/operators';
-import { ApiService } from '../../services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import {
   CustomTokenObtainPair,
   TokenRefresh,

@@ -12,7 +12,7 @@ import { DialogHandlerService } from 'src/app/modules/hrm-shared/core/shared/ser
 import { DialogService } from 'primeng/dynamicdialog';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { LeaveReversalRequestComponent } from '../leave-reversal-request/leave-reversal-request.component';
 import { LeaveEntryEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/leave-entry.enum';
 import { LeaveReversalEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/leave-reversal-enum';

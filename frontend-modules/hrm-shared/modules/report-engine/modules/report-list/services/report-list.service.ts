@@ -5,7 +5,7 @@ import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-const
 import { saveAs } from 'file-saver';
 import * as moment from 'moment';
 import { Injectable, inject, signal } from '@angular/core';
-import { API_URL } from 'src/app/modules/hrm-shared/core/api-url.token';
+import { API_URL } from 'src/app/core/api-url.token';
 
 
 @Injectable({

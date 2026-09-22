@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { ApprovalOptions, FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
 import { FormConfig } from 'src/app/modules/hrm-shared/core/shared/common/form-config.service';
 import { AppUtils } from 'src/app/modules/hrm-shared/core/utils/app.utils';

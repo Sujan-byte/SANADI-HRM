@@ -1,6 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
-import { DialogComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/dialog/dialog.component';
 import { DialogFooterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/dialog/dialog-footer/dialog-footer.component';
 
 @Injectable({

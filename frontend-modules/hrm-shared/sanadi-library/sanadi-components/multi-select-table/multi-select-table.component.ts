@@ -7,7 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
 import { DynamicTableModel } from 'src/app/modules/hrm-shared/core/shared/common/model/app.model';
 import * as _ from 'lodash';

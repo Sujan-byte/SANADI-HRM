@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Dropdown } from 'primeng/dropdown';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { Observable, debounceTime, distinctUntilChanged, pairwise, startWith } from 'rxjs';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
 import { DialogHandlerService } from 'src/app/modules/hrm-shared/core/shared/services/dialog-form.service';
 import { SharedService } from 'src/app/modules/hrm-shared/core/shared/services/shared.service';

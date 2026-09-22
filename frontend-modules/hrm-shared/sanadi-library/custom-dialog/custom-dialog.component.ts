@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FormConfigService } from 'src/app/modules/hrm-shared/core/services/form-config.service';
-import { FormConfig } from 'src/app/modules/hrm-shared/core/shared/common/form-config.service';
 import { FormObserver } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/form-observer';
 import { DynamicFormGeneratorModule } from 'src/app/modules/hrm-shared/sanadi-library/dynamic-form-generator/dynamic-form-generator.module';
 
@@ -22,7 +21,6 @@ export class CustomDialogComponent {
   private ref = inject(DynamicDialogRef);
   private config = inject(DynamicDialogConfig);
   private formConfig = inject(FormConfigService);
-  private formConfig2 = inject(FormConfig);
   private readonly formObserver = inject(FormObserver);
 
   ngOnInit(): void {

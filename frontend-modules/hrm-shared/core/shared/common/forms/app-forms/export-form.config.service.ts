@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogModel, ExportFields, ExportModel, ParamtersConfig, ReturnConfig, TableFilterFormConfig } from '../../model/app.model';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { MultiSelectField } from '../core/builders/multiselect.builder';
 import { ExportEnum } from '../../enum/app.enum';
 import { ButtonField } from '../core/builders/button.builder';

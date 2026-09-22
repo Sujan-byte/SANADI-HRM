@@ -1,7 +1,7 @@
 import { CommonModule, DatePipe, NgForOf, NgIf } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { QRCodeModule } from 'angularx-qrcode';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { Mode, TransactionType } from 'src/app/modules/hrm-shared/core/shared/common/enum/finance-enum/invoice.enum';
 import { InvoiceModel } from 'src/app/modules/hrm-shared/core/shared/common/model/finance/invoice.model';
 import { BranchModel } from 'src/app/modules/hrm-shared/core/shared/common/model/admin/branch.model';

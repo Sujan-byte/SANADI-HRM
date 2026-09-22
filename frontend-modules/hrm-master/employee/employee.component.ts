@@ -7,7 +7,7 @@ import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/
 import { EmployeeService } from './services/employee.service';
 import { CustomDialogService } from 'src/app/modules/hrm-shared/core/shared/services/custom-dialog';
 import { EmployeeDocumentsTableModel, EmployeeModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/employee.model';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { HttpParams } from '@angular/common/http';
 

@@ -4,7 +4,7 @@ import { InputField } from '../core/builders/input.builder';
 import { TabBuilder } from '../core/builders/tab.builder';
 import { TextBuilder } from '../core/builders/textarea.builder';
 import { AppSettingModel } from '../../model/masters/app-setting.model';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 
 
 @Injectable({

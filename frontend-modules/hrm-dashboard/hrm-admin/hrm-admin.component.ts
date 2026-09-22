@@ -9,7 +9,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { DropdownModule } from 'primeng/dropdown';
 import { Department, EmployeeType, Holiday, HRMAdminDashboardData, LeaveApplication } from 'src/app/modules/hrm-dashboard/models/hrm-admin.model';
 import { TabViewModule } from 'primeng/tabview';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';

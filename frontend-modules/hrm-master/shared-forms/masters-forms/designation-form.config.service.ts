@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
 import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { DesignationModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/designation.model';
 import { DesignationEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/designation.enum';
 

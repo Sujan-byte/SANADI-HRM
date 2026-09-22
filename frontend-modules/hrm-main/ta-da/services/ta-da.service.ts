@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { matchModeOptionsDate } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
 import { TravelPlanningEnum } from 'src/app/modules/hrm-main/hrm-enum/travel-planning.enum';
 import { DynamicTableModel } from 'src/app/modules/hrm-shared/core/shared/common/model/app.model';

@@ -10,7 +10,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { Table, TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApprovalOptions, BranchTypes, FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
 import { TimeSheetDetailsEnum } from 'src/app/modules/hrm-main/hrm-enum/attendance.enum';

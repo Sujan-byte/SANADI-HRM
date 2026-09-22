@@ -4,7 +4,7 @@ import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/
 import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
 import { DummyField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dummy.builder';
 import { OverlayPanelBuilder, TableBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/table.builder';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import {
   GradeGrossDeductionsModel,
   GradeGrossEarningsModel,

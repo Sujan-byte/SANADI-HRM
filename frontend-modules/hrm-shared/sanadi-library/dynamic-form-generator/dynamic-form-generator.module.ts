@@ -36,7 +36,6 @@ import { TableDialogComponent } from './fields/table-field/table-dialog/table-di
 import { DialogService } from 'primeng/dynamicdialog';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { DialogHandlerService } from 'src/app/modules/hrm-shared/core/shared/services/dialog-form.service';
 import { EditorJsComponent } from './fields/editor-js/editor-js.component';
 import { TableDynamicComponent } from './fields/table-dynamic/table-dynamic.component';
 import { PasswordComponent } from './fields/password/password.component';
@@ -123,6 +122,6 @@ import { PostingPreviewComponent } from '../sanadi-components/posting-preview/po
     DummyComponent,
     ButtonComponent,
   ],
-  providers: [ConfirmationService, MessageService, DialogService,DialogHandlerService,DatePipe],
+  providers: [ConfirmationService, MessageService, DialogService,DatePipe],
 })
 export class DynamicFormGeneratorModule {}

@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { EmployeeEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/employee-enum';
 import { PasswordFormConfig } from 'src/app/modules/hrm-shared/core/shared/common/forms/masters-forms/password-form.config.service';
 import { DynamicTableModel } from 'src/app/modules/hrm-shared/core/shared/common/model/app.model';

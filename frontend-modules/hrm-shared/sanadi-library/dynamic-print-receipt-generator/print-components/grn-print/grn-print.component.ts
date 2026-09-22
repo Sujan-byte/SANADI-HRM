@@ -2,7 +2,7 @@ import { GRNDetailsModel, GRNModel } from 'src/app/modules/hrm-shared/core/share
 import { CommonModule, DatePipe, DecimalPipe, NgForOf, NgIf } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { OAEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/sales-enum/order-acceptance.enum';
 import { BranchBankDetailsModel, BranchModel } from 'src/app/modules/hrm-shared/core/shared/common/model/admin/branch.model';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';

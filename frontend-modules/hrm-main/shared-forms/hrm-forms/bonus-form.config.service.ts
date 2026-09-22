@@ -2,7 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
 import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
 import { BonusDetails, BonusModel } from 'src/app/modules/hrm-shared/core/shared/common/model/hrm/bonus.model';
 import { BonusDetailsEnum, BonusEnum } from 'src/app/modules/hrm-main/hrm-enum/bonus.enum';

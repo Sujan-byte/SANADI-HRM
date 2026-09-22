@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { DepartmentEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/department-enum';
 import { DynamicTableModel } from 'src/app/modules/hrm-shared/core/shared/common/model/app.model';
 import { DepartmentModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/department.model';

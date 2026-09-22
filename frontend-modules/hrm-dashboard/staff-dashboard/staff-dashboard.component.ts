@@ -7,7 +7,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { ChartModule } from 'primeng/chart';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApiService } from 'src/app/core/services/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApprovalOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
 import { LeaveApplicationFormConfig } from 'src/app/modules/hrm-master/shared-forms/masters-forms/leave-application-form.config.service';
