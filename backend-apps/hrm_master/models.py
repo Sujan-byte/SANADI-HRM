@@ -1,32 +1,25 @@
-﻿# models.py
-import uuid
+﻿import uuid
 from collections import defaultdict
 from django.db.models import Q
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-
 from django.contrib.auth.models import Group
 from django.db import models
 from hrm_audit_fields.models import AuditUuidModelMixin
 from hrm_audit_fields.models.audit_model_mixin import AuditModelMixin
-# Vendor or Party master
 from hrm_audit_fields.models.Protect_Delete_Mixin import ProtectDeleteMixin, ProtectWithDeleteMixin, SoftDeleteMixin
 from hrm_audit_fields.models.softd_delete_mixin import SoftDeleteMixin
 from hrm_audit_fields.models.validator_mixin import DynamicValidatorModel
 from hrm_audit_fields.models.approval_model_mixin import ApprovalModelMixin
 from django.contrib.auth import get_user_model
-from security.models import (EditorConfiguration)
 from hrm_main.models import (AttendanceStatusMaster)
 from hrm_audit_fields.approval_stages.approval_stages_base_mixin import MultiApprovalMixinBase
 from hrm_utils.constants import ItemTypeConstants
-from django.contrib.contenttypes.models import ContentType 
-
-from branch.models import Branch
-
+from django.contrib.contenttypes.models import ContentType
+from .contract import resolve
 User = get_user_model()
 
 
-# UNIT MASTER
 class Department(AuditUuidModelMixin, ProtectDeleteMixin):
     department_code = models.CharField(max_length=100, blank=True, null=True)
     department_name = models.CharField(max_length=100, unique=True)
@@ -37,7 +30,6 @@ class Department(AuditUuidModelMixin, ProtectDeleteMixin):
         unique_together = ('department_name', 'b_id')
         ordering        = ['order', 'department_name']
 
-
 class Designation(AuditUuidModelMixin, ProtectDeleteMixin):
     designation_code = models.CharField(max_length=100, blank=True, null=True)
     designation_name = models.CharField(max_length=100)
@@ -45,7 +37,6 @@ class Designation(AuditUuidModelMixin, ProtectDeleteMixin):
     class Meta:
         db_table = 'master_designation'
         unique_together = ('designation_name', 'b_id')
-
 
 class AllowanceMaster(AuditUuidModelMixin, ProtectDeleteMixin):
     ALLOWANCE_TYPE_CHOICES = [
@@ -75,7 +66,6 @@ class AllowanceMaster(AuditUuidModelMixin, ProtectDeleteMixin):
         db_table = 'master_allowancemaster'
         unique_together = ('allowance_name', 'b_id')
 
-
 class Grade(AuditUuidModelMixin, ProtectDeleteMixin):
     grade_code = models.CharField(max_length=100, blank=True, null=True)
     grade_description = models.CharField(max_length=100)
@@ -88,7 +78,6 @@ class Grade(AuditUuidModelMixin, ProtectDeleteMixin):
     class Meta:
         db_table = 'master_grade'
         pass  # unique_together = ('grade_code', 'grade_description', 'b_id')
-
 
 class GradeMonthlyAllowanceDetails(AuditUuidModelMixin):
     gross_earnings = models.ForeignKey(Grade, on_delete=models.CASCADE, null=True,
@@ -107,7 +96,6 @@ class GradeMonthlyAllowanceDetails(AuditUuidModelMixin):
         default_permissions = {}
         ordering = ['salary_component__type', 'salary_component__order', 'id']
 
-
 class GradeMonthlyDeductionDetails(AuditUuidModelMixin):
     gross_deductions = models.ForeignKey(Grade, on_delete=models.CASCADE, null=True,
                                          blank=True, related_name="grade_gross_deductions")
@@ -124,7 +112,6 @@ class GradeMonthlyDeductionDetails(AuditUuidModelMixin):
         default_permissions = {}
         ordering = ['salary_component__type', 'salary_component__order', 'id']
 
-
 class LeaveDetails(AuditUuidModelMixin, DynamicValidatorModel):
     leave_type = models.CharField(max_length=100, default=None)
     number_of_leaves = models.FloatField(default=0, null=True, blank=True)
@@ -138,7 +125,6 @@ class LeaveDetails(AuditUuidModelMixin, DynamicValidatorModel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.row_name = f"{self.leave_type.capitalize() if self.leave_type is not None else ''}"
-
 
 class EmployeeMaster(AuditUuidModelMixin, SoftDeleteMixin):
     class Meta:
@@ -177,7 +163,7 @@ class EmployeeMaster(AuditUuidModelMixin, SoftDeleteMixin):
     system_user = models.BooleanField(default=False)
     reporting = models.CharField(max_length=100, null=True, default=None, blank=True)
     groups = models.ForeignKey(Group, on_delete=models.CASCADE, blank=True, null=True, related_name='securityGroup')
-    user = models.ForeignKey('security.User', on_delete=models.CASCADE, blank=True, null=True,
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True,
                              related_name='securityUser')
     user_password = models.CharField(max_length=1000, blank=True, null=True)
 
@@ -219,7 +205,7 @@ class EmployeeMaster(AuditUuidModelMixin, SoftDeleteMixin):
     fhc_image=models.FileField(upload_to="images", blank=True, null=True)
 
     # branch = models.CharField(max_length=100, null=True, default=None, blank=True)
-    branch = models.ForeignKey('branch.Branch', on_delete=models.PROTECT, null=True, blank=True, related_name='employees')
+    branch = models.ForeignKey(resolve("BRANCH"), on_delete=models.PROTECT, null=True, blank=True, related_name='employees')
 
 
     profile_image = models.ImageField(upload_to="images", blank=True, null=True)
@@ -309,7 +295,6 @@ class EmployeeMaster(AuditUuidModelMixin, SoftDeleteMixin):
         default=None
     )
 
-
 class PreviousEmploymentDetails(AuditUuidModelMixin, DynamicValidatorModel):
     employee_previous = models.ForeignKey(EmployeeMaster, on_delete=models.SET_NULL, null=True, blank=True,
                                           related_name="previous_employments")
@@ -339,7 +324,6 @@ class EmployeeLetterImages(AuditUuidModelMixin):
     class Meta:
         db_table = 'master_employeeletterimages'
         ordering = ['created']
-
 
 class DocumentTypeMaster(AuditUuidModelMixin):
     # Michellin only manages Employee documents (no Equipment/Attachment entities), so this is locked to Employee.
@@ -388,7 +372,6 @@ class DocumentTypeMaster(AuditUuidModelMixin):
         db_table = 'master_documenttypemaster'
         ordering = ["id"]
 
-
 class EmployeeDocumentsDetails(AuditUuidModelMixin, DynamicValidatorModel):
     employee_document = models.ForeignKey("hrm_master.EmployeeMaster", on_delete=models.CASCADE, null=True,
                                           blank=True,
@@ -411,7 +394,6 @@ class EmployeeDocumentsDetails(AuditUuidModelMixin, DynamicValidatorModel):
         default_permissions = {}
         ordering = ['id']
 
-
 class LeaveEntry(AuditUuidModelMixin, ApprovalModelMixin, metaclass=MultiApprovalMixinBase):
     employee = models.ForeignKey(EmployeeMaster, on_delete=models.SET_NULL, null=True, blank=True)
     leave_type = models.ForeignKey(AttendanceStatusMaster, on_delete=models.SET_NULL, null=True, blank=True)
@@ -430,7 +412,7 @@ class LeaveEntry(AuditUuidModelMixin, ApprovalModelMixin, metaclass=MultiApprova
     comp_off_date = models.JSONField(default=dict, blank=True)
     is_system_generated = models.BooleanField(default=False)
     travel_or_leave = models.CharField(max_length=100, null=True, blank=True)
-    delegated_reviewer = models.ForeignKey('security.User', on_delete=models.PROTECT, null=True, blank=True,
+    delegated_reviewer = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True,
                                            related_name='delegated_reviewer')
     delegated_reviewer_mail_sent = models.BooleanField(default=False)
     holiday_days = models.FloatField(default=0, blank=True, null=True)
@@ -474,7 +456,6 @@ class LeaveEntry(AuditUuidModelMixin, ApprovalModelMixin, metaclass=MultiApprova
         )
         return config
 
-
 class LeaveMaster(AuditUuidModelMixin):
     employee = models.ForeignKey(EmployeeMaster, on_delete=models.SET_NULL, null=True, blank=True)
     total_allocated_leaves = models.FloatField(default=0, blank=True, null=True)
@@ -486,7 +467,6 @@ class LeaveMaster(AuditUuidModelMixin):
         permissions = [
             ('custom_show_all_employees', 'Can view all employees')
         ]
-
 
 class LeaveMasterDetails(AuditUuidModelMixin):
     leave_master = models.ForeignKey(LeaveMaster, on_delete=models.CASCADE, null=True, blank=True,
@@ -505,7 +485,6 @@ class LeaveMasterDetails(AuditUuidModelMixin):
         db_table = 'master_leavemasterdetails'
         default_permissions = {}
         ordering = ('id',)
-
 
 class LeaveMasterDetailBreakup(AuditUuidModelMixin):
     ENTRY_TYPE_CHOICES = [
@@ -538,7 +517,6 @@ class LeaveMasterDetailBreakup(AuditUuidModelMixin):
         ordering = ('id',)
         # unique_together = ("leave_master_detail", "leave_policy_detail")  # Prevent duplicate allocations
 
-
 class HolidayMaster(AuditUuidModelMixin, ApprovalModelMixin):
     date = models.DateField(null=True, default=None, blank=True)
     to_date = models.DateField(null=True, default=None, blank=True)
@@ -548,7 +526,6 @@ class HolidayMaster(AuditUuidModelMixin, ApprovalModelMixin):
     class Meta:
         db_table = 'master_holidaymaster'
         unique_together = ('date', 'to_date', 'b_id')
-
 
 class ProfessionalTaxSlab(AuditUuidModelMixin):
     min_salary = models.DecimalField(max_digits=10, decimal_places=2, help_text="Minimum salary for the slab")
@@ -564,7 +541,6 @@ class ProfessionalTaxSlab(AuditUuidModelMixin):
     def __str__(self):
         return f"{self.min_salary} to {self.max_salary or 'No Limit'}: {self.tax_amount}"
 
-
 class ShiftTimings(AuditUuidModelMixin):
     class Meta:
         db_table = 'master_shifttimings'
@@ -579,7 +555,6 @@ class ShiftTimings(AuditUuidModelMixin):
 
     def __str__(self):
         return self.shift_name
-
 
 class LeaveApplication(AuditUuidModelMixin, ProtectDeleteMixin, ApprovalModelMixin, metaclass=MultiApprovalMixinBase):
     employee_code = models.ForeignKey(EmployeeMaster, on_delete=models.SET_NULL, null=True, blank=True,
@@ -656,7 +631,7 @@ class LeaveApplication(AuditUuidModelMixin, ProtectDeleteMixin, ApprovalModelMix
     # emp_sign_date = models.DateField(blank=True, null=True)
     # manager_signature = models.ImageField(upload_to="images", blank=True, null=True)
     # manager_sign_date = models.DateField(blank=True, null=True)
-    delegated_reviewer = models.ForeignKey('security.User', on_delete=models.PROTECT, null=True, blank=True,
+    delegated_reviewer = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True,
                                            related_name='la_delegated_reviewer')
     delegated_reviewer_mail_sent = models.BooleanField(default=False)
     is_passport_received = models.BooleanField(default=False)
@@ -695,7 +670,6 @@ class LeaveApplication(AuditUuidModelMixin, ProtectDeleteMixin, ApprovalModelMix
             alternative_authority_variant='employee_code__first_reporting_authority__user__id'
         )
         return config
-
 
 class LeavePolicy(AuditUuidModelMixin, ProtectDeleteMixin):
     employee_type = models.CharField(max_length=100, null=True, blank=True)
@@ -747,7 +721,6 @@ class LeavePolicy(AuditUuidModelMixin, ProtectDeleteMixin):
         #                             condition=Q(employee_type__isnull=False) & Q(type_of_leave__isnull=False))
         # ]
 
-
 class LeavePolicyDetail(AuditUuidModelMixin, ProtectDeleteMixin):
     leave_policy = models.ForeignKey(LeavePolicy, on_delete=models.CASCADE,
                                      related_name="leave_policy_details")
@@ -760,7 +733,6 @@ class LeavePolicyDetail(AuditUuidModelMixin, ProtectDeleteMixin):
         default_permissions = {}
         verbose_name = 'Leave Policy Detail'
         verbose_name_plural = 'Leave Policy Details'
-
 
 class TicketMaster(AuditUuidModelMixin):
     employee = models.OneToOneField(
@@ -783,7 +755,6 @@ class TicketMaster(AuditUuidModelMixin):
         verbose_name = "Ticket Master"
         verbose_name_plural = "Ticket Masters"
 
-
 class TicketHistory(AuditUuidModelMixin):
     ticket_master = models.ForeignKey(TicketMaster, on_delete=models.CASCADE, related_name='ticket_histories')
     availed_date = models.DateField(null=True, blank=True, default=None)
@@ -798,7 +769,6 @@ class TicketHistory(AuditUuidModelMixin):
         db_table = 'master_tickethistory'
         verbose_name = "Ticket History"
         verbose_name_plural = "Ticket Histories"
-
 
 class AllowanceAssignment(AuditUuidModelMixin, ProtectDeleteMixin, ApprovalModelMixin):
     """MNC-standard allowance assignment: one record per employee per allowance.
@@ -859,7 +829,6 @@ class AllowanceAssignment(AuditUuidModelMixin, ProtectDeleteMixin, ApprovalModel
         db_table = 'master_allowanceassignment'
         ordering = ['-created']
 
-
 class SalaryComponents(AuditUuidModelMixin, ProtectDeleteMixin):
     type = models.CharField(max_length=100, blank=True, null=True, default='')
     component = models.CharField(max_length=100, blank=True, null=True, default='')
@@ -870,7 +839,6 @@ class SalaryComponents(AuditUuidModelMixin, ProtectDeleteMixin):
         pass
         ordering = ['type', 'order']
         # unique_together = ('component', 'b_id', 'type',)
-
 
 class ShiftMaster(AuditUuidModelMixin):
         
@@ -892,7 +860,6 @@ class ShiftMaster(AuditUuidModelMixin):
     class Meta:
         db_table = 'master_shiftmaster'
         pass
-
 
 class LeaveReversalRequest(AuditUuidModelMixin, ApprovalModelMixin,metaclass=MultiApprovalMixinBase):
     leave_entry = models.ForeignKey('LeaveEntry', on_delete=models.CASCADE, related_name='reversals' , default=None, null=True)
@@ -951,7 +918,6 @@ class LeaveReversalRequest(AuditUuidModelMixin, ApprovalModelMixin,metaclass=Mul
         )
         return config
 
-
 class LeaveExtension(AuditUuidModelMixin,ApprovalModelMixin):
     """
     Leave Extension Request — one record per extension event.
@@ -979,7 +945,7 @@ class LeaveExtension(AuditUuidModelMixin,ApprovalModelMixin):
     extension_lop_attendance_ids = models.JSONField(default=list, blank=True)
     reason = models.TextField(blank=True, null=True)
     delegated_reviewer = models.ForeignKey(
-        'security.User', on_delete=models.SET_NULL,
+        User, on_delete=models.SET_NULL,
         null=True, blank=True, related_name='leave_extension_reviewer'
     )
 
