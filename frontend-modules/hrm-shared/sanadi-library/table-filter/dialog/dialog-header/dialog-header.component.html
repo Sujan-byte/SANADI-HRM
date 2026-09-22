@@ -1,0 +1,23 @@
+<!-- <p-confirmPopup></p-confirmPopup> -->
+<!-- <p-confirmDialog></p-confirmDialog> -->
+<confirmation-custom-dialog></confirmation-custom-dialog>
+<div class="flex h-full w-full flex-row justify-content-between align-items-center">
+    <div>
+        <span class="font-semibold text-lg">{{dialogConfig?.header | translate}}</span>
+    </div>
+    <div class="flex gap-2 flex-row dialog-header-icon">
+        <!-- @if(dialogConfig.data?.config?.dialogConfig?.headerActions){
+            @defer{
+                @for(key of dialogConfig.data?.config?.dialogConfig?.headerActions; track key.label){
+                    <button pButton [label]="key?.label" class="primary" [icon]="key?.icon" (click)="onActionClick(key?.action)"></button>
+                }
+            }
+        } -->
+        <!-- MAXIMIZE BUTTON -->
+        <button type="button" pButton pRipple class="border-circle" (click)="onToggleMaximize($event)"
+            [icon]="isMaximize ? 'pi pi-window-maximize' : 'pi pi-window-minimize'"></button>
+        <!-- CLOSE BUTTON -->
+        <button type="button" pButton pRipple class="border-circle" (click)="onClickClose($event)"
+            icon="pi pi-times"></button>
+    </div>
+</div>

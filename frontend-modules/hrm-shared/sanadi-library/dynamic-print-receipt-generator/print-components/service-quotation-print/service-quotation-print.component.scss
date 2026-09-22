@@ -1,0 +1,177 @@
+th{
+    font-weight: 600;
+}
+.container {
+    // justify-content: space-around;
+
+    .logo {
+        font-size: medium;
+        // margin-top: 4%;
+        display: flex;
+        flex-direction: row;
+
+        img {
+            width: 105px;
+            height: 75px;
+        }
+    }
+}
+
+.line-with-text {
+    position: relative;
+    display: block;
+    padding: 0 30%;
+    /* Adjust the padding as needed */
+}
+
+.line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 0;
+    /* Set height to 0 */
+    border-top: 1px solid #c7c7c7;
+    /* Use a border instead of background for line effect */
+}
+// .emptyDiv{
+//     background-color: white;
+//     height:120px;
+// }
+
+.text {
+    position: relative;
+    z-index: 1;
+    background-color: white;
+    /* Set the background color to match your container's background */
+    padding: 0 10%;
+    /* Add padding to create space between text and line */
+    font-size: 26px;
+    font-weight: 450;
+    line-height: 1;
+    /* Adjust the line height to control the gap between text and line */
+    color: darkblue;
+}
+
+thead {
+    display: table-header-group;
+}
+
+// #table1{
+//     margin-top: -120px;
+// }
+
+tr {
+    page-break-inside: avoid;
+}
+
+@media print {
+    // #header{
+    //     position: fixed;
+    //     top:0;
+    //     left:0;
+    //     right:0;
+    // }
+    tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+
+    .breakPage {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+
+    .footer-repeat {
+        display: table-footer-group;
+    }
+
+    .cards {
+        font-size: 12px;
+        background-color: white !important;
+
+        .changescolor {
+            position: fixed;
+            height: 100vh;
+            width: 100vw;
+            background-color: white;
+        }
+
+        .footer {
+
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: left;
+            background-color: rgb(255, 255, 255) !important;
+            padding: 0px;
+            border-top: 1px solid black;
+            margin-top: 20PX;
+            font-size: 10px;
+        }
+
+
+
+    }
+
+}
+
+.thead-padding {
+    tr {
+        th {
+            padding: 3% 0;
+        }
+    }
+}
+
+.word-wrap {
+    white-space: pre-wrap;
+    /* Preserve spaces and wrap text */
+}
+
+/* Add a line break after each space */
+.word-wrap::before {
+    content: '\A';
+    white-space: pre;
+    /* Preserve spaces in ::before content */
+}
+
+.label {
+    width: 120px;
+    /* Adjust the width as needed */
+    display: inline-block;
+    text-align: right;
+    margin-right: 10px;
+    /* Add some spacing between the label and the value */
+}
+.totalDetails{
+    page-break-inside: avoid;
+}
+
+.container {
+    // justify-content: space-around;
+
+    .logo {
+        font-size: medium;
+        // margin-top: 4%;
+        display: flex;
+        flex-direction: row;
+
+        img {
+            width: 105px;
+            height: 75px;
+        }
+    }
+}
+
+.small-text {
+    font-size: 9px;
+  }
+  
+  @media print {
+    .small-text {
+      font-size: 8px;
+    }
+  }
+  

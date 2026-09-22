@@ -1,0 +1,635 @@
+<div class="cards" style="color: black; background-color: white !important; ">
+    <div class="col-12"
+        style="display: flex; flex-direction: row; justify-content: space-between; align-items: flex-start;">
+        <div class="container" style="flex: 1; text-align: left;">
+            &nbsp;
+            <!-- <div class="logo">
+                <img src="{{companyLogo}}" alt="logo" class="img-fluid" style="width: 100px; height: auto;">
+            </div> -->
+        </div>
+        <div class="container" style="flex: 1; text-align: right;">
+            <div class="logo">
+                <img src="{{companyLogo}}" alt="logo" class="img-fluid" style="width: 100px; height: auto;">
+            </div>
+        </div>
+    </div>
+    <div class="flex justify-content-center" style="margin-bottom: 10px;">
+        <h4><b>COMMERCIAL PROFORMA INVOICE</b></h4>
+    </div>
+    <!-- @if(invoiceObj?.signed_qr_code){
+    <div class="flex justify-content-between align-items-center border-solid border-600 border-1 mt-2 p-2">
+        <div>
+            <p>IRN: <b>{{invoiceObj?.irn_number}}</b></p>
+            <p>Ack No.: <b>{{invoiceObj?.ack_no}}</b></p>
+            <p>Ack Date: <b>{{ invoiceObj?.ack_date | date: 'dd-MMM-yyyy' }}</b></p>
+
+        </div>
+
+        <div class="flex flex-column justify-content-center align-items-center">
+            <span class="font-semibold">e-Invoice</span>
+            <qrcode [qrdata]="invoiceObj?.signed_qr_code" [width]="180" [errorCorrectionLevel]="'M'"></qrcode>
+        </div>
+
+    </div>
+    } -->
+    <div class="flex flex-row">
+        <div class="w-7  border-1 border-bottom-none  border-black-alpha-90">
+            <div class="p-2  border-bottom-1 border-black-alpha-90">
+                <div class="font-bold">{{companyName}}</div>
+                <span *ngIf="registeredAddress">
+                    <div *ngFor="let address of getTextarea(registeredAddress)">
+                        {{ address }}
+                    </div>
+                    <div *ngIf="stateName && stateCode">State Name: {{ stateName }}, Code: {{ stateCode }}</div>
+                </span>
+                <!-- <div *ngIf="gstNo">GSTIN/UIN: {{ gstNo }}</div> -->
+                <!-- <div *ngIf="stateName && stateCode">
+                    State Name: {{ stateName }}, Code: {{ stateCode }}
+                </div> -->
+                <!-- <div *ngIf="phoneNo">Contact: {{ phoneNo }}</div> -->
+                <!-- <div *ngIf="email">Email: {{ email }}</div> -->
+                <div *ngIf="cinNo">CIN: {{ cinNo }}</div>
+            </div>
+
+            <div class="p-2 border-black-alpha-90">
+                <div>Buyer (Bill to)</div>
+                <span>{{invoiceObj?.party_name}}</span>
+                <div *ngFor="let description of getTextarea(invoiceObj?.bill_to_address)">
+                    {{ description }}
+                </div>
+                <div *ngIf="selectCustomerObject?.billing_gstin_no">GSTIN/UIN: {{ gstNo }}</div>
+                <div *ngIf="selectCustomerObject?.billing_state && selectCustomerObject?.billing_state_code">
+                    State Name: {{ selectCustomerObject?.billing_state || '' }}, Code: {{
+                    selectCustomerObject?.billing_state_code || '' }}
+                </div>
+            </div>
+            <div class="p-2 border-top-1 border-black-alpha-90">
+                <div>Consignee (Ship to)</div>
+                <span>{{invoiceObj?.party_name}}</span>
+                <div *ngFor="let description of getTextarea(invoiceObj?.ship_to_address || invoiceObj?.bill_to_address)">
+                    {{ description }}
+                </div>
+            </div>
+        </div>
+        <div class="w-5 h-40rem border-black-alpha-90 border-right-1 border-black-alpha-90">
+            <div class="flex flex-row  border-black-alpha-90">
+                <div class="w-6 p-2 border-top-1 border-bottom-1  border-black-alpha-90">
+                    <div>
+                        Proforma Invoice No
+                    </div>
+                    <div
+                        style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;font-size: small;">
+                        {{invoiceObj?.proforma_invoice_no}}
+                    </div>
+                </div>
+                <div class="w-6 p-2 border-1 border-black-alpha-90 border-right-none ">
+                    <div>
+                        Invoice Date
+                    </div>
+                    <div
+                        style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;font-size: small;">
+                        {{invoiceObj?.invoice_date}}
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="flex flex-row ">
+                <div class="w-6 p-2 border-bottom-1 border-black-alpha-90">
+                    <div>
+                        Sales Order No.<br><br>
+                    </div>
+                    <div
+                        style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;font-size: small;">
+                        {{invoiceObj?.default_order_acceptance_object[0].oa_number}}
+                    </div>
+                </div>
+                <div class="w-6 p-2 border-left-1 border-bottom-1 border-black-alpha-90 border-right-none ">
+                    <div>
+                        Other Reference(s)<br><br>
+                    </div>
+                    <div
+                        style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;font-size: small;">
+
+                    </div>
+                </div>
+            </div> -->
+            <div class="flex flex-row">
+                <div class="w-6 p-2 border-bottom-1 border-black-alpha-90" style="text-wrap: wrap;">
+                    <div>
+                        Customer PO No.
+                    </div>
+                    <div
+                    style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;font-size: small;">
+                        {{invoiceObj?.customer_po_no}}
+                    </div>
+                </div>
+                <div class="w-6 p-2 border-left-1  border-bottom-1 border-black-alpha-90 border-right-none"
+                    style="text-wrap: wrap;">
+                    <div>
+                        Customer PO Date.
+                    </div>
+                    <div
+                        style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;font-size: small;">
+                        {{invoiceObj?.customer_po_date}}
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="flex flex-row">
+                <div class="w-6 p-2 border-bottom-1 border-black-alpha-90," style="text-wrap: wrap;">
+                    <div>
+                        Dispatch Doc No.
+                    </div>
+                    <div
+                        style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;font-size: small;">
+                        {{invoiceObj?.dispatch_doc_no}}
+                    </div>
+                </div>
+                <div class="w-6 p-2 border-left-1  border-bottom-1 border-black-alpha-90 border-right-none"
+                    style="text-wrap: wrap;">
+                    <div>
+                        Delivery Challan Date.
+                    </div>
+                    <div
+                        style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;font-size: small;">
+                        {{invoiceObj?.delivery_date}}
+                    </div>
+                </div>
+            </div> -->
+            <!-- <div class="flex flex-row" *ngIf="invoiceObj?.is_sez">
+                <div class="w-6 p-2 border-bottom-1 border-black-alpha-90," style="text-wrap: wrap;">
+                    <div>
+                        LUT/Bond No.: {{invoiceObj?.lut_number}}
+                    </div>
+                </div>
+                <div class="w-6 p-2 border-left-1  border-bottom-1 border-black-alpha-90 border-right-none"
+                    style="text-wrap: wrap;">
+                    <div>
+                        <div> From Date: {{invoiceObj?.from_date}} </div>
+                        To Date: {{invoiceObj?.to_date}}
+                    </div>
+                </div>
+            </div> -->
+            <div class="">
+                <div class="ml-2">Terms and Conditions</div>
+                <table>
+                    <tbody style="text-align: justify; color: black; font-size: 12px;">
+                        <tr class="ml-2"
+                            *ngFor="let item of invoiceObj?.proforma_invoice_terms_and_condition; let index = index;">
+                            <td class="ml-2">
+                                {{ index + 1 }}
+                                <!-- {{ item?.term }} -->
+                                <span *ngIf="item?.term && item?.description "></span> {{
+                                item?.description }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <table class="w-12" style="border-collapse: collapse; text-align: center; color: black;">
+        <thead class="text-base">
+            <tr>
+                <th rowspan="2" class="w-0 p-2 border-1 border-black-alpha-90 w-1">Sl.No.</th>
+                <th rowspan="2" class="w-2 p-2 border-1 border-black-alpha-90">Description</th>
+                <th rowspan="2" class="w-1 p-2 border-1 border-black-alpha-90">UOM</th>
+                <th rowspan="2" class="w-1 p-2 border-1 border-black-alpha-90">HS Code</th>
+                <th rowspan="2" class="w-1 p-2 border-1 border-black-alpha-90">Quantity</th>
+                <th rowspan="2" class="w-1 p-2 border-1 border-black-alpha-90">Rate ({{ invoiceObj?.cpi_currency || 'AED' }}) </th>
+                <th rowspan="2" class="w-1 p-2 border-1 border-black-alpha-90">Amount</th>
+                <th rowspan="2" class="w-1 p-2 border-1 border-black-alpha-90">Discount %</th>
+                <th *ngIf="hasDiscount()" rowspan="2" class="w-1 p-2 border-1 border-black-alpha-90">Discount Amount
+                </th>
+                <th *ngIf="hasDiscount()" rowspan="2" class="w-1 p-2 border-1 border-black-alpha-90">Taxable
+                    Value</th>
+                <ng-container *ngIf="hasTaxValue()">
+                    <ng-container *ngIf="invoiceObj?.igst === 0; else IGST">
+                        <th colspan="2" class="w-2 p-0 border-1 border-black-alpha-90">VAT</th>
+                    </ng-container>
+                    <ng-template #IGST>
+                        <th colspan="2" class="w-2 p-0 border-1 border-black-alpha-90">IGST</th>
+                    </ng-template>
+                </ng-container>
+                <th *ngIf="hasTaxValue() || hasDiscount()" rowspan="2" class="w-2 p-1 border-1 border-black-alpha-90">
+                    Total Amount
+                    <span *ngIf="invoiceObj.currency">({{ invoiceObj.currency }})</span>
+                    ({{ invoiceObj?.cpi_currency || 'AED' }})
+                    <!-- <span *ngIf="!invoiceObj.currency">(INR)</span> -->
+                </th>
+            </tr>
+            <tr *ngIf="hasTaxValue()">
+                <th class="w-0 p-2 border-1 border-black-alpha-90">Rate</th>
+                <th class="w-0 p-2 border-1 border-black-alpha-90">Amount</th>
+            </tr>
+        </thead>
+        <tbody class="text-base">
+            <tr *ngFor="let item of invoiceObj?.proforma_invoice_details; let index = index;">
+                <td class="w-0 p-2 border-1 border-black-alpha-90 align-content-start w-1">{{ index + 1 }}</td>
+                <td class="w-2 p-2 border-1 border-black-alpha-90 align-content-start">
+                    <!-- <div *ngIf="item.description">{{ item.description }}</div> -->
+                    <div class="text-left">
+                        <small class="label">Project code :</small><small class="value">{{ item?.item_code ?
+                            item.item_code : "-" }}</small><br />
+                        <small class="label">Product Name :</small><small class="value">{{ item?.product_name ?
+                            item.product_name : "-" }}</small><br />
+                        <small class="label">Part number :</small><small class="value">{{ item?.part_number ?
+                            item.part_number : "-" }}</small><br />
+                        <!-- <small class="label">SL.No :</small><small class="value">{{ item?.serial_number ?
+                            item.serial_number : "-" }}</small> -->
+                    </div>
+                </td>
+                <td class="w-1 p-2 border-1 border-black-alpha-90">
+                    {{ item?.unit_name }}
+                </td>
+                <td class="w-1 p-2 border-1 border-black-alpha-90">{{ item.hsn }}
+                </td>
+                <td class="w-1 p-2 border-1 border-black-alpha-90">
+                    <span style="text-align: center;">{{ item?.shipping_qty }} </span>
+                </td>
+                <td class="w-1 p-2 border-1 border-black-alpha-90">{{ item?.unit_price | number:'1.0-2'}}</td>
+                <td class="w-1 p-2 border-1 border-black-alpha-90">{{ item?.total_amount | number:'1.0-2'}}</td>
+                <td *ngIf="hasDiscount()" class="w-1 p-2 border-1 border-black-alpha-90">{{
+                    item?.discount | number:'1.0-2'}}</td>
+                <td *ngIf="hasDiscount()" class="w-1 p-2 border-1 border-black-alpha-90">{{
+                    item?.discount_amount | number:'1.0-2'}}</td>
+                <td *ngIf="hasDiscount()" class="w-1 p-2 border-1 border-black-alpha-90">
+                    {{ (item?.total_amount - item?.discount_amount)| number:'1.0-2' }}
+                </td>
+                <td *ngIf="hasTaxValue()" class="w-0 p-2 border-1 border-black-alpha-90">{{ item?.tax || 0 |
+                    number:'1.0-2'}} %
+                </td>
+                <td *ngIf="hasTaxValue()" class="w-0 p-2 border-1 border-black-alpha-90">{{ item?.tax_value || 0
+                    | number:'1.0-2' }}</td>
+                <td *ngIf="hasTaxValue() || hasDiscount()" class="w-2 p-2 border-1 border-black-alpha-90">
+                    {{ (item?.total_amount - item?.discount_amount) + item?.tax_value | number:'1.0-2' }}
+                </td>
+            </tr>
+        </tbody>
+        <tr class="text-base">
+            <td class="w-0 p-2 border-1 border-black-alpha-90 w-1"></td>
+            <td class="w-3 p-2 border-1 border-black-alpha-90 align-items-end text-right">Total</td>
+
+            <td class="w-1 p-2 border-1 border-black-alpha-90"></td>
+            <td class="w-1 p-2 border-1 border-black-alpha-90"></td>
+            <td class="w-1 p-2 border-1 border-black-alpha-90" style="text-align: center;">
+                {{ invoiceObj?.total_qty }}
+            </td>
+            <td class="w-1 p-2 border-1 border-black-alpha-90"></td>
+            <td class="w-1 p-2 border-1 border-black-alpha-90"></td>
+            <td *ngIf="hasDiscount()" class="w-1 p-2 border-1 border-black-alpha-90">
+            </td>
+            <td *ngIf="hasDiscount()" class="w-1 p-2 border-1 border-black-alpha-90">
+            </td>
+            <td *ngIf="hasDiscount()" class="w-1 p-2 border-1 border-black-alpha-90">
+                {{ calculateTotal() | number:'1.0-2' }}
+            </td>
+            <td *ngIf="hasTaxValue()" class="w-1 p-2 border-1 border-black-alpha-90"></td>
+            <td *ngIf="hasTaxValue()" class="w-1 p-2 border-1 border-black-alpha-90">
+                {{ calculateTaxTotal() | number:'1.0-2' }}
+            </td>
+            <td *ngIf="hasTaxValue() || hasDiscount()" class="w-1 p-2 border-1 border-black-alpha-90">
+                {{ grandTotalValue() | number:'1.0-2' }}
+            </td>
+        </tr>
+        <!-- <tr *ngIf="invoiceObj?.freight_charges">
+            <td [attr.colspan]="calculateColspan()"
+                style="text-align: right; font-size: 12px; padding: 5px; border: 1px solid black;">
+                Freight Charges
+            </td>
+            <td style="text-align: center;font-size: 12px; padding: 5px; border: 1px solid black;">
+                {{ invoiceObj?.freight_charges | number: '1.0-2' }}
+            </td>
+        </tr> -->
+        <tr>
+            <td colspan="12"
+                style="text-align:right; font-size:11px; border:1px solid black; padding:5px;">
+                Freight Charges
+            </td>
+            <td style="text-align:center; font-size:11px; border:1px solid black;">
+                {{ invoiceObj?.freight_charges | number:'1.0-2' }}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12"
+                style="text-align:right; font-size:11px;  border:1px solid black; padding:5px;">
+                Adjustment Amount ({{ invoiceObj?.cpi_currency || 'AED' }})
+            </td>
+            <td style="text-align:center; font-size:11px; border:1px solid black;">
+                {{ invoiceObj?.adjust_amount | number:'1.0-2' }}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12"
+                style="text-align:right; font-size:11px;  border:1px solid black; padding:5px;">
+                Other Charges ({{ invoiceObj?.other_charges_type || '' }})
+            </td>
+            <td style="text-align:center; font-size:11px; border:1px solid black;">
+                {{ invoiceObj?.other_charges | number:'1.0-2' }}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12"
+                style="text-align:right;font-size:11px; border:1px solid black; padding:5px;">
+                Grand Total
+            </td>
+            <td style="text-align:center;font-size:11px; border:1px solid black;">
+                {{ invoiceObj?.grand_total | number: '1.0-2' }}
+            </td>
+        </tr>
+        <!-- <tr *ngIf="invoiceObj?.adjust_amount">
+            <td [attr.colspan]="calculateColspan()"
+                style="text-align: right; font-size: 12px; padding: 5px; border: 1px solid black;">
+                Adjustment Amount ({{ invoiceObj?.cpi_currency || 'AED' }})
+            </td>
+            <td style="text-align: center; font-size: 12px; padding: 5px; border: 1px solid black;">
+                {{ invoiceObj?.adjust_amount | number: '1.0-2' }}
+            </td>
+        </tr>
+        <tr *ngIf="invoiceObj?.packing">
+            <td [attr.colspan]="calculateColspan()"
+                style="text-align: right; font-size: 12px; padding: 5px; border: 1px solid black;">
+                Packing ({{ invoiceObj?.cpi_currency || 'AED' }})
+            </td>
+            <td style="text-align: center; font-size: 12px; padding: 5px; border: 1px solid black;">
+                {{ invoiceObj?.packing | number: '1.0-2' }}
+            </td>
+        </tr>
+        <tr *ngIf="invoiceObj?.other_charges">
+            <td [attr.colspan]="calculateColspan()"
+                style="text-align: right; font-size: 12px; padding: 5px; border: 1px solid black;">
+                Other Charges ({{ invoiceObj?.other_charges_type || '' }})
+            </td>
+            <td style="text-align: center; font-size: 12px; padding: 5px; border: 1px solid black;">
+                {{ invoiceObj?.other_charges | number: '1.0-2' }}
+            </td>
+        </tr>
+        <tr *ngIf="invoiceObj?.charge_value || invoiceObj?.tcs || invoiceObj?.adjust_amount">
+            <td [attr.colspan]="calculateColspan()"
+                style="text-align: right; font-size: 12px; padding: 5px; border: 1px solid black;">
+                Grand Total
+            </td>
+            <td style="text-align: center; font-size: 12px; padding: 5px; border: 1px solid black;">
+                {{ invoiceObj?.grand_total | number: '1.0-2' }}
+            </td>
+        </tr> -->
+    </table>
+    <div class="p-2 border-left-1 border-right-1 border-black-alpha-90">
+        <div style="display: flex; justify-content: space-between;">
+            <div>Amount Chargeable (in words)</div>
+            <div>E.& OE</div>
+        </div>
+        <div style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;font-size: small;">
+            Total :
+            {{this.amountInWord(invoiceObj?.grand_total )}}</div>
+    </div>
+
+
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+            <tr>
+                <td style="border:1px solid #000;padding:6px;width:25%; color:black;">Country Of Origin</td>
+                <td style="border:1px solid #000;padding:6px;width:25%; color:black;">{{ invoiceObj?.country_of_origin }}</td>
+                <td style="border:1px solid #000;padding:6px;width:25%; color:black;">Port of Loading</td>
+                <td style="border:1px solid #000;padding:6px;width:25%; color:black;">{{ invoiceObj?.port_of_loading }}</td>
+            </tr>
+
+            <tr>
+                <td style="border:1px solid #000;padding:6px; color:black;">Destination</td>
+                <td style="border:1px solid #000;padding:6px; color:black;">{{ invoiceObj?.destination }}</td>
+                <td style="border:1px solid #000;padding:6px; color:black;">Net Weight/KG</td>
+                <td style="border:1px solid #000;padding:6px; color:black;">{{ invoiceObj?.net_weight }}</td>
+            </tr>
+
+            <tr>
+                <td style="border:1px solid #000;padding:6px; color:black;">Gross Weight/KG</td>
+                <td style="border:1px solid #000;padding:6px; color:black;">{{ invoiceObj?.gross_weight }}</td>
+                <td style="border:1px solid #000;padding:6px; color:black;">Part Of Shipment</td>
+                <td style="border:1px solid #000;padding:6px; color:black;">{{ invoiceObj?.part_of_shipment }}</td>
+            </tr>
+
+            <tr>
+                <td style="border:1px solid #000;padding:6px; color:black;">Transportation Terms</td>
+                <td style="border:1px solid #000;padding:6px; color:black;">{{ invoiceObj?.transportation_terms }}</td>
+                <td style="border:1px solid #000;padding:6px; color:black;">Destination of Packing</td>
+                <td style="border:1px solid #000;padding:6px; color:black;">{{ invoiceObj?.description_packing }}</td>
+            </tr>
+
+            <tr>
+                <td style="border:1px solid #000;padding:6px; color:black;">Payment Terms</td>
+                <td style="border:1px solid #000;padding:6px; color:black;">{{ invoiceObj?.payment_terms }}</td>
+                <td style="border:1px solid #000;padding:6px; color:black;">Mode of Transportation</td>
+                <td style="border:1px solid #000;padding:6px; color:black;">{{ invoiceObj?.mode_of_transportation }}</td>
+            </tr>
+
+            <tr>
+                <td style="border:1px solid #000;padding:6px; color:black;">CPI Currency</td>
+                <td style="border:1px solid #000;padding:6px; color:black;">{{ invoiceObj?.cpi_currency }}</td>
+                <td style="border:1px solid #000;padding:6px; color:black;">Delivery Terms</td>
+                <td style="border:1px solid #000;padding:6px; color:black;">{{ invoiceObj?.delivery_terms }}</td>
+            </tr>
+
+            <tr>
+                <td style="border:1px solid #000;padding:6px; color:black;">Delivery Date</td>
+                <td style="border:1px solid #000; padding:6px; color:black;">{{ invoiceObj?.delivery_date }}</td>
+                <td style="border:1px solid #000; border-bottom:0px; padding:6px; color:black;">PGM Remark</td>
+                <td style="border:1px solid #000; border-bottom:0px; padding:6px; color:black;">{{ invoiceObj?.pgm_remark }}</td>
+            </tr>
+    </table>
+
+    <!-- <span *ngIf="this.hasTaxValue() == true">
+        <table class="table table-sm text-nowrap w-12" style="border-collapse: collapse;">
+            <thead>
+                <tr class="text-base">
+                    <th class="w-3 p-2 border-1 border-black-alpha-90">HSN/SAC</th>
+                    <th class="w-2 p-2 border-1 border-black-alpha-90">Taxable Value</th>
+                    <ng-container *ngIf="invoiceObj?.igst === 0; else igstHeader">
+                        <th class="w-2  p-0 border-1 border-black-alpha-90">
+                            <div class="w-12  flex align-items-center justify-content-center">CGST
+                            </div>
+                            <div class="w-12  flex flex-row">
+                                <div
+                                    class="w-4 border-right-1 border-top-1 border-black-alpha-90 flex align-items-center justify-content-center">
+                                    Rate</div>
+                                <div
+                                    class="w-8 border-top-1 border-black-alpha-90 flex align-items-center justify-content-center">
+                                    Amount</div>
+                            </div>
+                        </th>
+                        <th class="w-2  p-0 border-1 border-black-alpha-90">
+                            <div class="w-12  flex align-items-center justify-content-center">
+                                SGST/UTGST</div>
+                            <div class="w-12  flex flex-row">
+                                <div
+                                    class="w-4 border-right-1 border-top-1 border-black-alpha-90 flex align-items-center justify-content-center">
+                                    Rate</div>
+                                <div
+                                    class="w-8 border-top-1 border-black-alpha-90 flex align-items-center justify-content-center">
+                                    Amount</div>
+                            </div>
+                        </th>
+                    </ng-container>
+                    <ng-template #igstHeader>
+                        <th colspan="4" class="w-4  p-0 border-1 border-black-alpha-90">
+                            <div class="w-12  flex align-items-center justify-content-center">IGST
+                            </div>
+                            <div class="w-12  flex flex-row">
+                                <div
+                                    class="w-4 border-right-1 border-top-1 border-black-alpha-90 flex align-items-center justify-content-center">
+                                    Rate</div>
+                                <div colspan="2"
+                                    class="w-8 border-top-1 border-black-alpha-90 flex align-items-center justify-content-center">
+                                    Amount</div>
+                            </div>
+                        </th>
+                    </ng-template>
+                    <th colspan="2" class="w-2 p-2 border-1 border-black-alpha-90">Total Tax Amount</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let item of invoiceObj?.proforma_invoice_details;" class="text-base">
+                <tr>
+                    <td class="w-3 p-2 border-1 border-black-alpha-90">{{ item?.hsn }}</td>
+                    <td class="w-2 p-2 border-1 border-black-alpha-90">
+                        {{ (item?.total_amount || 0) - (item?.discount_amount || 0) | number:'1.0-2' }}
+                    </td>
+                    <ng-container *ngIf="invoiceObj?.igst === 0; else igstRow">
+                        <td class="w-2 h-3rem p-0 border-1 border-black-alpha-90">
+                            <div class="w-12 flex flex-row">
+                                <div
+                                    class="w-4 h-3rem border-right-1 border-black-alpha-90 flex align-items-center justify-content-center">
+                                    {{ (item?.tax || 0) / 2 | number:'1.3-3' }} %
+                                </div>
+                                <div
+                                    class="w-8 h-3rem border-black-alpha-90 flex align-items-center justify-content-center">
+                                    {{ (item?.tax_value || 0) / 2 | number:'1.3-3' }}
+                                </div>
+                            </div>
+                        </td>
+                        <td class="w-2 h-3rem p-0 border-1 border-black-alpha-90">
+                            <div class="w-12 flex flex-row">
+                                <div
+                                    class="w-4 h-3rem border-right-1 border-black-alpha-90 flex align-items-center justify-content-center">
+                                    {{ (item?.tax || 0) / 2 | number:'1.3-3' }} %
+                                </div>
+                                <div
+                                    class="w-8 h-3rem border-black-alpha-90 flex align-items-center justify-content-center">
+                                    {{ (item?.tax_value || 0) / 2 | number:'1.3-3' }}
+                                </div>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <ng-template #igstRow>
+                        <td colspan="4" class="w-2 h-3rem p-0 border-1 border-black-alpha-90">
+                            <div class="w-12 flex flex-row">
+                                <div
+                                    class="w-4 h-3rem border-right-1 border-black-alpha-90 flex align-items-center justify-content-center">
+                                    {{ item?.tax || 0 | number:'1.0-2' }} %
+                                </div>
+                                <div
+                                    class="w-8 h-3rem border-black-alpha-90 flex align-items-center justify-content-center">
+                                    {{ item?.tax_value || 0 | number:'1.0-2' }}
+                                </div>
+                            </div>
+                        </td>
+                    </ng-template>
+                    <td colspan="2" class="w-2 p-2 border-1 border-black-alpha-90">{{ item?.tax_value || 0
+                        | number:'1.0-2' }}</td>
+                </tr>
+            </tbody>
+            <tr class="text-base">
+                <td class="w-3 p-2 border-1 border-black-alpha-90">Total</td>
+                <td class="w-2 p-2 border-1 border-black-alpha-90">
+                    {{ ((invoiceObj?.total || 0) - (invoiceObj?.discount || 0)) | number:'1.0-2' }}
+                </td>
+                <ng-container *ngIf="invoiceObj?.igst === 0; else igstFooter">
+                    <td class="w-2 h-3rem p-0 border-1 border-black-alpha-90">
+                        <div class="w-12 flex flex-row">
+                            <div
+                                class="w-4 h-3rem border-right-1 border-black-alpha-90 flex align-items-center justify-content-center">
+
+                            </div>
+                            <div
+                                class="w-8 h-3rem border-black-alpha-90 flex align-items-center justify-content-center">
+                                {{ totalTaxAmount ? (totalTaxAmount / 2 | number:'1.3-3') : '0.00' }}
+                            </div>
+                        </div>
+                    </td>
+                    <td class="w-2 h-3rem p-0 border-1 border-black-alpha-90">
+                        <div class="w-12 flex flex-row">
+                            <div
+                                class="w-4 h-3rem border-right-1 border-black-alpha-90 flex align-items-center justify-content-center">
+
+                            </div>
+                            <div
+                                class="w-8 h-3rem border-black-alpha-90 flex align-items-center justify-content-center">
+                                {{ totalTaxAmount ? (totalTaxAmount / 2 | number:'1.3-3') : '0.00' }}
+
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+                <ng-template #igstFooter>
+                    <td colspan="4" class="w-2 h-3rem p-0 border-1 border-black-alpha-90">
+                        <div class="w-12 flex flex-row">
+                            <div
+                                class="w-4 h-3rem border-right-1 border-black-alpha-90 flex align-items-center justify-content-center">
+
+                            </div>
+                            <div
+                                class="w-8 h-3rem border-black-alpha-90 flex align-items-center justify-content-center">
+                                {{ totalTaxAmount ? (totalTaxAmount | number:'1.0-2') : '0.00' }}
+                            </div>
+                        </div>
+                    </td>
+                </ng-template>
+                <td colspan="2" class="w-2 p-2 border-1 border-black-alpha-90"> {{ totalTaxAmount ?
+                    (totalTaxAmount | number:'1.0-2') : '0.00' }}
+                </td>
+            </tr>
+
+
+        </table>
+        <div class="p-2 border-left-1 border-right-1 border-black-alpha-90">
+            <div style="display: flex; justify-content: space-between;">
+                <div style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;font-size: 11px;">
+                    Total Amount (in words) : {{this.amountInWord(totalTaxAmount || 0)}}</div>
+            </div>
+        </div>
+    </span> -->
+
+    <div>
+        <div>
+            <!-- <div class="p-2 border-left-1 border-right-1 border-black-alpha-90">
+                <div *ngIf="invoiceObj.note">Remarks:</div>
+                <div *ngIf="invoiceObj.note">{{invoiceObj?.note || ''}}</div>
+            </div> -->
+            <div class="flex flex-row  border-black-alpha-90 border-bottom-1 border-right-1 border-left-1">
+                <div class="w-6  flex flex-column justify-content-between">
+                    <!-- <div>Company's PAN: {{ companyPan }}</div>
+                    <div>Company's GSTIN/UN: {{ gstNo }}</div> -->
+                    <!-- <div>Buyer's PAN: {{companyPan}}</div> -->
+                    <!-- <div class="p-2 "><b><u>Declaration:</u></b>
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        We declare that this invoice shows the actual price of the goods
+                        described and that all particulars are true and correct.
+                    </div> -->
+                </div>
+                <div
+                    class="w-6 flex flex-column justify-content-between  border-black-alpha-90  border-left-1 border-top-1">
+                    <div class="flex flex-column justify-content-between h-6rem align-items-end p-2 ">
+                        <div>For <b>{{companyName}}</b></div>
+                        <div>Authorised Signatory</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <span class="changescolor">
+        </span>
+    </div>
+    <!-- </div> -->
+    <!-- @if(invoiceObj?.need_eway_bill && invoiceObj?.eway_bill_no){
+    <div style="page-break-before: always;">
+        <sanadi-eway-bill-print [invoiceData]="invoiceObj"></sanadi-eway-bill-print>
+    </div>
+    } -->
+    <p style="text-align:center">This is a Computer Generated Commercial Proforma Invoice</p>
+</div>

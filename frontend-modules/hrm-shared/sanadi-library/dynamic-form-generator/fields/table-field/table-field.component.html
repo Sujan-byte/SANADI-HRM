@@ -1,0 +1,402 @@
+<p-toast></p-toast>
+<div class="table-container mt-2" >
+
+    <p-table #dt editMode="row" [value]="dataSource" [dataKey]="dataKey" [scrollable]="true" [resizableColumns]="true" 
+        [rows]="field?.rows" [paginator]="field?.paginator" id='dt' [(selection)]="selectedMainArray" 
+        [autoLayout]="true" [totalRecords]="dataSource?.length" [lazy]="field?.lazy ? field.lazy : false"
+        (onRowSelect)="onMainTableRowSelect($event)" (selectionChange)="onSelectionChange($event)" (onEditComplete)="onTableValueChangeHandler($event, field, dt.value)"
+        class="p-datatable-sm p-datatable-striped"
+        [scrollHeight]="field.scrollHeight ? field.scrollHeight : 'calc(100vh - 200px)'" 
+        [style]="{ 'width': field?.tableWidth ?? '95.5vw' }" [loading]="loading"
+        [globalFilterFields]="field?.formInitialise">
+        <!-- styleClass="p-datatable-gridlines"  -->
+        <ng-template pTemplate="caption" *ngIf="field?.tableCaption">
+            <div class="table-caption gap-3" [class.table-disabled]="isTableDisabled()">
+                <p>{{field?.tableCaptionLabel ? field?.tableCaptionLabel : ''}}</p>
+                <p>{{field?.tableCaptionLabel1 ? field?.tableCaptionLabel1 : ''}}</p>
+                <!-- Download and import buttons -->
+                <div class="flex gap-2">
+                    @for(action of field?.captionButton; track action?.show){
+                        @if (action?.type == 'toggle') {
+                            <div class="p-field-checkbox {{ (action?.hiddenFunction ? captionAction(action?.hiddenFunction) : action?.hidden) ? 'hidden' : ''}}">
+                                <div class="flex flex-column toggle-container">
+                                    <label>{{action?.label}}</label>
+                                    <p-inputSwitch [name]="action?.name" [readonly]="action?.readonly"
+                                        (onChange)="onClickCaptionButton($event, action)"
+                                        [ngModel]="action?.value"
+                                        [pTooltip]="action?.toolTip" 
+                                        [tooltipPosition]="action?.tooltipPosition"
+                                        [disabled]="action?.disableFunction ? captionAction(action?.disableFunction) : action?.disabled">
+                                    </p-inputSwitch>
+                                </div>
+                            </div>
+                        } @else {
+                            <button pButton *ngIf="action?.show" styleClass="p-button-outlined p-button-help"
+                                type="button" [icon]="action?.icon ?? 'pi pi-check-circle'"
+                                [label]="action?.labelFunction ? captionAction(action?.labelFunction) : action?.label" 
+                                (click)="onClickCaptionButton($event, action)"
+                                [pTooltip]="action?.tooltipFunction ? captionAction(action?.tooltipFunction) : action?.toolTip" 
+                                [tooltipPosition]="action?.tooltipPosition"
+                                [disabled]="action?.disableFunction ? captionAction(action?.disableFunction) : action?.disabled"
+                                class="{{ (action?.hiddenFunction ? captionAction(action?.hiddenFunction) : action?.hidden) ? 'hidden' : ''}}"
+                                >
+                            </button>
+                        }
+                    }
+                    <button pButton *ngIf="field?.dynamicButton" styleClass="p-button-outlined p-button-help"
+                        (click)="showDynamicDialog($event)" type="button" [icon]="field?.dynamicButtonIcon??'pi pi-check-circle'"
+                        [label]="field?.dynamicButtonLabel" [disabled]="!dataSource?.length">
+                    </button>
+                    <!-- WORKING BUTTON -->
+                    <button pButton *ngIf="field?.tableCaptionDialogButton" styleClass="p-button-outlined p-button-help"
+                        (click)="showTableCaptionDialog($event,dt)" type="button" icon="pi pi-plus-circle"
+                        [label]="field?.tableCaptionDialogButtonLabel"
+                        class="{{ (field?.hiddenCaptionDialogButtonFunction ? captionAction(field?.hiddenCaptionDialogButtonFunction) : field?.hiddenCaptionDialogButton) ? 'hidden' : ''}}"
+                        >
+                    </button>
+                    <!-- WORKING BUTTON -->
+                    <button style="margin: 0 2px;" pButton pRipple *ngIf="field?.overlayPanel"
+                        class="p-button-secondary" label="{{field?.overlayPanelLabel}}" type="button" icon="pi pi-plus"
+                        (click)="openOverlayDialog=true" [pTooltip]="field?.toolTip1"
+                        [tooltipPosition]="field?.tooltipPosition1" [disabled]="field.readonly">
+                    </button>
+                    <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="p-mr-2 p-d-inline-block"></p-fileUpload> -->
+                    <button pButton pRipple label="{{ 'export_TC' | translate}}" icon="pi pi-upload"
+                        class="p-button-help" (click)="export(dt)" type="button"
+                        *ngIf="field?.exportTableData"></button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <!-- sl number -->
+                <!-- <th pFrozenColumn *ngIf="field?.checkbox!=false">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th> -->
+                <th pFrozenColumn [style]="{'width': '50px'}">
+                    <div class="flex flex-row gap-2 justify-content-start align-items-center header-cell">
+                        <ng-container *ngIf="field?.checkbox !== false">
+                            <p-tableHeaderCheckbox class="checkbox"></p-tableHeaderCheckbox>
+                        </ng-container>
+                        <span>{{ 'serialnumber_TC' | translate }}</span>
+                    </div>
+                </th>
+
+                <ng-container *ngFor="let col of columnSchema">
+                    @if (!col?.hidden) {
+                         <th *ngIf="!field?.columnFilters" [style]="{'min-width':'200px'}">
+                            {{ col | translate }}
+                        </th>
+                        <th *ngIf="field?.columnFilters" [pSortableColumn]="col?.field" 
+                            [style.backgroundColor]="col.color" 
+                            [style.color]="'black'" 
+                            [style]="{'min-width': col?.colWidth, 'left': col?.left, maxWidth: col?.colMaxWidth}" 
+                            [ngClass]="{'frozen-column-head': col?.frozen}" >
+                            {{ col?.labelFunction ? captionAction(col?.labelFunction) : col?.name | translate }}
+                            <p-sortIcon *ngIf='col?.filter' [field]="col?.field"></p-sortIcon>
+                            <p-columnFilter *ngIf='col?.filter' type="text" [field]="col?.field" display="menu"
+                                [matchMode]="col?.matchMode ?? (field?.lazy ? 'icontains' : 'contains')" 
+                                [matchModeOptions]="col?.matchModeOptions ?? (field?.lazy ? matchModeOptions : matchModeOptionsLocal)"
+                                [hideOnClear]="true">
+                            </p-columnFilter>
+                        </th>
+                    } 
+                </ng-container>
+                <th pFrozenColumn alignFrozen="right" [frozen]="true" style="width:8rem">
+                    <div class="flex flex-row justify-content-end">
+                        <button *ngIf="!hideButton" pButton pRipple type="button" icon="pi pi-plus"
+                            (click)="onRowAddInit(dt)" class="p-button-rounded p-button-text p-button-sm"
+                            [disabled]="field.readonly" [ngClass]="(field?.hideAddButtonFunction ? captionAction(field?.hideAddButtonFunction) : field?.hideAddButton) ? 'hidden': ''"></button>
+                    </div>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-editing="editing" let-ri="rowIndex">
+            <tr [pEditableRow]="item" [class.table-disabled]="isTableDisabled()">
+                <!-- sl number -->
+                <!-- <td pFrozenColumn *ngIf="field?.checkbox!=false">
+                        <p-tableCheckbox [value]="item"></p-tableCheckbox>
+                    </td> -->
+                <td pFrozenColumn>
+                    <div class="flex flex-row justify-content-start align-items-center gap-3 header-cell">
+                        <ng-container *ngIf="field?.checkbox!=false">
+                            <p-tableCheckbox [value]="item"></p-tableCheckbox>
+                        </ng-container>
+                        <span class="text">{{ri+1}} </span>
+                    </div>
+                </td>
+                <td pFrozenColumn *ngIf="field?.radioButton==true">
+                    <p-tableRadioButton [value]="item"></p-tableRadioButton>
+                </td>
+                <ng-container *ngFor="let field of formSchema; let i = index;">
+                    <td [pEditableColumn]="(dataSource)" [ngClass]="{'frozen-column-data': field?.frozen}" [style.backgroundColor]="field.color" [style.color]="'black'"
+                    [ngStyle]="{'left': field?.left}" *ngIf="!field?.hidden" 
+                    class="{{['date-time', 'file']?.includes(field.type) ? ((field?.readonlyFunction ? disableActionButton(item, field?.readonlyFunction) : field?.readonly) ? 'cursor-pointer-none' : '' ): '' }}">
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <!-- <div class="flex flex-row"> -->
+                                <!-- DROPDOWN -->
+                                <p-dropdown appendTo="body" *ngIf="field.type === 'dropdown'" [id]="field?.label" [name]="field?.name"
+                                    [optionLabel]="field?.optionLabel" [optionValue]="field?.optionValue" [placeholder]="field?.placeholder"
+                                    [options]="field?.options" [autoDisplayFirst]="false" [(ngModel)]="item[field.name]"
+                                    [style]="{'width': '180px'}" [filter]="true" [filterBy]="field?.optionLabel" [showClear]="field?.showClear ?? true"
+                                    [virtualScroll]="true" [itemSize]="50" (onChange)="onChangeHandler($event, field, item)"
+                                    [required]="field?.required ? field?.required : false"
+                                    [emptyFilterMessage]="'noResultFoundErrorMsg_SC' | translate" 
+                                    [readonly]="field?.readonlyFunction ? disableActionButton(item, field?.readonlyFunction) : field?.readonly"
+                                    (keydown)="disableNavigation($event)">
+                                    <ng-template pTemplate="emptyfilter" *ngIf="field?.emptyCustomDialogTemplate">
+                                        <span class="p-buttonset">
+                                            <button class="p-button-rounded" *ngIf="field?.dialogue" pButton icon="pi pi-plus" type="button"
+                                                (click)="showDialog(item)" [label]="field.emptyComment" style="border-radius: 5px"></button>
+                                        </span>
+                                    </ng-template>
+                                </p-dropdown>
+                                <!-- INPUT TEXT -->
+                                <input *ngIf="field.type === 'input'" pInputText type="text" [(ngModel)]="item[field.name]"
+                                    [placeholder]=" field?.placeholder ? field?.placeholder : '' " 
+                                    [ngStyle]="{'width': field?.suffixButton?.show ? '80%' : '' }"
+                                    (change)="onValueChangeHandler(item[field.name], field, item)" 
+                                    [readonly]="field?.readonlyFunction ? disableActionButton(item, field?.readonlyFunction) : field?.readonly"
+                                    (keydown)="disableNavigation($event)" (click)="clickInput($event, item, field)">
+
+                                <button pButton pRipple *ngIf="field?.suffixButton?.show" (click)="onClickInputButton($event, item, field)"
+                                    [class]="field?.suffixButton?.class || 'p-button-primary'"
+                                    type="button" [icon]="field?.suffixButton?.icon || 'pi pi-plus'" 
+                                    [pTooltip]="field?.suffixButton?.toolTip" [tooltipPosition]="field?.suffixButton?.position"
+                                    [style]="{ 'width' : '20%' }">
+                                </button>
+                                <!-- TEXT AREA -->
+                                <textarea *ngIf="field.type === 'textArea'" pInputText type="text"
+                                    [(ngModel)]="item[field.name]" [placeholder]="field?.placeholder?field?.placeholder:''"
+                                    (change)="onValueChangeHandler(item[field.name], field, item)" 
+                                    [readonly]="field?.readonlyFunction ? disableActionButton(item, field?.readonlyFunction) : field?.readonly"
+                                    (keydown)="disableNavigation($event)" (click)="clickInput($event, item, field)">
+                                </textarea>
+                                <!-- DATE -->
+                                <input *ngIf="field.type === 'date'" pInputText type="date" [(ngModel)]="item[field.name]" 
+                                    [disabled]="field?.readonlyFunction ? disableActionButton(item, field?.readonlyFunction) : field?.readonly"
+                                    [style]="field?.class" (keydown)="disableNavigation($event)" (change)="onValueChangeHandler($event, field, item)">
+                                <!-- DATE TIME -->
+                                <p-calendar *ngIf="field.type === 'date-time'" 
+                                    [(ngModel)]="item[field.name]"
+                                    [showIcon]="true" 
+                                    [selectionMode]="field?.selectionMode ? field?.selectionMode : 'single'" 
+                                    [showTime]="field.showTime"
+                                    [dateFormat]="'dd-mm-yy'" 
+                                    [view]="field?.view ? field?.view : 'date'" 
+                                    [readonlyInput]="field?.readonlyInput ?? true"
+                                    appendTo="body"
+                                    (onSelect)="onSelectDate($event, item, field)"
+                                    [showOnFocus]="false"
+                                    (onInput)="onInputDate($event, item, field)"
+                                    >
+                                </p-calendar>
+                                <input *ngIf="field.type === 'hidden'" pInputText type="hidden" [ngStyle]="{'width':'1000px'}"
+                                    (keydown)="disableNavigation($event)">
+                                <!-- FILE UPLOAD -->
+                                <p-fileUpload *ngIf="field.type === 'file'" mode="basic" chooseLabel="Choose" name="demo[]"
+                                    maxFileSize="5000000" (onSelect)="onUpload($event, item, field)">
+                                </p-fileUpload>
+                                <!-- NUMBER -->
+                                <p-inputNumber *ngIf="field.type === 'number'" [(ngModel)]="item[field.name]" [min]="field?.min !== undefined ? field.min : 0" [useGrouping]="field?.useGrouping ?? true"
+                                    [minFractionDigits]="field?.minFractionDigits??1" [maxFractionDigits]="field?.maxFractionDigits??10"
+                                    [prefix]="field?.prefix" [suffix]="field?.suffix" (onInput)="onValueChangeHandler($event, field, item)"
+                                    [readonly]="field?.readonlyFunction ? disableActionButton(item, field?.readonlyFunction) : field?.readonly" 
+                                    (keydown)="disableNavigation($event)" (onBlur)="onBlurNumber($event, field, item)"
+                                    >
+                                    <!-- [locale]="field?.locale || 'en-IN'"   [mode]="field?.mode" -->
+                                </p-inputNumber>
+                                <!-- SWITCH TOGGLE -->
+                                <p-inputSwitch *ngIf="field.type === 'toggle'" [name]="field?.name" [(ngModel)]="item[field.name]"
+                                    [readonly]="field?.readonlyFunction ? disableActionButton(item, field?.readonlyFunction) : field?.readonly"
+                                    (onChange)="onChangeInputSwitch($event, field, item)"
+                                    (keydown)="disableNavigation($event)"></p-inputSwitch>
+                                @for(action of field?.bodyButton; track action?.show){
+                                    <button *ngIf="action?.show" pButton pRipple type="button" [icon]="action?.icon"
+                                        (click)="onClickActionButton(item, dt.value, ri, field, action)" [pTooltip]="action?.toolTip"
+                                        [tooltipPosition]="action?.tooltipPosition" [class]="action?.class" [iconPos]="action?.iconPos"
+                                        [label]="action?.label || ''" style="border-radius: 7px !important;"
+                                        [disabled]="action?.disableFunction ? disableActionButton(item, action?.disableFunction) : action?.disabled"
+                                        class="{{ (action?.hiddenFunction ? disableActionButton(item, action?.hiddenFunction) : action?.hidden) ? 'hidden' : ''}}"
+                                        >
+                                    </button>
+                                }
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                <p *ngIf="field.type === 'input'" class="m-0" [style]="{maxWidth: field?.outputMaxWidth}"
+                                    (click)="clickInput($event, item, field)">{{item[field.name]}}
+                                </p>
+                                <!-- <p *ngIf="field.type === 'date'">{{item[field.name]}}</p> -->
+                                <p *ngIf="field.type === 'date'" class="m-0">
+                                    {{field?.format ? formatDate(item, field) : item[field.name]}}
+                                </p>
+                                <!-- DATE TIME -->
+                                <p *ngIf="field.type === 'date-time'" class="m-0">
+                                    {{field?.format ? formatDateTime(item, field) : item[field.name]}}
+                                </p>
+                                <p *ngIf="field.type === 'number'" class="m-0">
+                                    {{field?.prefix}}{{displayNumber(item[field.name], field?.format, field?.locale, field)}}{{field?.suffix}}
+                                </p>
+                                <p *ngIf="field.type === 'dropdown'" class="m-0">
+                                    {{ getDropDownText(item[field.name], field)}}
+                                </p>
+                                <span #img>
+                                    <div *ngIf="field.type === 'file'" (contextmenu)="onOpenImageContext($event, field, item)">
+                                        <img *ngIf="checkIsImage(field, item)"
+                                        aria-haspopup="true" style="width: 60px; height: 60px;" [src]="previewImage(item[field.name])"
+                                        onerror="this.onerror=null; this.src='assets/images/image_not_found.png';">
+                                        <p *ngIf="!checkIsImage(field, item)" class="surface-300 border-round text-wrap font-bold m-0">
+                                            {{getFileName(field, item)}}
+                                        </p>
+                                        <p-contextMenu [target]="img" [model]="imageOptions" appendTo="body" autoZIndex="true" (onHide)="onHideImageContext()"/>
+                                    </div>
+                                </span>
+                                <!-- <img *ngIf="field.type === 'file'" style="width: 25%; height: 25%;" [src]="item[field.name]"
+                                    onerror="this.onerror=null;this.src='../../../../assets/images/image_not_found.png';"> -->
+                                <p-inputSwitch *ngIf="field.type === 'toggle'" [name]="field?.name" [(ngModel)]="item[field.name]"
+                                    [readonly]="field?.readonlyFunction ? disableActionButton(item, field?.readonlyFunction) : field?.readonly"
+                                    (onChange)="onChangeInputSwitch($event, field, item)"
+                                >
+                                </p-inputSwitch>
+                                <p *ngIf="field.type === 'textArea'" class="m-0"
+                                    (click)="clickInput($event, item, field)">
+                                    {{item[field.name]}}
+                                </p>
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                </ng-container>
+                <td  pFrozenColumn [ngClass]="hideFrozenColumn ? 'hidden':''"
+                    alignFrozen="right" [frozen]="true">
+                    <div class="flex gap-2">
+                    <!-- <button *ngIf="!editing && !hideButton" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                        (click)="onRowEditInit(item)" class="p-button-rounded p-button-text" [disabled]="(field?.disableEditButton) ? 'hidden':''" [ngClass]="(field?.hideEditButton) ? 'hidden':''"
+                        ></button>
+                    <button *ngIf="!editing && !hideButton " pButton pRipple type="button" pInitEditableRow icon="pi pi-trash"
+                        (click)="onRowDeleteInit(item, ri,dt.value)" class="p-button-rounded p-button-text"
+                        [disabled]="(field?.disableDeleteButton) ? 'hidden':''"  [ngClass]="(field?.hideDeleteButton) ? 'hidden':''"></button> -->
+                    <!-- ACTION BUTTON -->
+                    @for(action of field?.actionButton; track action?.show){
+                        <button *ngIf="action?.show" pButton pRipple type="button" [icon]="action?.icon"
+                            (click)="onClickActionButton(item, dt.value, ri, field, action)" [pTooltip]="action?.toolTip"
+                            [tooltipPosition]="action?.tooltipPosition" [class]="action?.class"
+                            [iconPos]="action?.iconPos" [label]="action?.label || ''"
+                            [disabled]="action?.isDisableFunction ? disableActionButton(item, action?.disableFunction) : action?.disabled"
+                            class="{{ (action?.hiddenFunction ? disableActionButton(item, action?.hiddenFunction) : action?.hidden) ? 'hidden' : ''}}"
+                            >
+                        </button>
+                    }
+                    <button *ngIf="!editing && !hideButton" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                        (click)="onRowEditInit(item)" class="p-button-rounded p-button-text"
+                        [disabled]="field?.editDisableFunction ? disableActionButton(item, field?.editDisableFunction) : field?.disableEditButton"
+                        [pTooltip]="field?.editTooltip" [tooltipPosition]="field?.editTooltipPosition"
+                        [ngClass]="(field?.hideEditButton) ? 'hidden':''"></button>
+                    <button *ngIf="!editing && !hideButton " pButton pRipple type="button" pInitEditableRow icon="pi pi-trash"
+                        (click)="onRowDeleteInit(item, ri,dt.value)" class="p-button-rounded p-button-text"
+                        [disabled]="field?.deleteDisableFunction ? disableActionButton(item, field?.deleteDisableFunction) : field?.disableDeleteButton"
+                        [pTooltip]="field?.deleteTooltip" [tooltipPosition]="field?.deleteTooltipPosition"
+                        [ngClass]="(field?.hideDeleteButton) ? 'hidden':''"></button>
+                    <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                        (click)="onRowEditSave(item)" class="p-button-rounded p-button-text p-button-success p-mr-2"
+                        [pTooltip]="field?.saveTooltip" [tooltipPosition]="field?.saveTooltipPosition"
+                        [disabled]="field.readonly"
+                        [ngClass]="(field?.hideSaveButton) ? 'hidden' : ''"></button>
+                    <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                        (click)="onRowEditCancel(item, ri)" class="p-button-rounded p-button-text p-button-danger"
+                        [pTooltip]="field?.cancelTooltip" [tooltipPosition]="field?.cancelTooltipPosition"
+                        [disabled]="field.readonly"
+                        [ngClass]="(field?.hideCancelButton) ? 'hidden' : ''"></button>
+                    <button [ngClass]="(field?.hideViewButton) ? 'hidden':''" pButton pRipple type="button" icon="pi pi-eye" 
+                        (click)="onView(item,dt.value,ri)"
+                        [pTooltip]="field?.viewTooltip" [tooltipPosition]="field?.viewTooltipPosition"
+                        class="p-button-outlined p-button-rounded p-button-help p-button-sm" iconPos="right"
+                        label="{{field?.buttonLabel?field.buttonLabel:'view'}}" [disabled]="field.readonly"></button>
+                    <button pButton pRipple icon="pi pi-print" type="button" class="p-button-rounded p-button-info"
+                        (click)="rowPrint(item)" *ngIf="field?.enablePrint==true"></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="footer" *ngIf="field?.tableFooter">
+            <tr>
+                <ng-container *ngFor="let item of field?.footerInitialise">
+                    <td class="table-footer">
+                        <p class="{{ (!isNAN(item?.name)) ? 'text-left' : '' }}"> {{displayFooterNumber(item)}}</p>
+                        <!-- <input pInputText type="text" style="text-align:center;" [(ngModel)]="item.name" [readonly]="true"> -->
+                    </td>
+                </ng-container>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog #op [(visible)]="openOverlayDialog"  [autoZIndex]="true" [baseZIndex]="10000"
+    [header]="field?.overlayHeader" [modal]="true" [appendTo]="'body'" [dismissableMask]="true"
+    (onHide)="onCloseOverlayPanel($event,op)" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '90vw' }"
+    [draggable]="true" [resizable]="true" [maximizable]="true">
+    <ng-template pTemplate>
+
+        <p-table #tb [value]="field?.overlayPanelList" [selectionMode]="field?.overlayPanelSelectionMode"
+            [paginator]="field?.overlayPanelPaginator" [rows]="4" dataKey="id" [(selection)]="selectedArray"
+            (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
+            [globalFilterFields]="field?.overlayPanelFormInitialise" [columns]="field?.overlayPanelColumnSchema"
+            [lazy]="false" [style]="{'font-size':field?.fontSize}" (onHeaderCheckboxToggle)="onSelectAllData($event)"
+            [resizableColumns]="true" [columnResizeMode]="'expand'" styleClass="p-datatable-gridlines">
+            <ng-template pTemplate="caption">
+                <div class="flex flex-row justify-content-end">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="globalSearch($event, tb)"
+                            placeholder="{{ 'search_TC' | translate}}" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th pFrozenColumn pResizableColumn>
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <ng-container *ngFor="let col of columns">
+                        <th [pSortableColumn]="col?.field" [style]="{'width': col?.width}" pResizableColumn>
+                            {{ col?.name | translate }}
+                            <p-sortIcon [field]="col?.field"></p-sortIcon>
+                            <p-columnFilter type="text" [field]="col?.field" display="menu"></p-columnFilter>
+                        </th>
+                    </ng-container>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-item>
+                <tr>
+                    <td pFrozenColumn>
+                        <p-tableCheckbox [value]="item"></p-tableCheckbox>
+                    </td>
+                    <ng-container *ngFor="let row of field?.overlayPanelFormInitialise">
+                        <td>{{item[row]}}</td>
+                    </ng-container>
+                </tr>
+            </ng-template>
+        </p-table>
+        <div style="display: flex; justify-content: flex-end;">
+            <button pButton pRipple (click)="getOverlayPanel($event)" class="p-button-success" label="ADD"
+                type="button"></button>
+        </div>
+
+    </ng-template>
+</p-dialog>
+
+<div *ngIf="field?.tableCaptionDialog">
+    <p-dialog [modal]="true" [dismissableMask]="true" [appendTo]="'body'" header="{{field.tableCaptionDialogLabel}}"
+        (visibleChange)="handleTableCaptionDialog($event)" [(visible)]="tableCaptionDialogFlag"
+        [style]="{width: field.tableCaptionDialogWidth, height: field.tableCaptionDialogHeight}" [draggable]="true"
+        [resizable]="true" [maximizable]="true">
+        <dynamic-form-builder [fields]="field?.tableCaptionDialogFields"
+            (onSubmit)="savetableCaptionDialogData($event)"></dynamic-form-builder>
+    </p-dialog>
+</div>
+
+<p-dialog [(visible)]="showPrintModifier" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '100vw' }"
+    [modal]="true" [dismissableMask]="true" [appendTo]="'body'" [draggable]="true" [resizable]="true"
+    [maximizable]="true">
+    <app-receipt-builder [fields]="getPrintFields()" [layout]="field?.printLayout"></app-receipt-builder>
+</p-dialog>

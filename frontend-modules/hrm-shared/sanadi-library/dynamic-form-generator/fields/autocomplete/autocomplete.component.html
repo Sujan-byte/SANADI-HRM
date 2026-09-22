@@ -1,0 +1,5 @@
+
+<div [formGroup]="form">
+<p-autoComplete [formControlName]="field?.name" [suggestions]="filterlist" (completeMethod)="filterListItems($event)" field="name" [multiple]="true">
+</p-autoComplete>
+</div>

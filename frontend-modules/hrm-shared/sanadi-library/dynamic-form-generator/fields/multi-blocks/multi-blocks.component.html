@@ -1,0 +1,35 @@
+@if(variant === 'nested'){
+<div class="p-multi-field-container">
+  <p-fieldset [toggleable]="true">
+    <ng-template pTemplate="header">{{header}}</ng-template>
+    <div class="flex flex-column gap-3">
+      <div class="flex" *ngFor="let field of fields">
+        <p-fieldset [toggleable]="true" [ngStyle]="{'text-align':legendAlign}">
+          <ng-template pTemplate="header">{{field.headerText}}</ng-template>
+          <div class="flex flex-row flex-wrap gap-2">
+            <div
+              [ngStyle]="subField?.type=='table'?{'width':field?.fillScreen}:{'width':field?.fillScreen?field.fillScreen:fillScreen}"
+              *ngFor="let subField of field.fields">
+              <dynamic-field-builder [field]="subField" [form]="form"></dynamic-field-builder>
+            </div>
+          </div>
+        </p-fieldset>
+      </div>
+    </div>
+  </p-fieldset>
+</div>
+}
+@else if(variant === 'single'){
+<div class="p-multi-field-container">
+  <div class="flex flex-column gap-3" snFlex snLayout="column" snLayoutGap="1rem">
+    <p-fieldset [toggleable]="toggleable" [ngStyle]="{'text-align':legendAlign}">
+      <ng-template pTemplate="header">{{header}}</ng-template>
+      <div class="flex flex-row flex-wrap gap-3">
+        <ng-container *ngFor="let field of fields">
+          <dynamic-field-builder [field]="field" [form]="form"></dynamic-field-builder>
+        </ng-container>
+      </div>
+    </p-fieldset>
+  </div>
+</div>
+}

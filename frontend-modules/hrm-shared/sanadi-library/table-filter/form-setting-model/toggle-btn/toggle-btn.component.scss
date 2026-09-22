@@ -1,0 +1,38 @@
+/**** --- Toggle Button Style --- ****/
+
+.app-toogle-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px;
+  cursor: pointer;
+
+  .switch {
+    display: inline-block;
+    cursor: pointer;
+
+    input {
+      display: none;
+
+      &:checked~label {
+        // border-color: var(--ef-color-text-dark);
+        border-color: transparent;
+        background-color: var(--ef-color-primary);
+
+        &::after {
+          translate: 14px 0;
+          // background: var(--ef-color-text-dark);
+          background: var(--ef-color-text-light);
+          border-color: var(--ef-color-text-light) !important;
+        }
+      }
+    }
+
+  }
+}
+
+.form-check-label {
+  text-transform: capitalize;
+}
+
+/**** --- Toggle Button Style --- ****/

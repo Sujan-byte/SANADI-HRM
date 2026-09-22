@@ -1,0 +1,50 @@
+/* map.component.scss */
+.map-container {
+  height: 40vh;
+  width: 100%;
+  flex: 1;
+}
+
+/* styles.css or your component-specific CSS file */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.button-find-location {
+  position: absolute;
+  top: 35%;
+  left: 1.7%;
+  z-index: 9999999999999;
+  background-image: url('../../../../../assets/images/current-location.png');
+  background-color: #fff;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  padding: 15px;
+  cursor: pointer;
+  font-size: 2px;
+  outline: none;
+  border: None;
+  animation: pulse 1.5s infinite;
+  size: 1in;
+
+}
+
+.button-find-location:hover {
+  background-image: url('../../../../../assets/images/current-location.png');
+  background-color: #fff;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: #b5b5b5;
+}

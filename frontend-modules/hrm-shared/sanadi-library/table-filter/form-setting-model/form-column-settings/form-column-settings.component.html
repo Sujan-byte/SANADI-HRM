@@ -1,0 +1,37 @@
+<div class="form-col-wrapper">
+    <p-orderList
+      [value]="tableConfig?.dataSource"
+      [dragdrop]="isNeedColumnSettings"
+      [style]="{'height': '100%'}"
+    >
+      <ng-template let-item pTemplate="item" let-i="index">
+        <div
+          class="field-wrapper"
+          [ngClass]="{ 'column-settings': isNeedColumnSettings }"
+        >
+          <p class="text-medium m-0" *ngIf="isNeedColumnSettings">
+            {{ i + 1 }}.
+          </p>
+  
+          <p class="text-medium bold  m-0">
+            {{ item?.label | translate }}
+          </p>
+  
+          <div class="toggle-switch-wrapper">
+            <ng-container *ngFor="let field of tableConfig.formSchema; trackBy: trackBy">
+              <toggle-btn
+                *ngIf="isHidden(field, item)"
+                [value]="item[field?.name]"
+                (onChange)="onChangeToggle(field, item)"
+                id="{{ item?.field + '-' + field?.name }}"
+                label="{{ isNeedColumnSettings ? 'Hide/Show' : (field?.name | translate) }}"
+              ></toggle-btn>
+            </ng-container>
+          </div>
+  
+          <i class="pi pi-bars" *ngIf="isNeedColumnSettings"></i>
+        </div>
+      </ng-template>
+    </p-orderList>
+  </div>
+  

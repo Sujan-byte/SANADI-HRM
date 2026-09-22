@@ -1,0 +1,48 @@
+@if (ccService?.show) {
+    <div class="flex align-items-center justify-content-center fixed top-0 left-0 w-full h-full z-5 bg-black-alpha-50">
+        <div class="relative z-10">
+            <div class="fixed inset-0 bg-gray-500 opacity-40"></div>
+            
+            <div class="z-10 w-full overflow-y-auto">
+                <div class="flex align-items-center justify-content-center min-h-screen p-4">                
+                    <div class="surface-card border-round-lg shadow-2 w-full sm:w-30rem">
+                        <div class="p-4 sm:p-6 flex align-items-start">
+                            <div class="flex align-items-center justify-content-center border-circle bg-red-100 w-3rem h-3rem">
+                                <i class="pi pi-exclamation-triangle text-red-600 text-2xl"></i>
+                            </div>
+                            <div class="ml-3 sm:ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">
+                                    {{ ccService.title }}
+                                </h3>
+                                <p class="mt-2 text-sm text-gray-600">
+                                    {{ ccService.message }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="bg-gray-100 p-4 flex justify-content-around gap-2 border-round-bottom-lg">
+                            @if (ccService.submitButtonStatus) {
+                                <button pButton type="button" (click)="accept()" [disabled]="ccService?.disableSubmit"
+                                    class="p-button p-button-sm p-button-warning w-3 flex justify-content-center {{ ccService?.disableSubmit ? 'opacity-50' : '' }}">
+                                    {{ ccService.submitButtonText }}
+                                </button>
+                            }
+                            @if (ccService.cancelButtonStatus) {
+                                <button pButton type="button" (click)="reject()"
+                                    class="p-button p-button-sm p-button-text w-3 flex justify-content-center">
+                                    {{ ccService.cancelButtonText }}
+                                </button>
+                            }
+                            @if (ccService.closeButtonStatus) {
+                                <button pButton type="button" (click)="close()"
+                                    class="p-button p-button-sm p-button-text w-3 flex justify-content-center">
+                                    {{ ccService.closeButtonText }}
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+}

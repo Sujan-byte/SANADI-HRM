@@ -1,0 +1,229 @@
+<p-table #dt [value]="dataSource" [paginator]="true" [rows]="20" [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '50rem'}" [lazy]="true" [(selection)]="selectedList"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [scrollable]="true"
+    [scrollHeight]="config?.scrollHeight ?? '72vh'" scrollDirection="both" [totalRecords]="totalRecords"
+    (onLazyLoad)="nextPage($event)" [styleClass]="'p-datatable-sm'" [scrollable]="true" [loading]="loading">
+    <ng-template pTemplate="caption">
+        <!-- <sanadi-progress-knob></sanadi-progress-knob> -->
+        <div snLayout="row" snLayoutAlign="space-between center">
+            <h4 class="font-semibold">
+                {{config?.pageTitle | translate}}
+                <!-- [ngClass]="{'text-success': isActive, 'text-danger': !isActive}" -->
+                <sub><i class="text-sm" pBadge>({{isActive?'Active':'In-Active'}})</i></sub>
+            </h4>
+            @if(config?.middleTitle?.show){
+            <h4 class="font-semibold {{ config?.middleTitle?.class ?? '' }}">
+                {{config?.middleTitle?.label | translate}}
+            </h4>
+            }
+            <div class="gap-2 sm:hidden md:flex lg:flex hide-table-filter">
+                <button pButton label="New" (click)="show()" class="primary"
+                    *ngIf="config?.toolBarActionConfig ? config?.toolBarActionConfig?.newButton ?? true : true"></button>
+                <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" [(ngModel)]="searchText" (input)="globalSearch($event,dt)"
+                        placeholder="Search keyword" />
+                </span>
+                <!-- ACTIVE LIST -->
+                <button class="p-button-outlined secondary md:hidden lg:flex xl:flex" pButton label="Active"
+                    *ngIf="config?.toolBarActionConfig ? config?.toolBarActionConfig?.activeButton ?? true : true"
+                    icon="pi pi-check-circle"
+                    (click)="[page=1,isActive=true,dataSource=[],getApiDataByActivatedRoute(getCurrentPage())]"></button>
+                <!-- INACTIVE LIST -->
+                <button class="p-button-outlined secondary md:hidden lg:flex xl:flex" pButton label="Inactive"
+                    *ngIf="config?.toolBarActionConfig ? config?.toolBarActionConfig?.inActiveButton ?? true: true"
+                    icon="pi pi-times-circle"
+                    (click)="[page=1,isActive=false,dataSource=[],getApiDataByActivatedRoute(getCurrentPage())]"></button>
+                <!-- CLEAR FILTER -->
+                <button class="p-button-outlined secondary md:hidden lg:flex xl:flex" pButton icon="pi pi-filter"
+                    (click)="clearFilters(dt)" pTooltip="Clear Filters"></button>
+                <!-- <button class="p-button-outlined secondary md:hidden lg:flex xl:flex" pButton icon="pi pi-upload"
+                        (click)="exportExcel(dt)" [pTooltip]="'export_TC' | translate"></button> -->
+                <!-- EXPORT -->
+                @if (!config?.hideExport) {
+                <button class="p-button-outlined secondary md:hidden lg:flex xl:flex" pButton icon="pi pi-upload"
+                    [disabled]="isExportDisabled()" (click)="export($event, dt)" [pTooltip]="'export_TC' | translate"></button>
+                }
+                <!-- IMPORT -->
+                @if (config?.importConfig) {
+                @if (config?.importConfig?.sampleFileUrl) {
+                <a class="p-button-outlined secondary md:hidden lg:flex xl:flex" pButton icon="pi pi-file-excel"
+                    [href]="config.importConfig.sampleFileUrl"
+                    [download]="config.importConfig.sampleFileName || ''"
+                    pTooltip="Download Sample"></a>
+                }
+                <button class="p-button-outlined secondary md:hidden lg:flex xl:flex" pButton
+                    [icon]="importing ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
+                    [disabled]="isImportDisabled() || importing"
+                    (click)="triggerImport(importFileInput)" pTooltip="Import"></button>
+                <input #importFileInput type="file" [accept]="config?.importConfig?.accept ?? '.xlsx,.xls'" hidden
+                    (change)="onImportFileSelected($event)" />
+                }
+                <button *ngIf="config?.formSettingModel ? config?.formSettingModel?.show : false"
+                    class="p-button-outlined secondary lg:flex xl:flex" pButton icon="pi pi-cog"
+                    (click)="onClickFormSetting($event, dt)" [pTooltip]="'formSettings_TC' | translate"></button>
+                <button class="p-button-outlined secondary md:hidden lg:flex xl:flex" pButton icon="pi pi-video"
+                    [pTooltip]="'tutorialVideo_TC' | translate"
+                    *ngIf="config?.toolBarActionConfig ? config?.toolBarActionConfig?.tutorialVideo ? true : false : false"></button>
+    
+                <button class="p-button-outlined secondary md:flex lg:hidden xl:hidden" pButton icon="pi pi-ellipsis-v"
+                    (click)="menu.toggle($event)"></button>
+            </div>
+    
+            <div class="flex gap-2 sm:flex md:hidden lg:hidden xl:hidden show-table-filter-sm">
+                <!-- <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="globalSearch($event,dt)" placeholder="Search keyword" />
+                    </span> -->
+                <button pButton (click)="show()" class="primary" icon="pi pi-plus"
+                    *ngIf="config?.toolBarActionConfig?config?.toolBarActionConfig?.newButton:true"></button>
+                <button class="p-button-outlined secondary p-button-sm" pButton icon="pi pi-ellipsis-v"
+                    (click)="menu.toggle($event)"></button>
+            </div>
+        </div>
+        <p-menu #menu [model]="items" [popup]="true" [appendTo]="'body'"></p-menu>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            @if (!config?.hideCheckBox) {
+            <th style="width: 4rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            }
+            @if (!config?.hideSerialNumber) {
+            <th style="width: 4rem">
+                <span>{{ 'serialnumber_TC' | translate }}</span>
+            </th>
+            }
+            @defer{
+            @for(key of config?.tableHeaders; track key.label){
+            <th [pSortableColumn]="key?.sortable ? key?.field : undefined"
+                [pSortableColumnDisabled]="!key?.sortable">
+                {{key.label | translate}}
+                @if(key?.sortable && key?.field){
+                <p-sortIcon [field]="key?.field"></p-sortIcon>
+                }
+                @if(key?.field && key?.isFilterRequired){
+                @if(key?.filterType == 'dropdown'){
+                <p-columnFilter [field]="key?.field" [matchMode]="key?.defaultMatchMode??'iexact'" display="menu"
+                    [showMatchModes]="false">
+                    <ng-template pTemplate="filter" let-filterValue let-filter="filterCallback">
+                        <p-dropdown [(ngModel)]="dt.filters[key.field][0].value" [options]="key?.filterOptions()"
+                            [style]="{'width':'13vw'}" [placeholder]="'Any'">
+                            <ng-template let-option pTemplate="item">
+                                <p-tag [value]="option.value" [severity]="option?.severity" />
+                            </ng-template>
+                        </p-dropdown>
+                    </ng-template>
+                </p-columnFilter>
+                }
+                @else if (key?.filterType == 'custom-dropdown') {
+                <p-columnFilter [field]="key?.field" [matchMode]="key?.defaultMatchMode??'exact'" display="menu"
+                    [showMatchModes]="false">
+                    <ng-template pTemplate="filter" let-filterValue let-filter="filterCallback">
+                        <p-dropdown [(ngModel)]="dt.filters[key.field][0].value" [options]="key?.filterOptions()"
+                            [style]="{'width':'13vw'}" [placeholder]="'Any'" [optionLabel]="key?.optionLabel"
+                            [optionValue]="key?.optionValue">
+                        </p-dropdown>
+                    </ng-template>
+                </p-columnFilter>
+                }
+                @else{
+                <p-columnFilter [matchMode]="key?.defaultMatchMode??'icontains'"
+                    [matchModeOptions]="key?.matchModeOptions" #filter [type]="key?.fieldType??'text'"
+                    [field]="key?.field" display="menu">
+                </p-columnFilter>
+                }
+                }
+            </th>
+            }
+            }
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="product"  [class.warning-row]="product?.warning">
+            @if (!config?.hideCheckBox) {
+            <td>
+                <p-tableCheckbox [value]="product"></p-tableCheckbox>
+            </td>
+            }
+            @if (!config?.hideSerialNumber) {
+        <td>
+    <div class="flex align-items-center gap-2">
+        <i *ngIf="product.warning_text"
+           class="pi pi-exclamation-triangle text-orange-500 cursor-pointer"
+           [pTooltip]="product.warning_text"
+           tooltipPosition="right"
+           style="font-size: 1rem;">
+        </i>
+        <span class="text">{{ri+1}}</span>
+    </div>
+</td>
+            }
+            @for(item of config?.tableBody; track item){
+            <!-- <td class="{{ (item?.type === 'number') ? 'text-center' : '' }}{{ (item?.align === 'right') ? 'text-right' : (item?.align === 'left') ? 'text-left' : '' }}">  -->
+                <td class="{{ (item?.type === 'number') ? 'center' : '' }}">
+                <!-- <td style="align-items: center !important;">  -->
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" [(ngModel)]="product[isString(item) ? item : item.key]">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        @if (item?.type === 'number') {
+                            <span class="text-ellipsis" [attr.title]="product[isString(item) ? item : item.key] | translate"
+                                [style.color]="!isString(item) && item.colorKey ? product[item.colorKey] : ''"
+                                [style.font-weight]="!isString(item) && item.colorKey ? '600' : ''">
+                                {{ item?.updateValue ? 
+                                    item?.updateValue(product) : 
+                                    displayNumber(product[isString(item) ? item : item.key] | translate, item?.format, item?.locale) 
+                                }}
+                            </span>
+                        } @else { 
+                            <span  [attr.title]="product[isString(item) ? item : item.key] | translate"
+                                [style.color]="!isString(item) && item.colorKey ? product[item.colorKey] : ''"
+                                [style.font-weight]="!isString(item) && item.colorKey ? '600' : ''">
+                                {{ item?.updateValue ? item?.updateValue(product) : product[isString(item) ? item : item.key] | translate }}
+                            </span>
+                        }
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            }
+            <td>
+                
+                <div class="flex align-items-center justify-content-center gap-2" snLayout="row">
+                    @for(action of config.actions; track action.actionType){
+                    <button
+                        *ngIf="!isActive && action.actionType === 'RESTORE' || isActive && action.actionType !== 'RESTORE'"
+                        pButton pRipple type="button" [label]="action?.label"
+                        [pTooltip]="action?.tooltipFunction ? protectFunction(action?.tooltipFunction, product) : action?.tooltip"
+                        [tooltipPosition]="'left'"
+                        [icon]="'pi pi-' + (action?.iconFunction ? protectFunction(action?.iconFunction, product) : action.icon)"
+                        (click)="onAction($event, product, action, actionMenu)" class="p-button-sm p-button-rounded p-button-text"
+                                                                                        [ngClass]="action?.buttonClass || ''"
+                        [disabled]="action?.protectFunction ? protectFunction(action?.protectFunction, product) : action?.protect ? checkProtection(action, product) : action?.permission ? isActionPermissionDisabled(action) : false"
+                        class="{{ (action?.hiddenFunction ? protectFunction(action?.hiddenFunction, product) : action?.hideen) ? 'hidden' : ''}}">
+                    </button>
+                    
+                    <p-menu #actionMenu [model]="setMenuItem(product, action)"  
+                        [popup]="true" [appendTo]="'body'"></p-menu>
+                    }
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+<p-confirmPopup></p-confirmPopup>
+
+<p-sidebar [(visible)]="showPrintModifier" [fullScreen]="true" [baseZIndex]="10000" (onHide)="[showPrintModifier=false,this.printPdfSrc = null]">
+    <app-receipt-builder [fields]="printFields()" [config]="printConfig()" [pdfSrc]="printPdfSrc"></app-receipt-builder>
+</p-sidebar>
+
+<!-- FORM SETTING -->
+<form-setting-model *ngIf="columnSetting" [isNeedFormSettings]="true" [isNeedColumnSettings]="false"
+    (onClose)="close();  columnSetting = false;" (onReset)="close()" [columnFields]="[]" [formFields]="formSettigFields"
+    (onSubmit)="saveSetting($event)" (onSelectAll)="selectAll($event)">
+</form-setting-model>
+
+<p-toast position="top-center" key="toaster"></p-toast>

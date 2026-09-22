@@ -1,0 +1,84 @@
+.drop-container {
+  background: #fff;
+  border-radius: 6px;
+  height: 150px;
+  width: 100%;
+  box-shadow: 1px 2px 20px hsla(0, 0%, 4%, .1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #c0c4c7;
+}
+
+p {
+  font-size: 16px;
+  font-weight: 400;
+  color: #c0c4c7;
+}
+
+.upload-button {
+  display: inline-block;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #5754a3;
+}
+
+.upload-button input {
+  display: none;
+}
+
+.dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 5px;
+  background: white;
+  margin: 10px 0;
+}
+
+.dropzone.hovering {
+  border: 2px solid #f16624;
+  color: #dadada !important;
+}
+
+progress::-webkit-progress-value {
+  transition: width 0.1s ease;
+}
+
+.card {
+  position: relative;
+  padding: 3%;
+  height: 45vh;
+  margin-bottom: 0%;
+}
+
+.card-img-top {
+  height: 35vh;
+  width: 100%;
+  border-radius: 12px;
+}
+
+.download {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #000;
+  font-weight: bold;
+  z-index: 999;
+  word-break: break-word;
+}
+
+.delete {
+  position: absolute;
+  top: 1%;
+  right: 0.5%;
+}

@@ -1,0 +1,48 @@
+<div class="modal-backdrop" (click)="handleSettingsClose()">
+    <div class="form-settings-wrapper" (click)="$event.stopPropagation()" [ngClass]="{ close: closed }">
+        <div class="close-icon">
+            <i class="pi pi-times" (click)="handleSettingsClose()"></i>
+        </div>
+
+        <p-tabView [(activeIndex)]="index">
+            <p-tabPanel header="Forms" *ngIf="isNeedFormSettings" [ngClass]="{ active: index == 0 }">
+                <div class="form-wrapper">
+                    <div class="form-section">
+                        <div style="margin-bottom: 15px;">
+                            <input type="checkbox" [checked]="checked" id="selectAllCheckbox"
+                                (click)="toggleSelectAll(formFields?.name, formFields?.dataSource)">
+                            <label style="padding-left: 10px;font-size: 14px;">Select All</label>
+                        </div>
+                        <form-column-settings [tableConfig]="formFields"
+                            [isNeedColumnSettings]="formFields?.isColumnSettings" [formFields]="formFields"></form-column-settings> 
+                    </div>
+
+                    <div class="btn-section">
+                        <button class="reset-button h-36" (click)="handleSettingsReset()">
+                            Reset
+                        </button>
+                        <button class="success-button h-36" (click)="handleSettingsSubmit(formFields?.name, formFields?.dataSource)">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </p-tabPanel>
+            <p-tabPanel header="Column" *ngIf="isNeedColumnSettings"
+                [ngClass]="{ active: index == (isNeedFormSettings ? 1 : 0) }">
+                <div class="form-wrapper">
+                    <div class="form-section">
+                        <dynamic-form-builder [fields]="columnFields"></dynamic-form-builder>
+                    </div>
+                    <div class="btn-section">
+                        <button class="primary_no_outline_btn h-36" (click)="handleSettingsReset()">
+                            Reset
+                        </button>
+                        <button class="primary_filled_btn h-36" (click)="handleSettingsSubmit(columnFields[0].name, columnFields[0].dataSource)">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </p-tabPanel>
+        </p-tabView>
+    </div>
+</div>

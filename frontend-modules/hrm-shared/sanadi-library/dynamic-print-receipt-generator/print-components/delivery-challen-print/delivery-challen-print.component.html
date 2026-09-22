@@ -1,0 +1,234 @@
+<div class="cards" style="color: black; background-color: white !important; ">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+        <img src="{{companyLogo}}" alt="logo" class="img-fluid" style="width: 10%; height: auto; margin-bottom: 5px;">
+
+        <div
+            style="display: flex; width: 33%; justify-content: center; align-items: flex-start; font-size: larger; font-weight: bold;">
+            <p>{{ deliverChallenObj?.type === 'Returnable' ? 'Returnable Delivery Challan' : 'Delivery Challan' }}</p>
+        </div>
+
+        <div style="text-align: right; font-weight: bold;">
+            {{ deliverChallenObj?.type === 'Returnable' ? 'QSR No.SLPL/COMM/RDC/10' : 'QSR No.SLPL/COMM/DC/02' }}
+        </div>
+    </div>
+
+    <div style="display: flex; flex-direction: row;border: 1px solid black;">
+        <div class="container" style="display: flex; flex-direction: column; width: 50%; padding-left: 5px;">
+            <p style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
+                <b><u>{{companyName}}</u></b>
+            </p>
+            <!-- <div>{{address}}</div> -->
+            <p [innerHTML]="processAddress(branchObj?.registered_address)" class="no-margin"></p>
+            <div class="no-margin">{{state}}, {{stateCode}}</div>
+
+
+            <!-- Phone No section will be shown only if phoneNo is available -->
+            <div *ngIf="phoneNo" style="display: flex; justify-content: flex-start; width: 100%;">
+                <div style="min-width: 50px;">Phone No </div>
+                <div>: {{phoneNo}}</div>
+            </div>
+
+            <!-- Fax section will be shown only if fax is available -->
+            <div *ngIf="fax" style="display: flex; justify-content: flex-start; width: 100%;">
+                <div style="min-width: 50px;">Fax</div>
+                <div>: {{fax}}</div>
+            </div>
+
+            <!-- Email section will be shown only if email is available -->
+            <div *ngIf="email" style="display: flex; justify-content: flex-start; width: 100%;">
+                <div style="min-width: 50px;">Email</div>
+                <div>: {{email}}</div>
+            </div>
+
+            <!-- Website section will be shown only if website is available -->
+            <div *ngIf="website" style="display: flex; justify-content: flex-start; width: 100%;">
+                <div style="min-width: 50px;">URL</div>
+                <div>: {{website}}</div>
+            </div>
+
+            <!-- GSTIN section will be shown only if gst is available -->
+            <div *ngIf="gst" style="display: flex; justify-content: flex-start; width: 100%;">
+                <div style="min-width: 50px;">GSTIN</div>
+                <div>: {{gst}}</div>
+            </div>
+        </div>
+
+
+        <div class="container"
+            style="display: flex; flex-direction: column; width: 50%; border: 1px solid black;border-top:none; border-right: none; border-bottom:none;padding-left: 5px;">
+            <p><b><u>{{ deliverChallenObj?.party_name}}</u></b></p>
+            <!-- <p>{{ deliverChallenObj?.ship_to_address}}</p> -->
+            <p [innerHTML]="processAddress(deliverChallenObj?.ship_to_address)"></p>
+        </div>
+    </div>
+
+    <p style="padding:5px;"> <small> </small></p>
+
+
+
+    <!-- <p style="padding:5px;"> <small> </small></p> -->
+
+    <table class="table table-sm text-nowrap" style="border-collapse: collapse; width:100%; ">
+
+        <tbody style="color:black; border-collapse: collapse;">
+
+            <tr>
+                <td style=" color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 20%;">
+                    DC No</td>
+                <td style=" color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 30%;">
+                    {{deliverChallenObj?.dc_no}}
+                </td>
+                <td
+                    style=" color:black; font-size: 12px; padding:4px; border: 1px solid black;border-left: none;width: 20%;">
+                    Date</td>
+                <td style=" color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 30%;">
+
+                    {{deliverChallenObj?.dc_date}}
+                </td>
+
+            </tr>
+            <tr [hidden]="deliverChallenObj?.source == 'Work Order'">
+                <td style="color:black; font-size: 12px;padding:4px;  border: 1px solid black;width: 20%;">
+                    Your Order No </td>
+                <td style=" color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 30%;">
+                    {{deliverChallenObj?.customer_po_number}}
+                </td>
+                <td
+                    style=" color:black; font-size: 12px;padding:4px;  border: 1px solid black;border-left: none;width: 20%;">
+                    Date</td>
+                <td style=" color:black; font-size: 12px;padding:4px;  border: 1px solid black;width: 30%;">
+
+                    {{deliverChallenObj?.customer_po_date}}
+
+                </td>
+
+            </tr>
+
+
+        </tbody>
+    </table>
+
+    <!-- <div class="container" style="display: flex; flex-direction: column; width: 100%; border: 1px solid black;padding-left: 5px;">
+        <div style="word-break: break-all;">{{ deliverChallenObj?.remarks}}</div>
+    </div> -->
+
+    <div class="container"
+        style="display: flex; flex-direction: column; width: 100%; border: 1px solid black; padding-left: 5px;border-bottom: none;border-top: none;">
+        <!-- Only display remarks content if it exists, but the container is always visible -->
+        <div style="word-break: break-all;">
+            {{ deliverChallenObj?.remarks || '' }}
+        </div>
+    </div>
+
+
+
+    <table class="table table-sm text-nowrap" style="border-collapse: collapse; width:100%; ">
+
+        <thead style="color:black; border-collapse: collapse; margin-top:20px;">
+
+            <tr>
+                <th
+                    style="text-align: center; color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 5%;">
+                    Sl No</th>
+                <th
+                    style="text-align: center; color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 20%">
+                    Particulars</th>
+                <th
+                    style="text-align: center; color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 5%">
+                    Qty.</th>
+                <th
+                    style="text-align: center; color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 5%;">
+                    Rate</th>
+                <th
+                    style="text-align: center; color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 10%;">
+                    Unit Price</th>
+                <th
+                    style="text-align: center; color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 20%;">
+                    Total</th>
+
+            </tr>
+        </thead>
+        <tbody *ngFor=" let item of deliverChallenObj?.delivery_challan_details; let index = index;">
+            <tr>
+                <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;">
+                    {{index+1}}
+                </td>
+
+                <td style="text-align: left; font-size: 12px; padding:5px; border: 1px solid black; border-left: none;">
+                    <span style="font-weight: bold;">{{item?.product_name}}</span><br>
+                    {{item?.model}}<br>
+                    <span *ngIf="item?.brand">Make : </span>{{item?.brand}}<br>
+                </td>
+                <td
+                    style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                    {{item?.qty}} {{item?.unit_name}}
+                </td>
+                <td
+                    style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                    {{item?.price}}
+                </td>
+                <td
+                    style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                    {{item?.price}}
+                </td>
+                <td
+                    style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                    {{item?.price * item?.qty}}
+                </td>
+
+
+        </tbody>
+
+    </table>
+
+    <footer>
+        <div style="border:1px solid black; page-break-inside: avoid; margin-top:10px; page-break-inside: avoid;">
+            <div style="display: flex; flex-direction: row; justify-content: space-around;">
+
+                <div class="container ">
+                    <p style="margin-right:10px;">Received the above mentioned material in good condition </p>
+                </div>
+
+                <div class="container">
+                    <p></p>
+                </div>
+
+                <div class="container" style="display: flex; flex-direction: row;">
+                    <p style="margin-right:10px;">For</p>
+                    <p><b>{{companyName}}.</b></p>
+                </div>
+
+            </div>
+
+
+            <p style="padding:5px;"><b><u></u></b></p>
+
+
+            <div style="margin-bottom: 5px;">
+
+            </div>
+
+
+            <div style="display: flex; flex-direction: row;justify-content:space-around; margin-top: 100px;">
+
+                <div class="container ">
+                    <p>Receiver’s Signature &amp; Stamp</p>
+                </div>
+
+                <div class="container">
+                    <p></p>
+                </div>
+
+                <div class="container">
+                    <p>Authorized Signatory</p>
+                </div>
+
+            </div>
+        </div>
+        <div>
+            <p style="text-align: center;">Subject to Bangalore Jurisdiction</p>
+        </div>
+    </footer>
+
+    <!-- </div> -->
+</div>

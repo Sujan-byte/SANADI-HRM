@@ -1,0 +1,25 @@
+<p-tabView [(activeIndex)]="activeIndex" (onChange)="onTabChanged()">
+    <ng-container *ngFor="let config of fields; let i=index">
+        <p-tabPanel *ngIf="!config?.hidden">
+            <ng-template pTemplate="header">
+                <!-- <i class="pi pi-calendar"></i> -->
+                <span>{{config.tabHeader}}</span>
+            </ng-template>
+            <div class="flex gap-3 flex-wrap w-full py-2">
+                <ng-container *ngFor="let formField of config.fields; let j=index">
+                    @if(formField?.type==="image"){
+                    <div class="flex-grow-1 flex flex-column text-center">
+                        <h4>{{formField.label}}</h4>
+                        <p-image src="{{formField?.src}}" alt="Image" width="250"></p-image>
+                    </div>
+                    }
+                    @else{
+                    <div class="{{ (formField?.hideFunction ? hideFields(formField?.hideFunction) : formField?.hidden) ? 'dispplay-none' : 'flex flex-row' }}" [style.width]="formField?.fieldWidth">
+                        <dynamic-field-builder class="w-full p-2" [field]="formField" [form]="form" [formFields]="fields"></dynamic-field-builder>
+                    </div>
+                    }
+                </ng-container>
+            </div>
+        </p-tabPanel>
+    </ng-container>
+</p-tabView>

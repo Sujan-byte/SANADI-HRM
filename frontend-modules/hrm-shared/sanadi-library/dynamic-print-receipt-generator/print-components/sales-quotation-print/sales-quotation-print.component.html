@@ -1,0 +1,323 @@
+<div class="cards" style="color: black; background-color: white !important;">
+    
+<div class="col-12 flex justify-space-between align-items-center">
+
+    <!-- Center Title -->
+    <div class="flex-1 flex justify-content-first">
+        <h4><b>FORECAST SALES ORDER</b></h4>
+    </div>
+
+    <!-- Logo -->
+    <div class="flex-1 flex justify-content-end">
+        <img *ngIf="companyLogo"
+             [src]="companyLogo"
+             class="img-fluid"
+             style="width: 80px;">
+    </div>
+
+</div>
+
+
+
+
+    <!-- ADDRESS BLOCK -->
+    <div class="flex flex-row mt-2">
+
+        <!-- LEFT SIDE -->
+        <div class="w-7 border-1 border-bottom-none border-black-alpha-90">
+
+            <!-- SELLER DETAILS -->
+            <div class="p-2 border-bottom-1 border-black-alpha-90">
+                <div class="font-bold" style="font-size: 12px;">{{ companyName }}</div>
+
+                <div *ngFor="let address of getTextarea(registeredAddress)">
+                    {{ address }}
+                </div>
+
+                <!-- <div *ngIf="gstNo">GSTIN/UIN: {{ gstNo }}</div> -->
+                <div *ngIf="stateName && stateCode">State Name: {{ stateName }}, Code: {{ stateCode }}</div>
+                <div *ngIf="cinNo">CIN: {{ cinNo }}</div>
+            </div>
+
+            <!-- CONSIGNEE -->
+            <!-- <div class="p-2 border-black-alpha-90">
+                <b>Consignee (Ship To)</b>
+                <div *ngFor="let x of getTextarea(salesquotationObj?.ship_to_address)">
+                    {{ x }}
+                </div>
+            </div> -->
+
+            <!-- BUYER -->
+            <div class="p-2 border-top-0 border-bottom-0 border-black-alpha-90">
+                <b>Buyer (Bill To)</b><br>
+                <b>{{ salesquotationObj?.customer_name }}</b>
+
+                <div *ngFor="let x of getTextarea(salesquotationObj?.bill_to_address)">
+                    {{ x }}
+                </div>
+            </div>
+
+        </div>
+
+ <!-- RIGHT SIDE -->
+<div class="w-5 border-black-alpha-90 border-right-1"  style="color: black;">
+
+    <!-- INVOICE INFO -->
+    <div class="flex flex-row border-black-alpha-90">
+        <div class="w-6 p-2 border-top-1 border-bottom-1 border-black-alpha-90" style="color: black;">
+            Forcast Sales Order No.:
+            <div class="smallText" style="color: black;">{{ salesquotationObj?.quotation_no }}</div>
+        </div>
+
+        <div class="w-6 p-2 border-top-1 border-left-1 border-bottom-1 " style="color: black;">
+            Forcast Sales Order Date:
+            <div class="smallText" style="color: black;">{{ salesquotationObj?.quotation_date }}</div>
+        </div>
+    </div>
+
+    <!-- ORDER DETAILS -->
+    <div class="flex flex-row">
+        <div class="w-6 p-2 border-bottom-1 border-black-alpha-90" style="color: black;">
+            Forcast Sales Order Validity Date:
+            <div class="smallText" style="color: black;">{{ salesquotationObj?.quotation_validity_date }}</div>
+        </div>
+
+        <div class="w-6 p-2 border-bottom-1 border-left-1 " style="color: black;">
+            Mode Of Transport:
+            <div class="smallText" style="color: black;">{{ salesquotationObj?.mode_of_transport }}</div>
+        </div>
+    </div>
+
+    <!-- TERMS -->
+    <div class="flex flex-row">
+        <div class="w-12 p-2 border-bottom-1 border-black-alpha-90" style="color: black;">
+            Port Of Loading:
+            <div class="smallText" style="color: black;">{{ salesquotationObj?.port_of_loading }}</div>
+        </div>
+        <div class="w-12 p-2 border-bottom-1 border-left-1 " style="color: black;">
+            Port Of Discharge:
+            <div class="smallText" style="color: black;">{{ salesquotationObj?.port_of_discharge }}</div>
+        </div>
+                
+    </div>
+    <div class="flex flex-row">
+        <div class="w-12 p-2 border-bottom-1 border-black-alpha-90" style="color: black;">
+            Payment Terms:
+            <div class="smallText" style="color: black;">{{ salesquotationObj?.payment_terms }}</div>
+        </div>
+        <div class="w-12 p-2 border-bottom-1 border-left-1 " style="color: black;">
+            Delivery Terms:
+            <div class="smallText" style="color: black;">{{ salesquotationObj?.delivery_terms }}</div>
+        </div>
+                
+    </div>
+        <div class="flex flex-row">
+        <div class="w-12 p-2 border-bottom-0 border-black-alpha-90" style="color: black;">
+            Remarks:
+            <div class="smallText" style="color: black;">{{ salesquotationObj?.remarks }}</div>
+        </div>
+             <div class="w-12 p-2 border-left-1 border-bottom-0 border-black-alpha-90" style="color: black;">
+            Customer F-PO No.:
+            <div class="smallText" style="color: black;">{{ salesquotationObj?.customer_fpo_no }}</div>
+        </div>
+    </div>
+    <!-- <div class="flex flex-row">
+        <div class="w-12 p-2 border-bottom-1 border-black-alpha-90" style="color: black;">
+            <div class="ml-2" style="color: black;">Terms and Conditions:</div> -->
+
+            <!-- <table class="no-border-table" style="color: black;">
+                <tbody>
+                    <tr *ngFor="let item of salesquotationObj?.sales_quotation_terms_and_condition; let index = index;">
+                        <td style="color: black;">
+                            {{ index + 1 }} {{ item?.description }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table> -->
+
+        <!-- </div>
+    </div> -->
+
+</div>
+
+
+    </div>
+
+    <!-- ITEMS TABLE -->
+    <table class="w-12" style="border-collapse: collapse; text-align: center; margin-top: 0px; font-size: 11px; ">
+        <thead class="text-base">
+            <tr>
+                <th rowspan="2" class="p-2 border-1">Sl.No.</th>
+                <th rowspan="2" class="p-2 border-1">Product Code</th>
+                <th rowspan="2" class="p-2 border-1">Part Number</th>
+                <th rowspan="2" class="p-2 border-1">Customer Part Number</th>
+                <th rowspan="2" class="p-2 border-1">Product Name</th>
+                <th rowspan="2" class="p-2 border-1">Descrption</th>
+                <th rowspan="2" class="p-2 border-1">HS Code</th>
+                <th rowspan="2" class="p-2 border-1">UOM</th>
+                <th rowspan="2" class="p-2 border-1">Qty</th>
+                <!-- <th rowspan="2" class="p-2 border-1">
+                    Rate ({{ salesquotationObj?.currency || 'AED' }})
+                </th> -->
+
+                <!-- DISCOUNT -->
+                <!-- <th *ngIf="hasDiscount()" rowspan="2" class="p-2 border-1">Discount</th> -->
+
+                <!-- TAXABLE VALUE -->
+                <!-- <th *ngIf="hasDiscount()" rowspan="2" class="p-2 border-1">
+                    Taxable Value ({{ salesquotationObj?.currency || 'AED' }})
+                </th> -->
+
+                <!-- TAX COLUMNS -->
+                <!-- <ng-container *ngIf="hasTaxValue()">
+                    <th colspan="2" class="p-2 border-1">
+                        {{ isForeign ? 'VAT' : (salesquotationObj?.igst ? 'IGST' : 'CGST / SGST') }}
+                    </th>
+                </ng-container> -->
+
+                <!-- TOTAL -->
+                <!-- <th *ngIf="hasTaxValue() || hasDiscount()" rowspan="2" class="p-2 border-1">
+                    Total ({{ salesquotationObj?.currency || 'AED' }})
+                </th> -->
+            </tr>
+
+            <!-- SUB TAX HEADERS -->
+            <!-- <tr *ngIf="hasTaxValue()">
+                <th class="p-2 border-1">Rate</th>
+                <th class="p-2 border-1">Amount</th>
+            </tr> -->
+        </thead>
+
+        <tbody>
+
+            <tr *ngFor="let item of salesquotationObj?.sales_quotation_details; let i = index;">
+                <td class="p-2 border-1">{{ i + 1 }}</td>
+
+                <td class="p-2 border-1 text-left">
+                    <div *ngIf="item.item_code">{{ item.item_code }}</div>
+                    <!-- <div *ngIf="item.drawing_number">{{ item.drawing_number }}</div>
+                    <div *ngIf="item.product_name">{{ item.product_name }}</div> -->
+                </td>
+
+                <td class="p-2 border-1">{{ item.part_number }}</td>
+                <td class="p-2 border-1">{{ item.customer_part_number }}</td>
+                <td class="p-2 border-1">{{ item.product_name }}</td>
+                <td class="p-2 border-1">{{ item.description }}</td>
+                <td class="p-2 border-1">{{ item.hsn }}</td>
+                <td class="p-2 border-1">{{ item.unit_name }}</td>
+                <td class="p-2 border-1">{{ item.quantity }}</td>
+
+                <!-- <td *ngIf="hasDiscount()" class="p-2 border-1">{{ item.discount_amount }}</td> -->
+
+                <!-- <td *ngIf="hasDiscount()" class="p-2 border-1">
+                    {{ item.taxable_amount | number:'1.2-2' }}
+                </td> -->
+
+                <!-- TAX -->
+                <!-- <td *ngIf="hasTaxValue()" class="p-2 border-1">{{ item.tax }}%</td>
+                <td *ngIf="hasTaxValue()" class="p-2 border-1">{{ item.tax_value | number:'1.2-2' }}</td> -->
+
+                <!-- TOTAL -->
+                <!-- <td *ngIf="hasTaxValue() || hasDiscount()" class="p-2 border-1">
+                    {{ item.total | number:'1.2-2' }}
+                </td> -->
+            </tr>
+
+        </tbody>
+
+        <!-- TOTAL ROW -->
+        <tr class="text-base font-bold border ">
+            <!-- <td class="p-2 border-1"></td> -->
+            <!-- <td class="p-2 border-1 text-right">Total</td> -->
+            <!-- <td class="p-2 border-1"></td> -->
+            <!-- <td class="p-2 border-1">{{ salesquotationObj?.total_qty }}</td> -->
+            <!-- <td class="p-2 border-1"></td> -->
+            <!-- <td class="p-2 border-1">{{ calculatefinalPriceTotal() | number:'1.2-2' }}</td> -->
+<!-- 
+            <td *ngIf="hasDiscount()" class="p-2 border-1"></td>
+
+            <td *ngIf="hasDiscount()" class="p-2 border-1">
+                {{ salesquotationObj?.taxable_amount | number:'1.2-2' }}
+            </td>
+
+            <td *ngIf="hasTaxValue()" class="p-2 border-1"></td>
+
+            <td *ngIf="hasTaxValue()" class="p-2 border-1">
+                {{ calculateTaxTotal() | number:'1.2-2' }}
+            </td>
+ -->
+            <!-- <td *ngIf="hasTaxValue() || hasDiscount()" class="p-2 border-1">
+                {{ grandTotalValue() | number:'1.2-2' }}
+            </td> -->
+            <td colspan="8" style="text-align: right; font-size: 12px; padding:5px; border: 1px solid black;">Total</td>
+            <td class="custom-styles">{{ salesquotationObj?.total_qty }}</td>
+            <!-- <td class="p-2 border-1" colspan="100%">{{ salesquotationObj?.total_qty }}</td> -->
+            <!-- <td class="p-2 border-1">{{ salesquotationObj?.total_qty }}</td>-->
+        </tr> 
+
+        <!-- EXTRA CHARGES -->
+<!-- 
+        <tr *ngIf="salesquotationObj?.adjust_amount">
+            <td [attr.colspan]="calculateColspan()" class="p-2 border-1 text-right font-bold">Adjust Amount</td>
+            <td class="p-2 border-1">{{ salesquotationObj.adjust_amount | number:'1.2-2' }}</td>
+        </tr>
+
+        <tr *ngIf="salesquotationObj?.tcs">
+            <td [attr.colspan]="calculateColspan()" class="p-2 border-1 text-right font-bold">TCS</td>
+            <td class="p-2 border-1">{{ salesquotationObj.tcs | number:'1.2-2' }}</td>
+        </tr>
+                <tr *ngIf="salesquotationObj?.freight_charges">
+                    <td [attr.colspan]="calculateColspan()" class="p-2 border-1 text-right font-bold">Freight Charges</td>
+                    <td class="p-2 border-1">{{ salesquotationObj.freight_charges | number:'1.2-2' }}</td>
+                </tr>
+                 <tr *ngIf="salesquotationObj?.packing">
+                    <td [attr.colspan]="calculateColspan()" class="p-2 border-1 text-right font-bold">Packing</td>
+                    <td class="p-2 border-1">{{ salesquotationObj?.packing | number:'1.2-2' }}</td>
+                </tr>
+                 <tr *ngIf="salesquotationObj?.other_charges">
+                    <td [attr.colspan]="calculateColspan()" class="p-2 border-1 text-right font-bold">Other Charges</td>
+                    <td class="p-2 border-1">{{ salesquotationObj?.other_charges | number:'1.2-2' }}</td>
+                </tr>
+
+
+        <tr *ngIf="salesquotationObj?.charge_value">
+            <td [attr.colspan]="calculateColspan()" class="p-2 border-1 text-right font-bold">Charge Value</td>
+            <td class="p-2 border-1">{{ salesquotationObj.charge_value | number:'1.2-2' }}</td>
+        </tr> -->
+
+        <!-- GRAND TOTAL -->
+        <!-- <tr class="font-bold">
+            <td [attr.colspan]="calculateColspan()" class="p-2 border-1 text-right">Grand Total</td>
+            <td class="p-2 border-1">{{ salesquotationObj?.grand_total | number:'1.2-2' }}</td>
+        </tr> -->
+    </table>
+
+    <!-- AMOUNT IN WORDS -->
+    <!-- <div class="p-2 border-left-1 border-right-1 border-black-alpha-90">
+        <div style="display: flex; justify-content: space-between;">
+            <div>Amount Chargeable (in words)</div>
+            <div>E.& OE</div>
+        </div>
+
+        <div class="smallText">
+            Total: {{ amountInWord(salesquotationObj?.grand_total) }}
+        </div>
+    </div> -->
+
+    <!-- DECLARATION -->
+    <!-- <div class="flex flex-row border-1 border-top-none m-0">
+        <div class="w-6 p-2">
+            <b><u>Declaration:</u></b><br>
+            We declare that this invoice shows the actual price of the goods
+            described and that all particulars are correct.
+        </div>
+
+        <div class="w-6 p-2 text-right">
+            <div>For {{ companyName }}</div>
+            <div style="margin-top: 40px;">Authorised Signatory</div>
+        </div>
+    </div> -->
+
+    <p style="text-align: center;">This is a Computer Generated Forcast Sales Order</p>
+
+</div>

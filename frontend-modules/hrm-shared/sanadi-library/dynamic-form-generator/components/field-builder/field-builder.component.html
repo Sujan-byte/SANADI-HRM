@@ -1,0 +1,120 @@
+<!-- @if(!field?.hidden){ -->
+<div class="form-group row" [formGroup]="form"
+  class="{{ (field?.hideFunction ? hideFields(field?.hideFunction) : field?.hidden) ? 'display-none' : '' }}"
+  [hidden]="field?.isHiddenFunction ? hideFields(field?.hideFields) : field?.hidden">
+  @if(field?.type!='currency'){
+  <label class="col-md-3 form-control-label" [attr.for]="field?.label"
+    class="{{ field?.hideLabel ? 'dispplay-none' : '' }}"
+    [style]="{'font-size': field?.labelSize,'font-weight': field?.labelFontWeight}">
+    {{field?.labelFunction ? hideFields(field?.labelFunction) : field?.label}}
+
+    @if(field?.labelInfoFunction ? hideFields(field?.labelInfoFunction) : field?.labelInfo){
+    <i class="pi pi-info-circle"
+      [pTooltip]="field?.labelInfoFunction ? hideFields(field?.labelInfoFunction) : field?.labelInfo?.info"></i>
+    }
+
+    @if(field?.required){
+    <strong class="p-error block">*</strong>
+    }
+  </label>
+  }
+
+  <div class="{{ field?.hideLabel ? 'col-md-12' : 'col-md-9' }} mt-2">
+    @switch (field?.type) {
+    @case ('text') {
+    <textbox [field]="field" [form]="form" [rows]="field?.rows" [formFields]="formFields"></textbox>
+    }
+    @case ('input') {
+    <sanadi-input [field]="field" [form]="form" [rows]="field?.rows" [formFields]="formFields"></sanadi-input>
+    }
+    @case ('number') {
+    <number [field]="field" [form]="form" [formFields]="formFields"></number>
+    }
+    @case ('dropdown') {
+    <dropdown [field]="field" [form]="form" [formFields]="formFields"></dropdown>
+    }
+    @case ('checkbox') {
+    <checkbox [field]="field" [form]="form"></checkbox>
+    }
+    @case ('radio') {
+    <radio [field]="field" [form]="form"></radio>
+    }
+    @case ('file') {
+    <file [field]="field" [form]="form" [cardHeight]="field?.cardHeight" [imageHeight]="field?.imageHeight"
+      [imageWidth]="field?.imageWidth" [align]="field?.align" [downloadButton]="field?.downloadButton"
+      [labelOnDownload]="field?.labelOnDownload"></file>
+    }
+    @case ('date') {
+    <date [field]="field" [form]="form" [formFields]="formFields"></date>
+    }
+    @case ('autocomplete') {
+    <autocomplete [field]="field" [form]="form"></autocomplete>
+    }
+    @case ('boolean') {
+    <slide-toggle [field]="field" [form]="form" [formFields]="formFields"></slide-toggle>
+    }
+    @case ('p-file') {
+    <p-file [field]="field" [form]="form"></p-file>
+    }
+    @case ('multiselect') {
+    <app-multiselect [field]="field" [form]="form" [formFields]="formFields"></app-multiselect>
+    }
+    @case ('chips') {
+    <chips [field]="field" [formName]="field?.name" [form]="form"></chips> }
+    @case ('table') {
+    <table-field [form]="form" [columnSchema]="field?.columnSchema" [field]="field" [formName]="field?.name"
+      [formSchema]="field?.formSchema" [dataSource]="field?.dataSource" [selectedMainArray]="field?.mainSelectedArray"
+      [formInitialise]="field?.formInitialise" [dataKey]="field?.dataKey" [scrollHeight]="field?.scrollHeight"
+      [hideButton]="field?.hideButton" [hideFrozenColumn]="field?.hideFrozenColumn"
+      [formFields]="formFields"></table-field>
+    }
+    @case ('table-dynamic') {
+    <table-dynamic [form]="form" [field]="field" [formName]="field?.name" [formFields]="formFields"></table-dynamic>
+    }
+    <!-- @case ('subForm') {
+            <dynamic-form-builder [isActionNeeded]="true"  [fields]="field?.subForm"></dynamic-form-builder>
+          } -->
+    @case ('accordion') {
+    <sanadi-accordion [fields]="field?.fields" [mainField]="field" [form]="form" [multiple]="field?.multiple"
+      [formFields]="formFields"></sanadi-accordion>
+    }
+    @case ('map') {
+    @if(field?.isDialogOpened){
+    <div>
+      @defer (on timer(2000ms)){
+      <map [field]="field" [form]="form"></map>
+      }
+    </div>
+    }
+    }
+    @case('multi-blocks'){
+    <multi-blocks [fields]="field?.fields" [header]="field?.headerText" [fillScreen]="field?.fillScreen" [form]="form"
+      [legendAlign]="field?.legendAlign" [blockDivider]="field?.blockDivider" [toggleable]="field?.toggleable"
+      [ngStyle]="{'display':field?.visibility?field?.visibility:'block'}"></multi-blocks>
+    }
+    @case ('editor-js') {
+    <sanadi-editor-js [field]="field" [form]="form" [formFields]="formFields"></sanadi-editor-js>
+    }
+    @case ('password') {
+    <password [field]="field" [form]="form" [formFields]="formFields"></password>
+    }
+    @case ('carousel') {
+    <carousel [field]="field" [form]="form" [formFields]="formFields"></carousel>
+    }
+    @case ('dummy') {
+    <dummy [field]="field" [form]="form" [formFields]="formFields"></dummy>
+    }
+    @case ('button') {
+    <sanadi-button [field]="field" [form]="form" [formFields]="formFields"></sanadi-button>
+    }
+    @case ('currency') {
+      <sanadi-currency-form [field]="field" [form]="form" [formFields]="formFields"></sanadi-currency-form>
+      }
+    @case ('posting-preview') {
+      <sanadi-posting-preview [from_type]="field?.fromType" [from_id]="field?.fromId"></sanadi-posting-preview>
+      }
+    }
+  </div>
+
+</div>
+<!-- } -->

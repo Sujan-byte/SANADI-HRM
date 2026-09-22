@@ -1,0 +1,161 @@
+
+* {
+  color: black;
+}
+
+.cards {
+  color: black;
+  background-color: white !important;
+  padding: 10px;
+}
+
+.company-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: normal;
+}
+
+.company-name {
+  color: rgba(27, 20, 100, 255);
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.address,
+.location,
+.contact {
+  font-size: 11px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.title-section {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.title-section h1 {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.details-section {
+  margin-top: 20px;
+}
+
+.details-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.details-table .label {
+  width: 25%;
+  border: 1px solid black;
+  padding: 10px;
+  font-weight: bold;
+  background-color: #f9f9f9;
+}
+
+.details-table td {
+  width: 25%;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.custom-styles {
+  text-align: center;
+  color: black;
+  font-size: 12px;
+  padding: 4px;
+  border: 1px solid black;
+}
+
+.static-number {
+  position: absolute;
+  top: 10px;
+  right: 220px;
+  font-size: 14px;
+  font-weight: bold;
+  color: black;
+  z-index: 10;
+  /* Ensure it stays above other elements */
+}
+
+.page-break-inside-avoid {
+  page-break-inside: avoid;
+}
+
+@media print {
+
+     @page {
+    size: A4;
+    margin: 15mm; /* Standard A4 margins */
+  }
+  .header-section {
+    margin-top: 50px;
+    /* Add margin to avoid overlap with .static-number */
+    margin-bottom: 5px;
+    padding: 4px;
+    position: relative;
+    /* Ensure it doesn't interfere with .static-number */
+  }
+
+  .cards {
+    padding: 5px;
+  }
+
+  .custom-styles {
+    text-align: center;
+    color: black;
+    font-size: 12px;
+    padding: 4px;
+    border: 1px solid black;
+  }
+
+  .title-section {
+    margin-top: 10px;
+  }
+
+  .details-section {
+    margin-top: 10px;
+  }
+
+  .details-table {
+    margin-top: 10px;
+    font-size: 12px;
+  }
+
+  .details-table .label {
+    padding: 5px;
+  }
+
+  .details-table td {
+    padding: 5px;
+  }
+
+  .terms-and-conditions {
+    margin-top: 20px;
+    font-size: 12px;
+    text-align: left;
+    margin: 5px;
+    padding: 4px;
+  }
+
+  .changescolor {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    background-color: white;
+  }
+}
+
+

@@ -1,0 +1,10 @@
+::ng-deep.progressBar-green .p-progressbar-value{
+    background-color: var(--color-2)!important;
+  }
+  ::ng-deep.progressBar-orange .p-progressbar-value{
+     background-color: orange !important;
+  }
+ 
+ ::ng-deep.progressBar-red .p-progressbar-value{
+     background-color: red !important;
+  }

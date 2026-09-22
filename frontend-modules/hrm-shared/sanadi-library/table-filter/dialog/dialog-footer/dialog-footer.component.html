@@ -1,0 +1,38 @@
+<div class="flex flex-row justify-content-between align-items-center">
+    <div>
+        @if(dialogConfig.data?.tabConfig){
+            @if(dialogConfig.data?.tabConfig?.index > 0){
+                <button pButton label="Previous" class="primary" (click)="previousTab()"></button>
+            }
+            @if(dialogConfig.data?.tabConfig?.index !== dialogConfig.data?.tabConfig?.tabsLength - 1){
+                <button pButton label="Next" class="primary" (click)="nextTab()"></button>
+            }
+        }
+    </div>
+    @if(!dialogConfig?.data?.customDialog){
+    <div [style.width]="'50%'"><span><p-progressBar [value]="progressValue"
+                [ngClass]="{ 'progressBar-red': successResponse == false, 'progressBar-green': progressValue > 80, 'progressBar-orange': progressValue < 50 }"></p-progressBar></span>
+    </div>
+    }
+    <div>
+        @for(action of dialogConfig?.data?.config?.actionButton; track action?.show){
+            <button *ngIf="action?.show" pButton pRipple type="button" [icon]="action?.icon"
+                (click)="onClickActionButton(action)" [class]="action?.class" [iconPos]="action?.iconPos"
+                [label]="actionLabel(action)" style="border-radius: 7px !important;"
+                [disabled]="action?.disableFunction ? disableActionButton(action?.disableFunction) : action?.disabled"
+                class="{{ (action?.hiddenFunction ? disableActionButton(action?.hiddenFunction) : action?.hideen) ? 'hidden' : ''}}">
+            </button>
+        }
+        @if(checkApproveStatus()){
+            <p-button (onClick)="showRemarks()" icon="pi pi-arrow-up-left" label="Show Remarks" severity="secondary"
+                *ngIf="enableRemarks && !dialogConfig.data?.config?.customDialog" />
+            <!-- [showClear]="true" -->
+            <p-dropdown [options]="approvalOptions" [(ngModel)]="this.dialogConfig.data.item[getApprovalField()]"
+                optionLabel="label" optionValue="value"  [disabled]="checkDropdownDisabled()" [hidden]="!isApproveNeeded"></p-dropdown>
+        }
+        <button *ngIf="!(dialogConfig.data?.config?.hideCancelButton == true)" pButton label="Cancel" class="secondary" (click)="dialogRef.close()"></button>
+        <button *ngIf="!(dataConfig?.saveFunction ? disableActionButton(dataConfig?.saveFunction) : (dataConfig?.hideSaveButton == true))" pButton 
+            [label]="dialogConfig.data?.config?.submitButtonLabel ?? 'save_TC' | translate" class="primary"
+            (click)="onClickSave($event)" [disabled]="disableSaveButton()"></button>
+    </div>
+</div>

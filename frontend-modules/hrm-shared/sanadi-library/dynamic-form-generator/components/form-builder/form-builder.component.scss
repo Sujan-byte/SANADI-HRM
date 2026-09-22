@@ -1,0 +1,30 @@
+// .field-container {
+//     padding: 1rem 0.25rem;
+// }
+::ng-deep .card {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        transition: 0.3s;
+        border-radius: 5px; /* 5px rounded corners */
+ }
+
+//  ::ng-deep.progressBar-green .p-progressbar-value{
+//    background-color: green !important;
+//  }
+//  ::ng-deep.progressBar-orange .p-progressbar-value{
+//     background-color: orange !important;
+//  }
+
+// ::ng-deep.progressBar-red .p-progressbar-value{
+//     background-color: red !important;
+//  }
+
+ .disabled-text{
+    color: rgb(247, 83, 83);
+    font-size: large;
+    font-weight: 700;
+    font-family: var(--font-gilroy-medium);
+ }
+
+ .dispplay-none {
+    display: none;
+ }

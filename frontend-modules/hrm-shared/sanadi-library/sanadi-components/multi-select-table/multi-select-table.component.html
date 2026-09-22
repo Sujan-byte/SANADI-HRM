@@ -1,0 +1,139 @@
+<!-- SELECTED LIST -->
+@if (showListTable) {
+<p-table #tb [value]="field?.list" [paginator]="field?.paginator" [rows]="field?.rows ? field.rows : 10"
+    [dataKey]="dataKey" [(selection)]="selectedArray" [scrollable]="field?.scrollable"
+    [scrollHeight]="field?.scrollHeight ? field.scrollHeight : '65vh'" (onRowSelect)="onRowSelect($event)"
+    (onRowUnselect)="onRowUnselect($event)" [globalFilterFields]="field?.formInitialise" [columns]="field?.columnSchema"
+    [lazy]="field?.lazy ? field.lazy : false" [style]="{'font-size':'10.5px'}"
+    (onHeaderCheckboxToggle)="onSelectAllData($event)" [loading]="loading" [totalRecords]="totalRecords"
+    (onLazyLoad)="nextPage($event,this.field.queryParams)" styleClass="p-datatable-gridlines p-datatable-sm"
+    [showCurrentPageReport]="true" [resizableColumns]="true" columnResizeMode="expand">
+    <ng-template pTemplate="caption">
+        <span class="text-xl font-bold">{{field?.header}}</span>
+        <div class="flex flex-row justify-content-between">
+            <button class="p-button-outlined secondary" pButton icon="pi pi-angle-double-left"
+                (click)="toggleViewAddedList($event)" label="Added List" pTooltip="View Added List"></button>
+
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" [ngModel]="searchText" (ngModelChange)="globalSearch($event, tb)"
+                    placeholder="{{ 'search_TC' | translate}}" />
+            </span>
+            <!-- <button class="secondary" pButton icon="pi pi-times" (click)="ref.close()"></button> -->
+            <button class="p-button-outlined secondary" pButton icon="pi pi-filter" (click)="clearFilters(tb)"
+                pTooltip="Clear Filters"></button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th pFrozenColumn [style]="{'width': '10px'}">
+                <p-tableHeaderCheckbox id="headerCheckbox" name="headerCheckbox" [disabled]="isCheckBoxDisabled()"
+                    [ngStyle]="{ 'cursor': disableCheckBoxHeader ? 'not-allowed' : 'pointer' }"></p-tableHeaderCheckbox>
+            </th>
+            <ng-container *ngFor="let col of columns">
+                <th [pSortableColumn]="col?.field" [style]="{'width': col?.width}">
+                    {{ col?.name | translate }}
+                    <p-columnFilter #filter [field]="col?.field" display="menu"
+                        *ngIf="!col?.hidefilterColumn && field?.lazy" [matchMode]="col?.defaultMatchMode??'icontains'"
+                        [matchModeOptions]="col?.matchModeOptions ?? matchModeOption" appendTo="body" hideOnClear="true"
+                        [type]="col?.fieldType??'text'" modal="true"></p-columnFilter>
+                </th>
+            </ng-container>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-item>
+        <tr pSelectableRowDisabled="true">
+            <td pFrozenColumn [style]="{'width': '10px'}">
+                <p-tableCheckbox id="checkbox" name="checkbox" [disabled]="item[field?.disabledField]"
+                    [ngStyle]="{ 'cursor': item[field?.disabledField] ? 'not-allowed' : 'pointer' }"
+                    [value]="item"></p-tableCheckbox>
+            </td>
+            <ng-container *ngFor="let row of field?.formInitialise">
+                <td class="{{ (row?.type === 'number') ? 'text-right' : '' }}">
+                    @if (row?.key) {
+                    @if(row?.type === 'number') {
+                    {{ displayNumber(item[row?.key], row?.format, row?.locale) }}
+                    } @else if (row?.type === 'date') {
+                    {{ row?.format ? formatDate(item, row) : item[row?.key] }}
+                    } @else {
+                    {{ item[row?.key] }}
+                    }
+                    } @else {
+                    {{item[row]}}
+                    }
+                </td>
+            </ng-container>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft" let-state>
+        <button pButton pRipple (click)="getOverlayPanel($event)" *ngIf="showAddButton"
+            class="p-button-success p-button-sm" label="ADD" type="button"></button>
+    </ng-template>
+</p-table>
+<!-- LIST VIEW -->
+} @else {
+<p-table #addedTb [value]="addedList" [paginator]="field?.paginator" [rows]="field?.rows ? field.rows : 10"
+    [dataKey]="dataKey" [scrollable]="field?.scrollable"
+    [scrollHeight]="field?.scrollHeight ? field.scrollHeight : '65vh'" [globalFilterFields]="field?.formInitialise"
+    [columns]="field?.columnSchema" [style]="{'font-size':'10.5px'}" [loading]="addedLoading"
+    [totalRecords]="addedTotalRecords" styleClass="p-datatable-gridlines p-datatable-sm" [showCurrentPageReport]="true"
+    [resizableColumns]="true" columnResizeMode="expand">
+    <ng-template pTemplate="caption">
+        <span class="text-xl font-bold">{{field?.header}}</span>
+        <div class="flex flex-row justify-content-between">
+            <button class="p-button-outlined secondary" pButton icon="pi pi-angle-double-right"
+                (click)="toggleViewAddedList($event)" label="Select List" pTooltip="Select List"
+                iconPos="right"></button>
+
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" [ngModel]="searchText" (ngModelChange)="globalSearchAddedList($event)"
+                    placeholder="{{ 'search_TC' | translate}}" />
+            </span>
+
+            <button class="p-button-outlined secondary" pButton icon="pi pi-filter" (click)="clearFilters(addedTb)"
+                pTooltip="Clear Filters"></button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <ng-container *ngFor="let col of columns">
+                <th [pSortableColumn]="col?.representation" [style]="{'width': col?.width}">
+                    {{ col?.name | translate }}
+                    <p-columnFilter *ngIf="!col?.hidefilterColumn" [field]="col?.representation" display="menu"
+                        [matchMode]="'contains'" appendTo="body" type="text" hideOnClear="true"></p-columnFilter>
+                </th>
+            </ng-container>
+            <th pFrozenColumn alignFrozen="right" [frozen]="true" [style]="{'width': '10px'}"></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-item>
+        <tr pSelectableRowDisabled="true">
+            <ng-container *ngFor="let row of field?.formInitialise">
+                <td class="{{ (row?.type === 'number') ? 'text-right' : '' }}">
+                    @if (row?.key) {
+                    @if(row?.type === 'number') {
+                    {{ displayNumber(item[row?.key], row?.format, row?.locale) }}
+                    } @else if (row?.type === 'date') {
+                    {{ row?.format ? formatDate(item, row) : item[row?.key] }}
+                    } @else {
+                    {{ item[row?.key] }}
+                    }
+                    } @else {
+                    {{item[row]}}
+                    }
+                </td>
+            </ng-container>
+            <td pFrozenColumn alignFrozen="right" [frozen]="true">
+                <button pButton pRipple type="button" icon="pi pi-trash" (click)="onDeleteAddedList(item)"
+                    class="p-button-rounded p-button-text">
+                </button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft" let-state>
+        <button pButton pRipple (click)="getOverlayPanel($event)" *ngIf="showAddButton"
+            class="p-button-success p-button-sm" label="ADD" type="button"></button>
+    </ng-template>
+</p-table>
+}

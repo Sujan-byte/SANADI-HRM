@@ -1,0 +1,77 @@
+<form class="flex flex-column gap-2" (ngSubmit)="onSubmit.emit(this.form.value)" [formGroup]="form"
+  class="form-horizontal">
+  <div class="flex flex-row flex-wrap gap-2">
+
+    <!-- [snFlex]="(fullScreen && (field?.type !== 'table' && field?.type !== 'fieldset' && field?.type !== 'card' && field?.type !== 'tab' && field?.type !== 'multi-blocks')) ? 48 : 100" -->
+    <!-- above commented was in below div -->
+    <div class="{{ field?.hidden ? 'dispplay-none' : 'field-container flex-grow-1' }}" *ngFor="let field of fields"
+      [ngStyle]="{'width': field?.fieldWidth }">
+      <dynamic-field-builder [field]="field" [form]="form" class="w-full"
+        *ngIf="field?.type !== 'card' || field?.type !== 'fieldset' || field?.type !== 'tab'|| field?.type !== 'multi-blocks'"
+        [formFields]="fields"></dynamic-field-builder>
+      <card [fields]="field?.fields" [header]="field?.headerText" [footer]="field?.footerText" [form]="form"
+        [fillScreen]="field?.fillScreen" *ngIf="field?.type === 'card'"
+        [ngStyle]="{'display':field?.visibility?field.visibility:'block'}"></card>
+      <app-fieldset [fields]="field?.fields" [header]="field?.headerText" [fillScreen]="field?.fillScreen"
+        [height]="field?.height" [align]="field?.align" [collapsed]="field?.collapsed"
+        [legendAlign]="field?.legendAlign" [form]="form" *ngIf="field?.type === 'fieldset'"
+        [ngStyle]="{'display':field?.visibility?field.visibility:'block'}">
+      </app-fieldset>
+      <multi-blocks [fields]="field?.fields" [header]="field?.headerText" [fillScreen]="field?.fillScreen" [form]="form"
+        *ngIf="field?.type === 'multi-blocks'" [legendAlign]="field?.legendAlign" [blockDivider]="field?.blockDivider"
+        [ngStyle]="{'display':field?.visibility?field.visibility:'block'}"></multi-blocks>
+      <tab [fields]="field?.fields" [headerTextArray]="field?.headerTextArray" [form]="form"
+        (onTabChange)="onTabChange.emit($event)" *ngIf="field?.type === 'tab'"></tab>
+
+      <div *ngIf="showDialogueModifier">
+        <p-dialog header="{{dialogueHeaderText}}" (visibleChange)="handleDialogue($event)" [modal]="true"
+          [appendTo]="'body'" [dismissableMask]="true" [(visible)]="showDialogueModifier"
+          [style]="{width: '60vw', height: dialogueAttributes?.height?dialogueAttributes?.height:'70vh'}"
+          styleClass="card">
+          <dynamic-form-builder [fields]="dialogueFields" (onSubmit)="saveDialogueData($event)"></dynamic-form-builder>
+        </p-dialog>
+        <!-- [fields]="field.dialogueFields" -->
+        <!-- (onSubmit)="saveDialogueData($event)" -->
+      </div>
+    </div>
+  </div>
+
+  @if(!isActionNeeded){
+    <div class="flex flex-row justify-content-between">
+      <div class="col-md-12" *ngIf="formDisabledObject?.formDisabled==true; else condition2">
+        <marquee width="100%" direction="left">
+          <span class="disabled-text" [innerHTML]="formDisabledObject?.formDisabledText"></span>
+        </marquee>
+
+      </div>
+      <ng-template #condition2>
+        <div class="col-md-12 mt-2">
+          <button *ngIf="buttonLabel == 'save' || buttonLabel == 'query' || buttonLabel == 'approve'" pButton
+            type="button" (click)="onSubmit.emit(this.form.value)" [disabled]="!form.valid || disabled"
+            label="{{ submitLabel | translate}}" class="primary"></button>
+          <span *ngxPermissionsOnly="['security.canView_DGM']"><button *ngIf="approveButton == 'approve'" pButton
+              type="button" [disabled]="!form.valid || disabled" label="Approve" class=" p-button-warning"
+              (click)="approveData()" [style]="{'margin-left': '20px'}"></button></span>
+          <button *ngIf="buttonLabel == 'approved'" pButton type="submit" [disabled]="!form.valid || disabled"
+            label="Approved" class="btn btn-success" [style]="{'margin-left': '20px'}"></button>
+          <button *ngIf="approvedButton == 'approved'" pButton type="button" label="Approved" class="p-button-success"
+            [style]="{'margin-left': '20px'}"></button>
+          <button *ngIf="buttonLabel == 'query'" (click)="showDialog()" pButton type="button" label="Query"
+            class="p-button-help" [style]="{'margin-left': '20px'}"></button>
+          <span *ngIf="externalLinkObject  && externalLinkObject.visibleButton==true">
+            <button *ngIf="externalLinkObject.buttonLink == 'external-link'" (click)="confirmPosition('bottom')"
+              [style]="{'margin-left': '20px'}" pButton type="button" label="Add Amendment Form"
+              icon="pi pi-external-link" class="p-button-warning" badge="8" badgeClass="p-badge-info"></button>
+            <p-confirmDialog [style]="{width: '50vw'}" key="positionDialog" [position]="position" [baseZIndex]="10000"
+              rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>
+            <p-toast></p-toast>
+          </span>
+        </div>
+        <div class="flex flex-column"><span><p-progressBar [value]="progressValue"
+              [ngClass]="{'progressBar-red': successResponse==false,'progressBar-green': progressValue > 80, 'progressBar-orange': progressValue < 50}"></p-progressBar></span>
+        </div>
+      </ng-template>
+    </div>
+  }
+
+</form>

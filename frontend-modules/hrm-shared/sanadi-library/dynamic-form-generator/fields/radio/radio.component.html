@@ -1,0 +1,6 @@
+<div [formGroup]="form">
+  <div class="p-field-checkbox">
+    <p-radioButton [name]="field?.name" [formControlName]="field?.name" *ngFor="let opt of field?.options"
+      [inputId]="opt?.id" [label]="opt?.label" [value]="opt?.key" [ngClass]="{'selected':opt?.key}"></p-radioButton>
+  </div>
+</div>

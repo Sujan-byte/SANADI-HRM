@@ -1,0 +1,180 @@
+<div [formGroup]="form" class="flex flex-row">
+
+  @if(field?.variant === "basic"){
+  <div class="flex flex-column gap-2 w-full" >
+    <!-- <label for="field?.name">{{field?.label}}</label> -->
+    <p-dropdown class="flex-grow-1" appendTo="body"
+      [autoDisplayFirst]="field?.autoDisplayFirst ? field.autoDisplayFirst:false" [options]="field?.options()"
+      [id]="field?.label" [name]="field?.name" [formControlName]="field?.name" [optionLabel]="field?.optionLabel"
+      [optionValue]="field?.optionValue" [filter]="field?.filter"
+      [filterBy]="field?.optionLabelList?.length ? field?.optionLabelList.toLocaleString() : field?.optionLabel"
+      [showClear]="field?.showClearIcon && !isReadonly" [placeholder]="dynamicPlaceholder"
+      [virtualScroll]="true" [virtualScrollItemSize]="50" [style]="{'width': field?.dialogue ? '90%' : '100%'}"
+      (onChange)="onChangeHandler($event)" [readonly]="isReadonly" (onFilter)="onFilterChangeHandler($event)"
+      (onClick)="onClickDropdown($event)" [emptyFilterMessage]="'noResultFoundErrorMsg_SC' | translate" (onClear)="onClearHandler($event)">
+      
+      <!-- Selected Item Template -->
+      <ng-template pTemplate="selectedItem">
+        <div class="item-item item-item-value" *ngIf="!field?.value">
+          <div>--</div>
+        </div>
+        <div class="item-item item-item-value selected-item-tooltip line-clamp-1" 
+             *ngIf="field?.value"
+             [pTooltip]="getDropDownText(field?.value)" 
+             tooltipPosition="top" 
+             style="max-width: 280px; cursor: pointer;">
+          {{ getDropDownText(field?.value) }}
+        </div>
+      </ng-template>
+
+      <!-- Regular Item Template (without label list) -->
+      <ng-template *ngIf="!field?.optionLabelList" let-item pTemplate="item">
+        <div class="item-item">
+          <div class="dropdown-item-text line-clamp-2" 
+               [style]="{'width':field?.maxWidth??'100%'}" 
+               [pTooltip]="item[field?.optionLabel]" 
+               tooltipPosition="top">
+            {{item[field?.optionLabel]}}
+          </div>
+        </div>
+      </ng-template>
+
+      <!-- Item Template with Label List -->
+      <ng-template *ngIf="field?.optionLabelList" let-item pTemplate="item">
+        <div class="item-item">
+          <div class="dropdown-item-text line-clamp-2" 
+               [style]="{'width':field?.maxWidth??'100%'}"
+               [pTooltip]="getOptionValue(item, field?.optionLabelList)" 
+               tooltipPosition="top">
+            {{getOptionValue(item, field?.optionLabelList)}}
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="emptyfilter">
+        <div [style]="{'display':'flex','justify-content':'center'}">
+          <ng-container *ngIf="loading; else noResults">
+            <p-progressSpinner [style]="{'width':'4rem','height':'4rem'}" strokeWidth="2" fill="var(--surface-ground)"
+              animationDuration="1s"></p-progressSpinner>
+          </ng-container>
+        </div>
+        <ng-template #noResults>
+          <div>{{'noResultFoundErrorMsg_SC' | translate}}</div>
+        </ng-template>
+      </ng-template>
+    </p-dropdown>
+  </div>
+  }
+  @else{
+  <div class="flex flex-column gap-2 w-full">
+    <div class="flex flex-row">
+      <p-dropdown #dp class="flex-grow-1" appendTo="body"
+        [autoDisplayFirst]="field?.autoDisplayFirst ? field.autoDisplayFirst:false" [options]="field?.options()"
+        [id]="field?.label" [name]="field?.name" [formControlName]="field?.name" [optionLabel]="field?.optionLabel"
+        [optionValue]="field?.optionValue" [filter]="!field?.lazyFilterDropdown" [virtualScroll]="true" [virtualScrollItemSize]="50"
+        [filterBy]="field?.optionLabelList?.length ? field?.optionLabelList.toLocaleString() : field?.optionLabel"
+        [showClear]="field?.showClearIcon && !isReadonly" [placeholder]="dynamicPlaceholder"
+        [style]="{'width': field?.dialogue ? '90%' : '100%','border-radius':(field?.subForm?.length || field?.dialogue || field.dynamicDialogConfig || field?.hrefButtonConfig) && (field?.showButton !== false) ?'6px 0px 0px 6px':'6px 6px 6px 6px','max-width':field?.maxWidth??'100%'}"
+        (onChange)="onChangeHandler($event)" [readonly]="isReadonly" (onFilter)="onFilterChangeHandler($event)"
+        (onClick)="onClickDropdown($event)" [emptyFilterMessage]="'noResultFoundErrorMsg_SC' | translate"
+        (onHide)="clearFilter(dp)" (onClear)="onClearHandler($event)" >
+
+        <!-- Search-on-demand header: API fires only on Enter / search button, not per keystroke -->
+        <ng-template pTemplate="header" *ngIf="field?.lazyFilterDropdown">
+          <div class="flex gap-1 p-2" (keydown.enter)="$event.stopPropagation()">
+            <input #searchBox type="text" pInputText class="flex-grow-1"
+                   [placeholder]="'noResultFoundErrorMsg_SC' | translate"
+                   (input)="onLazySearchInput(searchBox.value)"
+                   (keyup.enter)="runLazySearch(searchBox.value)" />
+            <button pButton type="button" icon="pi pi-search" class="primary"
+                    (click)="runLazySearch(searchBox.value)"></button>
+          </div>
+        </ng-template>
+
+        <!-- Selected Item Template -->
+        <ng-template pTemplate="selectedItem">
+          <div class="item-item item-item-value" *ngIf="!field?.value">
+            <div>--</div>
+          </div>
+          <div class="item-item item-item-value selected-item-tooltip line-clamp-1"
+               *ngIf="field?.value"
+               [pTooltip]="getDropDownText(field?.value)"
+               tooltipPosition="top"
+               style="max-width: 280px; cursor: pointer;">
+            {{ getDropDownText(field?.value) }}
+          </div>
+        </ng-template>
+
+        <!-- Regular Item Template (without label list) -->
+        <ng-template *ngIf="!field?.optionLabelList" let-item pTemplate="item">
+          <div class="item-item">
+            <div class="dropdown-item-text line-clamp-2"
+                 [style]="{'width':field?.maxWidth??'100%'}"
+                 [pTooltip]="item[field?.optionLabel]"
+                 tooltipPosition="top">
+              {{item[field?.optionLabel]}}
+            </div>
+          </div>
+        </ng-template>
+
+        <!-- Item Template with Label List -->
+        <ng-template *ngIf="field?.optionLabelList" let-item pTemplate="item">
+          <div class="item-item">
+            <div class="dropdown-item-text line-clamp-2" 
+                 [style]="{'width':field?.maxWidth??'100%'}"
+                 [pTooltip]="getOptionValue(item, field?.optionLabelList)" 
+                 tooltipPosition="top">
+              {{getOptionValue(item, field?.optionLabelList)}}
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="emptyfilter">
+          <div [style]="{'display':'flex','justify-content':'center'}">
+            <ng-container *ngIf="loading; else noResults">
+              <p-progressSpinner [style]="{'width':'4rem','height':'4rem'}" strokeWidth="2" fill="var(--surface-ground)"
+                animationDuration="1s"></p-progressSpinner>
+            </ng-container>
+          </div>
+          <ng-template #noResults>
+            <div>{{'noResultFoundErrorMsg_SC' | translate}}</div>
+          </ng-template>
+        </ng-template>
+      </p-dropdown>
+      
+      @if((field?.subForm?.length || field.dynamicDialogConfig || field?.hrefButtonConfig) && (field?.showButton !== false)){
+      <button pButton [icon]="field?.hrefButtonConfig?field.hrefButtonConfig.hrefButtonIcon:'pi pi-plus'" type="button"
+        [disabled]="this.field?.dynamicDialogConfig?.disabled" class="primary custom-dropdwon-button"
+        (click)="onClickDp(op)"></button>
+      }
+      @if(field?.buttonConfig){
+      <button pButton [icon]="field?.buttonConfig?.icon ? field?.buttonConfig?.icon : 'pi pi-plus'"
+        [pTooltip]="field?.buttonConfig?.toolTip"
+        [tooltipPosition]="field?.buttonConfig?.tooltipPosition ? field?.buttonConfig?.tooltipPosition : 'top'"
+        type="button" class="primary custom-dropdown-button"
+        [disabled]="field?.buttonConfig?.disabled ? field?.buttonConfig?.disabled : false"
+        (click)="loadComponent($event)"></button>
+      }
+      <button pButton [style]="{'width':'10%'}" icon="pi pi-plus" type="button" (click)="showDialog()"
+        *ngIf="field?.dialogue"></button>
+    </div>
+    <div *ngIf="inValid" class="p-error block">
+      <small *ngIf="isError">{{errorText}}</small>
+    </div>
+  </div>
+  }
+  
+  <div *ngIf="field?.dialogue">
+    <p-dialog [modal]="true" [appendTo]="'body'" [dismissableMask]="true" header="{{field.dialogueLabel}}"
+      [(visible)]="display" (visibleChange)="handleDialogue($event)" [style]="{width: '90vw', height: '90vh'}">
+      <dynamic-form-builder [fields]="field.dialogueFields"
+        (onSubmit)="saveDialogueData($event)"></dynamic-form-builder>
+    </p-dialog>
+  </div>
+</div>
+
+<p-overlayPanel #op>
+  @if(field?.subForm?.length){
+  <dynamic-form-builder [fields]="field.subForm" (onSubmit)="saveDialogueData($event)"></dynamic-form-builder>
+  }
+</p-overlayPanel>

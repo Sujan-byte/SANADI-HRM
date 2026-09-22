@@ -1,0 +1,15 @@
+<p-accordion #acc [multiple]="multiple" [style]="accordionStyle">
+    <ng-container *ngFor="let field of fields">
+        <p-accordionTab header="{{field.accordionHeader}}" [selected]="field?.selected" [hidden]="field?.hidden">
+            <div class="flex flex-row gap-3 flex-wrap w-full" >
+                <ng-container *ngFor="let accordionField of field.fields">
+                    <div class="{{ accordionField?.isHiddenFunction ? hideFields(accordionField?.hideFields) : ((accordionField?.hideFunction ? hideFields(accordionField?.hideFunction) : accordionField?.hidden)) ? 'display-none' : '' }}"
+                        [style.width]="accordionField.fieldWidth">
+                        <dynamic-field-builder class="w-full" [field]="accordionField" 
+                            [form]="form" [formFields]="formFields"></dynamic-field-builder>
+                    </div>
+                </ng-container>
+            </div>
+        </p-accordionTab>
+    </ng-container>
+</p-accordion>

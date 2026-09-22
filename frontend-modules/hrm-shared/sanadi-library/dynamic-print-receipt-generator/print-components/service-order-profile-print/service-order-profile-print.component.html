@@ -1,0 +1,372 @@
+<div class="cards" style="color: black; background-color: white !important; ">
+    <!-- <div style=" font-size: 12px; border: 1px solid black; padding:5px !important;"> -->
+
+    <div style="display: flex; flex-direction: row;border: 1px solid black;">
+
+        <div class="container"
+            style="display: flex; width: 33%;border: 1px solid black; border-left:none;border-top:none;border-bottom:none; ">
+            <div class="logo" *ngIf="companyLogo != 'null'"
+                style="display:flex; flex-direction: row; align-items: center;">
+                <img src="{{companyLogo}}" alt="logo" class="img-fluid" style="width: 40%; ">
+                <h3 style="color:darkblue;">Smart Labtech</h3>
+            </div>
+        </div>
+
+        <div class="container"
+            style="display: flex; width: 33%; justify-content: center; align-items: center;border: 1px solid black; border-left:none;border-top:none;border-bottom:none;">
+            <p><b><u>Service Order Profile</u></b></p>
+        </div>
+
+        <div class="container" style="display: flex; width: 33%; justify-content: center;align-items: center;">
+            <p><u>SMART Labtech Pvt Ltd</u><br />
+                Plot #75B,Sy#735,<br />
+                SV Co-op Industrial Estate,<br />
+                Balanagar,Phase-2<br />
+                Hyderabad-500037</p>
+        </div>
+
+    </div>
+
+    <p style="padding:5px;"> <small> </small></p>
+
+    <table class="table table-sm text-nowrap" style="border-collapse: collapse; width:100%; ">
+
+        <tbody style="color:black; border-collapse: collapse;">
+
+            <tr>
+                <td style=" color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 20%;">
+                    OP No</td>
+                <td style=" color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 30%;">
+                    {{serviceOrderProfileObj.order_profile_no && serviceOrderProfileObj.order_profile_no ?
+                    serviceOrderProfileObj.order_profile_no : "-"}}</td>
+                <td
+                    style=" color:black; font-size: 12px; padding:4px; border: 1px solid black;border-left: none;width: 20%;">
+                    Date</td>
+                <td style=" color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 30%;">
+                    {{serviceOrderProfileObj.order_profile_date && serviceOrderProfileObj.order_profile_date ?
+                    serviceOrderProfileObj.order_profile_date : "-"}}
+
+                </td>
+
+            </tr>
+            <tr>
+                <td style="color:black; font-size: 12px; border: 1px solid black;width: 20%;">
+                    Customer</td>
+                <td style=" color:black; font-size: 12px; border: 1px solid black;width: 30%;">
+                    {{serviceOrderProfileObj.customerName && serviceOrderProfileObj.customerName ?
+                    serviceOrderProfileObj.customerName : "-"}}
+                </td>
+                <td style=" color:black; font-size: 12px; border: 1px solid black;border-left: none;width: 20%;">
+                    Consignee</td>
+                <td style=" color:black; font-size: 12px; border: 1px solid black;width: 30%;">
+
+                    {{serviceOrderProfileObj.ship_to_address && serviceOrderProfileObj.ship_to_address ?
+                    serviceOrderProfileObj.ship_to_address : "-"}}
+                    <p> City Name : Turkampally <br />
+                        State Name : Telangana, Code : 36 <br />
+                        GSTIN/UIN : 36AAACH5506R1Z8 </p>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td style="color:black; font-size: 12px; border: 1px solid black;width: 20%;">
+                    Invoicing </td>
+                <td style=" color:black; font-size: 12px; border: 1px solid black;width: 30%;">
+                    {{serviceOrderProfileObj.bill_to_address ? serviceOrderProfileObj.bill_to_address : "-"}}
+                    <p>City Name : Shivamogga <br />
+                        State Name : Karnataka, Code : 29 <br />
+                        GSTIN/UIN : 36AAACH7409R1ZZ </p>
+
+                </td>
+                <td style=" color:black; font-size: 12px; border: 1px solid black;border-left: none;width: 20%;">
+                    End User
+                    Details(For
+                    Service
+                    Department
+                    Use)
+                </td>
+                <td style=" color:black; font-size: 12px; border: 1px solid black;">
+                    <div style=" color:black; font-size: 12px;display: flex; flex-direction: row; ">
+                        <div style="width: 50%;  ">
+                            Name : </div>
+                        <div style="width: 50%;  ">
+                            {{serviceOrderProfileObj.poc_name && serviceOrderProfileObj.poc_name ?
+                            serviceOrderProfileObj.poc_name : "-"}}
+                        </div>
+                    </div>
+
+                    <div style=" color:black; font-size: 12px;display: flex; flex-direction: row; ">
+                        <div style="width: 50%; ">
+                            Email : </div>
+                        <div style="width: 50%;  ">
+                            {{serviceOrderProfileObj.poc_email && serviceOrderProfileObj.poc_email ?
+                            serviceOrderProfileObj.poc_email : "-"
+                            }}
+                        </div>
+                    </div>
+                    <div style=" color:black; font-size: 12px;display: flex; flex-direction: row; ">
+                        <div style="width: 50%;  ">
+                            Telephone No : </div>
+                        <div style="width: 50%; ">
+
+
+                            {{serviceOrderProfileObj.poc_mobile && serviceOrderProfileObj.poc_mobile ?
+                            serviceOrderProfileObj.poc_mobile : "-"
+                            }}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="color:black; font-size: 12px; border: 1px solid black;width: 20%;">
+                    PO No : </td>
+                <td style=" color:black; font-size: 12px; border: 1px solid black;width: 30%;">
+                    {{serviceOrderProfileObj.customer_po_number && serviceOrderProfileObj.customer_po_number ?
+                    serviceOrderProfileObj.customer_po_number : "-"}}
+                </td>
+                <td style=" color:black; font-size: 12px; border: 1px solid black;border-left: none;width: 20%;">
+                    PO Date : </td>
+                <td style=" color:black; font-size: 12px; border: 1px solid black;width: 30%;">
+                    {{serviceOrderProfileObj.customer_po_date && serviceOrderProfileObj.customer_po_date ?
+                    serviceOrderProfileObj.customer_po_date : "-"}}
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+    <p style="padding:5px;"><b><u>Product Details</u></b></p>
+
+    <table class="table table-sm text-nowrap" style="border-collapse: collapse; width:100%; ">
+
+        <thead style="color:black; border-collapse: collapse; margin-top:20px;">
+
+            <tr>
+                <th
+                    style="text-align: center; color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 5%;">
+                    Sl No</th>
+                <th
+                    style="text-align: center; color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 10%">
+                    Product</th>
+                <th
+                    style="text-align: center; color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 10%">
+                    Principle</th>
+                <th
+                    style="text-align: center; color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 20%;">
+                    Model</th>
+                <th
+                    style="text-align: center; color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 20%;">
+                    Type</th>
+                <th
+                    style="text-align: center; color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 10%;">
+                    Quantity</th>
+                <th
+                    style="text-align: center; color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 10%;">
+                    Unit Price
+                </th>
+                <th
+                    style="text-align: center; color:black; font-size: 12px; padding:4px; border: 1px solid black;width: 15%;">
+                    Total Price
+                </th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let item of serviceOrderProfileObj.service_order_profile_details
+            ; let index = index">
+            <tr>
+                <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;">
+                    {{index + 1}}
+                </td>
+                <td
+                    style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                    {{item.product_name && item.product_name ? item.product_name : "-"
+                    }}
+                </td>
+                <td
+                    style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                    {{item.brand && item.brand ? item.brand : "-"}}
+                </td>
+                <td
+                    style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                    {{item.model && item.model ? item.model : "-"}}
+                </td>
+                <td
+                    style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                    General Sales
+                </td>
+                <td
+                    style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                    {{item.qty && item.qty ? item.qty : "-"}}
+                </td>
+                <td
+                    style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                    {{item.unit_price && item.unit_price ? item.unit_price : "-"
+                    }}
+                </td>
+                <td
+                    style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                    {{item.total_amount && item.total_amount ? item.total_amount : "-"}}
+                </td>
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;">
+                    Tax Type:
+                </td>
+                <td
+                    style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                    <!-- {{serviceOrderProfileObj.tax && serviceOrderProfileObj.tax ? serviceOrderProfileObj.tax : "-"}} -->
+                    18%
+                </td>
+                <td colspan="5"
+                    style="text-align:right; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                    Tax Amt
+                </td>
+                <td
+                    style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                    {{taxAmount && taxAmount ? taxAmount : "-"}}
+
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="7" style="text-align: right; font-size: 12px; padding:5px; border: 1px solid black;">
+                    Total amount:
+                </td>
+                <td
+                    style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                    <b>{{serviceOrderProfileObj.grand_total && serviceOrderProfileObj.grand_total ?
+                        serviceOrderProfileObj.grand_total : "-"}}</b>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <table class="table table-sm text-nowrap"
+        style="border-collapse: collapse; width:100%; margin-top:2%; page-break-inside: avoid;">
+        <tbody>
+            <tr>
+                <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black; width: 10%;">
+                    Freight
+                </td>
+                <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black; width: 40%;">
+                    {{serviceOrderProfileObj.freight && serviceOrderProfileObj.freight ? serviceOrderProfileObj.freight
+                    : "-"}}
+                </td>
+                <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black; width: 10%;">
+                    Insurance
+                </td>
+                <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black; width: 40%;">
+                    {{serviceOrderProfileObj.insurance && serviceOrderProfileObj.insurance ?
+                    serviceOrderProfileObj.insurance : "-"}}
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black; width: 10%;">
+                    Dispatch
+                </td>
+                <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black; width: 40%;">
+                    {{serviceOrderProfileObj.dispatch_mode && serviceOrderProfileObj.dispatch_mode ?
+                    serviceOrderProfileObj.dispatch_mode : "-"}}
+                </td>
+                <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black; width: 10%;">
+                    Road Permit
+                </td>
+                <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black; width: 40%;">
+                    {{serviceOrderProfileObj.road_permit && serviceOrderProfileObj.road_permit ?
+                    serviceOrderProfileObj.road_permit : "-"}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <table class="table table-sm text-nowrap"
+        style="border-collapse: collapse; width:100%; margin-top:2%; page-break-inside: avoid;">
+        <tbody>
+            <tr>
+                <td colspan="2"
+                    style="text-align: left; font-size: 12px; padding:5px; border: 1px solid black; width:100%;">
+                    Payment Terms : <b> {{serviceOrderProfileObj.payment_terms && serviceOrderProfileObj.payment_terms ?
+                        serviceOrderProfileObj.payment_terms : "-"}} </b>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td style="text-align: left; font-size: 12px; padding:5px; border: 1px solid black; width:20%;">
+                    GSTIN No
+                </td>
+                <td style="text-align: left; font-size: 12px; padding:5px; border: 1px solid black; width:30%;">
+                    {{serviceOrderProfileObj.gstin_no && serviceOrderProfileObj.gstin_no ?
+                    serviceOrderProfileObj.gstin_no : "-"}}
+
+                </td>
+
+            </tr>
+
+            <tr>
+                <td style="text-align: left; font-size: 12px; padding:5px; border: 1px solid black; width:20%;">
+                    Delivery
+                </td>
+                <td style="text-align: left; font-size: 12px; padding:5px; border: 1px solid black; width:30%;">
+                    {{serviceOrderProfileObj.delivery && serviceOrderProfileObj.delivery ?
+                    serviceOrderProfileObj.delivery : "-"}}
+
+                </td>
+
+            </tr>
+
+            <tr>
+                <td colspan="2"
+                    style="text-align: left; font-size: 12px; padding:5px; border: 1px solid black; width:100%;">
+                    Remarks: {{serviceOrderProfileObj.delivery_remarks && serviceOrderProfileObj.delivery_remarks ?
+                    serviceOrderProfileObj.delivery_remarks : "-"}}
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <div style="border:1px solid black; margin-top:10px; page-break-inside: avoid;">
+        <p style="padding:5px;"><b><u>Terms and Conditions</u></b></p>
+
+
+        <div *ngFor=" let item of serviceOrderProfileObj.service_order_profile_terms_and_condition; let index = index; "
+            style="margin-bottom: 5px; padding-left: 4px;">
+            <!-- <p><b>{{item.term && item.term ? item.term : "-"}} : </b> {{item.description && item.description ? item.description : "-"}} </p> -->
+            <div style="display:flex;page-break-inside: avoid;">
+                <p *ngIf="item?.term">
+                    <b>{{item?.term ? item?.term : ""}} {{item?.term ? ":" : ""}} </b>
+                </p>
+
+                <div style="display: flex; flex-direction: column;">
+                    <p *ngFor="let description of getTextarea(item?.description);">{{description}}</p>
+                </div>
+            </div>
+        
+    </div>
+
+
+    <div style="display: flex; flex-direction: row;justify-content:space-around; margin-top:100px;">
+
+        <div class="container ">
+            <p>Executive</p>
+        </div>
+
+        <div class="container">
+            <p>HOD</p>
+        </div>
+
+        <div class="container">
+            <p>MD</p>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- </div> -->
+</div>

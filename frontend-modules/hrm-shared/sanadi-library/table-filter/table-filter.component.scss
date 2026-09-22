@@ -1,0 +1,38 @@
+:host ::ng-deep.p-sidebar .p-sidebar-header .p-sidebar-close,
+.p-sidebar .p-sidebar-header .p-sidebar-icon {
+    background-color: white !important;
+}
+
+.text-success {
+    background-color: greenyellow;
+    padding: 5px;
+    border-radius: 30%;
+}
+
+.text-danger {
+    background-color: rgb(255, 206, 115);
+    padding: 5px;
+    border-radius: 30%;
+}
+
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    max-width: 150px;
+}
+
+.warning-row {
+    background: linear-gradient(
+        90deg,
+        #ffe8cc 0%,
+        #fff4e6 50%,
+        #ffffff 100%
+    );
+}
+.f-invoice-btn{
+    background:#ff9800 !important;
+    border-color:#ff9800 !important;
+    color:white !important;
+}

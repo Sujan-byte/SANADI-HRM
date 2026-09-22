@@ -1,0 +1,17 @@
+::ng-deep p-calendar.ng-invalid .p-inputtext {
+    border: 1px solid var(--red-500);
+}
+::ng-deep p-calendar.ng-invalid .p-inputtext:hover {
+    border-color: var(--red-500);
+}
+::ng-deep p-calendar.ng-invalid .p-datepicker-trigger {
+    border: 1px solid var(--red-500);
+}
+::ng-deep p-calendar.ng-invalid .p-datepicker-trigger:hover {
+    border-color: var(--red-500);
+}
+
+.cursor-pointer-none{
+    cursor: not-allowed;
+    pointer-events: none;
+}

@@ -1,0 +1,359 @@
+<!-- First Page -->
+<div class="cards" style="color: black; background-color: white !important; ">
+    <div style=" font-size: 12px; border: 1px solid black; padding:5px !important; ">
+
+      
+    <div class="col-12" style="display:flex; flex-direction: row; justify-content: space-between;margin-top: 25px; ">
+        <div class="container">
+          <div class="logo" *ngIf="companyLogo != 'null'">
+            <img src="{{companyLogo}}" alt="logo" class="img-fluid" style="width: 80%;">
+          </div>
+        </div>
+        <div style=" display: flex; flex-direction: row;">
+          <div class="container">
+            <div class="logo" *ngIf="companyLogo1 != 'null'">
+              <img src="{{companyLogo1}}" alt="logo" class="img-fluid" style="width: 80%;">
+            </div>
+          </div>
+          <div class="container">
+            <div class="logo" *ngIf="companyLogo2 != 'null'">
+              <img src="{{companyLogo2}}" alt="logo" class="img-fluid" style="width: 80%;">
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <table class="table table-sm text-nowrap" style="border-collapse: collapse; width:100%; margin-top:15px ">
+        <thead style="color:black; border-collapse: collapse;">
+          <tr>
+            <td style="padding:4px; font-size: 12px;  width: 33.33%;">
+              <div style="padding:4px;">
+                <small><b>Quotation No:</b> {{servicequotationObj?.quotation_no}}</small><br />
+                <small><b>Date :</b> {{servicequotationObj?.quotation_date}}</small><br />
+                <div style="margin-top: 100px;">
+                  <small><b>{{servicequotationObj?.website}}</b><br />
+                   {{servicequotationObj?.bill_to_address}}
+                  </small>
+                </div>
+              </div>
+            </td>
+  
+            <td style="  font-size: 12px; width: 33.33%; ">
+              <div style="padding:4px;  margin-top:-85px;">
+                <small><b>Contact :</b>Satya Prasad P.V.</small><br />
+                <small><b>Mobile :</b>+91 9848135497</small><br />
+                <small><b>Email :</b><a
+                    href="mailto:satyaprasad@smartlabtech.net"></a>satyaprasad&#64;smartlabtech.net</small><br />
+              </div>
+            </td>
+  
+            <td style="padding:4px;  font-size: 12px;  width: 33.33%;">
+              <div style="padding:4px; margin-top:-15px;">
+                <b>Smart Labtech Pvt.Ltd.</b><br />
+                <small>#7-1-621/421/1,Behind<br />
+                  Andhra Bank,SR Nagar,<br />
+                  Hyderabad - 500038</small><br />
+                <small><b>Tel:</b>Tel +91 40 6678 3744<br />
+                  +91 40 66624394</small><br />
+                <small><b>Fax:</b>+91 40 6662 4395<br /></small><br />
+                <small><b>E-mail:</b>info&#64;smartlabtech.net<br />
+                  www.smartlabtech.net</small><br />
+              </div>
+            </td>
+  
+          </tr>
+  
+        </thead>
+  
+  
+      </table>
+  
+      <div class="letter-data" style="margin-top: 15px;padding:4px ">
+        <div style="margin-top:20px">
+          <small>Dear Sir,</small><br />
+        </div>
+        <div style="margin-top:10px; margin-bottom:10px;">
+          <small><b>Kind Attn :</b>{{servicequotationObj?.poc_name}}</small><br />
+          <small><b>Mobile :</b>{{servicequotationObj?.poc_mobile}}</small><br />
+          <small><b>Email :</b>{{servicequotationObj?.poc_email}}</small><br />
+  
+        </div>
+  
+        <div style="margin-top:20px">
+          <small><b>Sub :</b> Offer for waters</small><br />
+          <small><b>Ref :</b>Further to your enquiry</small><br />
+  
+  
+        </div>
+  
+  
+        <div style="margin-top:50px;">
+          <p style="margin-top:10px">
+            This has reference to the subject mentioned enquiry, we are pleased to submit our detailed offer for Waters
+            Column.
+            We are enclosing herewith detailed technical specification/catalogue of the offered equipment and request you
+            to go
+            through the same and do not hesitate to contact us in case any further clarifications required.
+  
+          </p>
+          <p style="margin-top:10px">
+            We wish to confirm that we have Full Fledged, Well Experienced, Factory Trained and Well Qualified Service
+            Team to
+            carry out Effective After Sales Service for the supplied equipment. We will provide Warranty Visits during the
+            warranty
+            period and would be highly obliged if you could opt for AMC after the warranty period is over for which our
+            charges are
+            Nominal
+          </p>
+  
+          <p style="margin-top:10px">
+            We sincerely hope that our offer is in accordance with your requirement and looking forward to the pleasure of
+            receiving your valuable order at the earliest.
+  
+          </p>
+  
+          <p style="margin-top:25px">
+            Thanking you and assuring of our best services at all times.
+          </p>
+  
+          <p style="margin-top:25px">
+            Yours truly<br />
+            for Smart Labtech Pvt.Ltd
+  
+          </p>
+  
+          <p style="margin-top:25px">
+            Thanks & Regards<br />
+            SMART ERP
+  
+  
+          </p>
+  
+        </div>
+  
+  
+        <footer>
+  
+          <div style=" display: flex;justify-content: center; margin-top: 30px;">
+            <p style="color:purple; margin-left:40px;font-size: large;"><b>Smart Labtech Pvt. Ltd.</b></p>
+          </div>
+          <div style=" display: flex;justify-content: center; margin-top:10px; margin-bottom:10px;">
+            <p> Plot No. #75B, Sy. #735. SV C0-Op. Industrial Estate, Phase-II, Balanagar, Hyderabad-500 037, T.S.
+              INDIA.<br />
+              Ph: +91-40-23774310 / +91-40-23774311, Fax: +91-40-23774309, Email: info&#64;smartlabtech.net,<br />
+  
+              <b>Branch Office:</b> Bangalore | Chennai | Dehradun | Delhi | Indore | Pune | Tirupati | Vizag | Kolkata
+            </p>
+          </div>
+  
+          
+        </footer>
+  
+  
+  
+      </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    </div>
+  </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Second Page -->
+  
+  
+  
+  
+  <div class="cards" style="color: black; background-color: white !important; ">
+  
+  
+    <div class="col-12"
+      style="display:flex; flex-direction: row; justify-content: space-between;margin-top: 25px; margin-top: 10px; margin-bottom:10px;">
+      <div class="container">
+        <div class="logo" *ngIf="companyLogo != 'null'">
+          <img src="{{companyLogo}}" alt="logo" class="img-fluid" style="width: 80%;">
+        </div>
+      </div>
+      <div style=" display: flex; flex-direction: row;">
+        <div class="container">
+          <div class="logo" *ngIf="companyLogo1 != 'null'">
+            <img src="{{companyLogo1}}" alt="logo" class="img-fluid" style="width: 80%;">
+          </div>
+        </div>
+        <div class="container">
+          <div class="logo" *ngIf="companyLogo2 != 'null'">
+            <img src="{{companyLogo2}}" alt="logo" class="img-fluid" style="width: 80%;">
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  
+  
+  
+  
+    <div>
+      <div style="margin-top: 10px; margin-bottom:10px;">
+        <p class="mb-0" style="font-size: 14px; font-weight: 600; ">Commercial Terms</p>
+      </div>
+      <div style="border: 0.5px solid black;">
+  
+        <table class="table table-sm text-nowrap" style="border-collapse: collapse; width:100%; ">
+          <thead style="color:black; border-collapse: collapse; margin-top:20px;">
+            
+            <tr>
+              <th
+                style="text-align: center; color:black; font-size: 12px; padding:4px; border: 1px solid black;border-left: none;border-top: none;width: 5%;">
+                Sl No</th>
+              <th
+                style="text-align: center; color:black; font-size: 12px; padding:4px; border: 1px solid black;border-top: none;width: 65%;">
+            Description
+              <th
+                style="text-align: center; color:black; font-size: 12px; padding:4px; border: 1px solid black;border-top: none;width: 10%;">
+                Qty</th>
+              <th
+                style="text-align: center; color:black; font-size: 12px; padding:4px; border: 1px solid black;border-top: none;width: 10%;">
+                Unit Price</th>
+              <th
+                style="text-align: center; color:black; font-size: 12px; padding:4px; border: 1px solid black;border-right: none;border-top: none;width: 10%;">
+                Cumulative Amt
+                in <b>{{servicequotationObj?.currency}}</b>
+              </th>
+            </tr>
+          </thead>
+          <tbody  *ngFor="let item of servicequotationObj?.quotation_details; let index = index">
+            <tr>
+              <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;" rowspan="3">{{
+                index + 1 }}</td>
+              <td
+                style="border: 1px solid black;text-align: left; width: 25%; font-size: 12px; padding:4px;text-wrap: wrap;word-break: break-all;">
+                <div style="padding-top:5px; padding-bottom:5px;">
+                  <small><b>Item :</b> {{item?.product_name}}</small><br />
+                  <small><b>Model :</b> {{item?.model}}</small><br />
+                  <small><b>Brand :</b> {{item?.brand}}</small>
+                </div>
+               
+              </td>
+            
+              <td style="border: 1px solid black;text-align: center; width: 10%; font-size: 12px; padding:4px;">
+                {{item?.total_qty}}</td>
+              <td style="border: 1px solid black;text-align: center; width: 10%; font-size: 12px; padding:4px;">
+                {{item?.unit_price}}</td>
+              <td
+                style="border: 1px solid black;text-align: center; width: 20%; font-size: 12px; padding:4px;border-right: none;">
+                {{item?.total_amount}}</td>
+            </tr>
+            <tr>
+              
+              <td style=" font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                <b>Less : </b> Discount 
+              </td>
+              <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+              </td>
+              <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+              <b> {{item?.discount_amount}}</b> 
+              </td>
+              <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none; border-right: none;">
+              <b>  {{item?.discount_amount}}</b> 
+              </td>
+            </tr>
+  
+            <tr >
+              
+              <td style=" font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                <b>Total Discounted Ex-Works Price</b>
+              </td>
+              <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+              </td>
+              <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                <b>{{item?.total_amount - item?.discount_amount}}</b>
+              </td>
+              <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;border-right: none;">
+               <b> {{item?.total_amount - item?.discount_amount}}</b>
+              </td>
+  
+            </tr>
+  
+          
+  
+          </tbody>
+          <tfoot>
+            <tr>
+              <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+             
+              </td>
+              <td style=" font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                <b> Total Tax Amount</b>
+              </td>
+              <td style=" text-align: center;font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                
+              </td>
+              <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                
+              </td>
+              <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;border-right: none;">
+             <b> {{taxAmount}}</b>
+              </td>
+  
+            </tr>
+  
+            <tr>
+              <td style=" text-align: center;font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+             
+              </td>
+              <td style=" font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                <b> Total Amount</b>
+              </td>
+              <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                
+              </td>
+              <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;">
+                
+              </td>
+              <td style="text-align: center; font-size: 12px; padding:5px; border: 1px solid black;border-left: none;border-right: none;">
+             <b> {{servicequotationObj?.grand_total}}</b>
+              </td>
+  
+            </tr>
+  
+          </tfoot>
+        </table>
+  
+       
+  
+      </div>
+  
+      <div style="margin-top: 5px; margin-bottom:10px;padding:5px;">
+        <p class="mb-0" style="font-size: 14px; font-weight: 600; ">Terms and Conditions</p>
+      </div>
+  
+      <div *ngFor="let item of servicequotationObj?.service_quotation_terms_and_condition; let index = index" style="padding:5px;padding-top:10px !important;">
+        <!-- <p><b>{{item?.term}} : </b>{{item?.description}} </p> -->
+       
+        <div style="display:flex;page-break-inside: avoid;">
+          <p *ngIf="item?.term">
+              <b>{{item?.term ? item?.term : ""}} {{item?.term ? ":" : ""}} </b>
+          </p>
+
+          <div style="display: flex; flex-direction: column;">
+              <p *ngFor="let description of getTextarea(item?.description);">{{description}}</p>
+          </div>
+      </div>
+      </div>
+  
+    </div>
+    
+  </div>

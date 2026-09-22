@@ -1,0 +1,11 @@
+<!-- map.component.html -->
+
+<div id="map" style="height: 40vh;">
+     <button pButton pRipple type="button" class="button-find-location" [pTooltip]="'Find your location'"
+          (click)="findUserLocation()"></button>
+</div>
+<div class="flex flex-row gap-3 justify-content-start align-content-center">
+     <div *ngIf="displayAddress">
+          <p class="bg-gray-50 p-1 rounded mt-2">{{displayAddress}}</p>
+     </div>
+</div>

@@ -1,0 +1,46 @@
+<div [formGroup]="form" class="{{field?.disabled ? 'cursor-pointer-none' : ''}}">
+   @if(field?.variant === "basic")
+   {
+   <div class="flex flex-column gap-2 w-full">
+      <label for="field?.name">{{field?.label}}</label>
+      <p-calendar [inputId]="field?.name" [formControlName]="field?.name" [showIcon]="true" [timeOnly]="field?.timeOnly"
+         [selectionMode]="field?.selectionMode ? field?.selectionMode : 'single'" [showTime]="field.showTime"
+         [dateFormat]="field.yy?field.yy:'dd-mm-yy'" appendTo="body" [style]="{'width':'100%'}"
+         [inputStyle]="{'width':'100%'}" [view]="field?.view?field.view :'date'"
+         [minDate]="field?.minDateValue?field.minDateValue:null" [maxDate]="field?.maxDateValue?field.maxDateValue:null"
+         [readonlyInput]="field?.readonly?field?.readonly:false" [defaultDate]="defaultDate"
+         (onSelect)="onSelectDate($event)"></p-calendar>
+   </div>
+
+   }
+   @else if(field?.variant === "multiple")
+   {
+   <div class="flex flex-column gap-2 w-full">
+      <!-- <label for="field?.name">{{field?.label}}</label> -->
+      <p-calendar #md [inputId]="field?.name" [formControlName]="field?.name" [showIcon]="true"
+         [selectionMode]="'multiple'" [dateFormat]="'dd-mm-yy'" appendTo="body" [style]="{'width':'100%'}"
+         [inputStyle]="{'width':'100%'}" [view]="field?.view?field.view :'date'"
+         [minDate]="field?.minDateValue?field.minDateValue:null"
+         [maxDate]="field?.maxDateValue?field.maxDateValue:null"></p-calendar>
+   </div>
+
+   }
+   @else{
+   <div class="flex flex-column gap-2 w-full">
+      @if(field?.timeOnly){
+      <p-calendar [inputId]="field?.name" dateFormat="HH:mm" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+         [showClear]="true" [formControlName]="field?.name" appendTo="body" [showIcon]="true" icon="pi pi-stopwatch"
+         [showTime]="true" [hourFormat]="'24'" [timeOnly]="true"></p-calendar>
+      }
+      @else{
+      <p-calendar [inputId]="field?.name" [formControlName]="field?.name" [showIcon]="true" [timeOnly]="field?.timeOnly"
+         [selectionMode]="field?.selectionMode ? field?.selectionMode : 'single'" [showTime]="field.showTime"
+         [dateFormat]="field.yy?field.yy:'dd-mm-yy'" appendTo="body" [style]="{'width':'100%'}"
+         [inputStyle]="{'width':'100%'}" [view]="field?.view?field.view :'date'"
+         [minDate]="field?.minDateValue?field.minDateValue:null" [maxDate]="field?.maxDateValue?field.maxDateValue:null"
+         [readonlyInput]="field?.readonly?field?.readonly:false" [defaultDate]="defaultDate"
+         (onSelect)="onSelectDate($event)"></p-calendar>
+      }
+   </div>
+   }
+</div>

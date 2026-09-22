@@ -1,0 +1,13 @@
+<div [formGroup]="form" id="button-field">
+  <div class="{{ field?.class ? field?.class : 'flex justify-content-center' }}">
+    @for(action of field?.actionButton; track action?.show){
+      <button *ngIf="action?.show" pButton pRipple type="button" style="margin-left: 0.1rem;" [icon]="action?.icon" 
+        (click)="onClickActionButton($event, field, action)" [pTooltip]="action?.toolTip"
+        [tooltipPosition]="action?.tooltipPosition" [class]="action?.class" [iconPos]="action?.iconPos"
+        [label]="action?.label || ''"
+        [disabled]="action?.disableFunction ? disableActionButton(action?.disableFunction) : action?.disabled"
+        class="{{ (action?.hiddenFunction ? disableActionButton(action?.hiddenFunction) : action?.hideen) ? 'hidden' : ''}}">
+      </button>
+    }
+  </div>
+</div>

@@ -1,0 +1,475 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.posting-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  font-size: 0.95rem;
+  padding: 1rem;
+  // Caps the whole component to a share of whatever wraps it (dialog/tab panel) and
+  // centers it, so every row (header, cards, table, summary) shares one common width -
+  // table and card rows no longer drift to different effective widths on wide screens.
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.pp-state {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+  color: #6b7280;
+
+  &.pp-state-error {
+    color: #b91c1c;
+  }
+}
+
+.pp-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+
+  .pp-header-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 0.75rem;
+    background: #2563eb;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.5rem;
+  }
+
+  .pp-header-text {
+    flex: 1;
+
+    h3 {
+      margin: 0;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    p {
+      margin: 0.25rem 0 0;
+      color: #6b7280;
+      font-size: 0.95rem;
+    }
+  }
+}
+
+.pp-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pp-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: #fef3c7;
+  color: #92400e;
+
+  &.pp-badge-actual {
+    background: #cdf9e2;
+    color: #006d4a;
+  }
+}
+
+.pp-export-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  border: 1px solid #dc2626;
+  background: #fff;
+  color: #dc2626;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: #fef2f2;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.pp-info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16.25rem, 1fr));
+  gap: 1.25rem;
+}
+
+.pp-info-card {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  border-radius: 0.85rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid transparent;
+  // Caps a lone remaining card (same-currency case) so it doesn't stretch to fill
+  // the whole row. NOTE: percentages here resolve against this item's OWN grid
+  // track (already ~1/3 of the row when 3 cards are present), not the grid
+  // container - calc(100%/3) on a grid item divides an already-1/3 width by 3
+  // again. Has to be a concrete value instead; rem to match the rest of the file.
+  // Set with headroom above the ~3-card natural share inside the 80%-capped
+  // .posting-preview container, so the cap only bites in the 1-card case.
+  // max-width: 32rem;
+
+  &.pp-info-card-blue {
+    background: #d4e7ff;
+    border-color: #dbeafe;
+  }
+  &.pp-info-card-purple {
+    background: #ece7ff;
+    border-color: #e1dbfd;
+  }
+  &.pp-info-card-amber {
+    background: #f5eecf;
+    border-color: #fde68a;
+  }
+}
+
+.same-currency-info-card{
+  max-width: 35%;
+}
+
+.pp-info-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.15rem;
+}
+
+.pp-info-label {
+  font-weight: 600;
+  color: #232323;
+  font-size: 1.0rem;
+}
+
+.pp-info-value {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #141b28;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  margin-top: 0.2rem;
+}
+
+.pp-info-sub {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #92400e;
+  margin-top: 0.3rem;
+}
+
+.pp-info-name {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.pp-info-conversion {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #92400e;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
+
+.pp-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 0.35rem;
+
+  &.pp-tag-blue {
+    background: #dbeafe;
+    color: #1d4ed8;
+  }
+  &.pp-tag-purple {
+    background: #ede9fe;
+    color: #6d28d9;
+  }
+}
+
+.pp-table-wrap {
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+}
+
+.pp-table {
+  width: 100%;
+  min-width: 40rem;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+
+  th,
+  td {
+    padding: 1rem 1.25rem;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-right: 2px solid #e5e7eb;
+  }
+
+  th:last-child,
+  td:last-child {
+    border-right: none;
+  }
+
+  .pp-table-group-row th {
+    white-space: normal;
+  }
+
+  .pp-account-cell,
+  tfoot td:first-child {
+    text-align: left;
+  }
+
+  thead th {
+    position: sticky;
+    top: 0;
+    background: #f9fafb;
+    color: #374151;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-align: center;
+    border-bottom: 1px solid #e5e7eb;
+    z-index: 1;
+  }
+
+  thead tr:first-child th {
+    top: 0;
+    font-size: 1.05rem;
+  }
+
+  thead tr:nth-child(2) th {
+    top: 3rem;
+  }
+
+  .pp-account-header {
+    color: #111827;
+    font-size: 1.05rem;
+    // Rowspan="2" cells default to vertical-align: middle, centering "Ledgers" across
+    // the combined height of both header rows - top-aligns it instead so it sits level
+    // with "Transaction Currency"/"Base Currency" in the first header row.
+    vertical-align: top;
+  }
+
+  .pp-account-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+  }
+
+  .pp-group-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    margin-right: 0.4rem;
+    font-size: 0.8rem;
+    color: #fff;
+
+    &.pp-group-icon-tc {
+      background: #7c3aed;
+    }
+    &.pp-group-icon-bc {
+      background: #2563eb;
+    }
+    &.pp-ledger-icon {
+      background: #92400e;
+    }
+  }
+
+  .pp-group-tc {
+    background: #f5f3ff;
+  }
+  .pp-group-bc {
+    background: #eff6ff;
+  }
+
+  tbody tr:hover {
+    background: #f9fafb;
+  }
+
+  .pp-account-cell {
+    color: #1a1818;
+    font-weight: 600;
+    font-size: 1.0rem;
+  }
+
+  .pp-amount {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #1f2937;
+  }
+
+  .pp-amount-tc {
+    color: #7c3aed;
+  }
+  .pp-amount-bc {
+    color: #2563eb;
+  }
+
+  tfoot .pp-total-row td {
+    font-weight: 700;
+    font-size: 1.15rem;
+    border-top: 2px solid #e5e7eb;
+    background: #f9fafb;
+    color: #111827;
+  }
+}
+
+.pp-summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1.25rem;
+}
+
+.pp-summary-card {
+  border-radius: 0.85rem;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  // Same reasoning as .pp-info-card above - percentages here would resolve against
+  // this item's own grid track, not the container, so this has to be a concrete value.
+  // Set with headroom above the ~2-card natural share inside the 80%-capped
+  // .posting-preview container, so the cap only bites in the 1-card case.
+  // max-width: 46rem;
+
+  &.pp-summary-purple {
+    background: #ece7ff;
+    border-color: #ede9fe;
+
+    .pp-summary-icon {
+      background: #ede9fe;
+      color: #7c3aed;
+    }
+   
+    .pp-summary-value {
+      color: #7c3aed;
+    }
+  }
+  &.pp-summary-blue {
+    background: #d4e7ff;
+    border-color: #dbeafe;
+
+    .pp-summary-icon {
+      background: #dbeafe;
+      color: #2563eb;
+    }
+
+    .pp-summary-value {
+      color: #2563eb;
+    }
+  }
+}
+
+.same-currency-summary-card{
+  max-width: 46rem;
+}
+
+.pp-summary-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.pp-summary-icon {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.25rem;
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+.pp-summary-title {
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+.pp-summary-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.pp-summary-label {
+  font-size: 0.95rem;
+  color: #000000;
+}
+
+.pp-summary-value {
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-top: 0.3rem;
+}
+
+.pp-summary-sub {
+  font-size: 0.72rem;
+  color: #9ca3af;
+  margin-top: 0.15rem;
+}
+
+.pp-status {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 900;
+  margin-top: 0.20rem;
+  border-radius: 999px;
+
+
+  &.pp-status-ok {
+    color: #008e4c;
+  }
+  &.pp-status-bad {
+    color: #dc2626;
+  }
+}
+

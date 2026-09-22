@@ -1,0 +1,8 @@
+<div [formGroup]="form">
+    <div class="p-field-checkbox">
+        <p-inputSwitch [name]="field?.name" [formControlName]="field?.name" [readonly]="field?.readonly" 
+        (onChange)="onChangeHandler($event)" ></p-inputSwitch>
+        <!-- <slide-toggle [field]="toggleField" [form]="form" [formFields]="formFields"></slide-toggle> -->
+
+    </div>
+  </div>

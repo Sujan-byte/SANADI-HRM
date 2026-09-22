@@ -1,0 +1,52 @@
+<div [formGroup]="form">
+    <div id="field?.name" class="p-inputgroup">
+        <span *ngIf="field?.prefixGroupBy" class="p-inputgroup-addon">
+            {{field?.prefixGroupByText}}
+            <i *ngIf="field?.prefixGroupByIcon" class="pi {{field?.prefixGroupByIcon}}"></i>
+        </span>
+        <p-inputNumber 
+            [inputId]="field?.name" 
+            [name]="field?.name" 
+            [formControlName]="field?.name" 
+            [placeholder]="dynamicPlaceholder"
+            [mode]="field?.mode" 
+            [min]="field?.min" 
+            [max]="field?.max"
+            [minFractionDigits]="field?.minFractionDigits" 
+            [maxFractionDigits]="field?.maxFractionDigits"
+            [class.ng-invalid]="!isValid" 
+            [class.ng-dirty]="!isValid" 
+            [readonly]="field?.readonlyFunction ? disableActionButton(field?.readonlyFunction) : field?.readonly" 
+            [pTooltip]="field?.toolTip" 
+            [tooltipPosition]="field?.tooltipPosition"
+            [locale]="field?.locale" 
+            [showButtons]="field?.showButtons" 
+            [step]="field?.step ? field?.step : 1" 
+            (onInput)="onChangeHandler($event)"
+            [prefix]="field?.prefix" 
+            [suffix]="field?.suffix"
+            [currency]="field?.currency" 
+            [currencyDisplay]="field?.currencyDisplay" 
+            >
+        </p-inputNumber>
+        <!--
+            [useGrouping]="false" 
+        -->
+        <span *ngIf="field?.suffixGroupBy" class="p-inputgroup-addon">
+            {{field?.suffixGroupByText}}
+            <i *ngIf="field?.suffixGroupByIcon" class="pi {{field?.suffixGroupByIcon}}"></i>
+        </span>
+        <button *ngIf="field?.suffixActionGroupBy" type="button" pButton pRipple
+            icon="pi {{field?.suffixActionGroupByIcon}}" styleClass="p-button-danger"
+            (click)="field?.onSuffixActionGroupByClick($event)"></button>
+    </div>
+
+    <div *ngIf="inValid && (isDirty || isTouched)" class="p-error block">
+        <small *ngIf="isError">{{errorText}}</small>
+    </div>
+</div>
+
+<!-- [pValidateOnly]="!field?.keyFilter" pKeyFilter="{{field?.keyFilter ? field?.keyFilter : 'alphanum'}}" -->
+<!-- [decrementButtonClass]="field?.showButtons" [incrementButtonClass]="field?.showButtons" 
+[incrementButtonIcon]="field?.showButtons" [decrementButtonIcon]="field?.showButtons"
+[buttonLayout]="field?.buttonLayout"  -->

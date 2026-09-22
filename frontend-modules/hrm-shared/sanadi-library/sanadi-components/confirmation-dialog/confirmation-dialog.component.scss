@@ -1,0 +1,57 @@
+/* Container for layout */
+.container {
+    padding: 1rem;
+}
+
+/* Header section styling */
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Icon styling */
+.icon {
+    font-size: 3rem; /* Adjust size as needed */
+    color: #007bff; /* Primary color */
+}
+
+/* Message text styling */
+.message {
+    font-weight: bold;
+    font-size: 1.25rem; /* Adjust size as needed */
+    text-align: center;
+}
+
+/* Buttons container styling */
+.buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+/* Button styling */
+.btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem; /* Small size */
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+.confirm {
+    background-color: #007bff; /* Primary color */
+    color: white;
+}
+
+.cancel {
+    background-color: transparent;
+    color: #007bff;
+    border: 1px solid #007bff;
+}

@@ -1,0 +1,64 @@
+<p-table #tb [value]="field?.overlayPanelList" [paginator]="field?.overlayPanelPaginator"
+    [rows]="field?.overlayPanelRows?field.overlayPanelRows:10" dataKey="id" [(selection)]="selectedArray"
+    [scrollable]="field?.scrollable" [scrollHeight]="field?.dialogScrollHeight?field.dialogScrollHeight:'65vh'"
+    (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
+    [globalFilterFields]="field?.overlayPanelFormInitialise" [columns]="field?.overlayPanelColumnSchema"
+    [lazy]="field?.lazy?field.lazy:false" [style]="{'font-size':'10.5px'}"
+    (onHeaderCheckboxToggle)="onSelectAllData($event)" [loading]="loading" [totalRecords]="totalRecords"
+    (onLazyLoad)="nextPage($event,this.field.queryParams)" styleClass="p-datatable-gridlines p-datatable-sm"
+    [showCurrentPageReport]="true" [resizableColumns]="true" columnResizeMode="expand">
+    <ng-template pTemplate="caption">
+        <span class="text-xl font-bold">{{field?.overlayHeader}}</span>
+        <div snLayout="row" snLayoutAlign="space-between">
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" [ngModel]="searchText" (ngModelChange)="globalSearch($event,tb)"
+                    placeholder="{{ 'search_TC' | translate}}" />
+            </span>
+            <button class="p-button-outlined secondary" pButton type="button" icon="pi pi-filter"
+                (click)="clearFilters(tb)" pTooltip="Clear Filters"></button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th pFrozenColumn [style]="{'width': '10px'}">
+                <p-tableHeaderCheckbox id="headerCheckbox" name="headerCheckbox" [disabled]="isCheckBoxDisabled()"
+                    [ngStyle]="{ 'cursor': disableCheckBoxHeader ? 'not-allowed' : 'pointer' }"></p-tableHeaderCheckbox>
+            </th>
+            <ng-container *ngFor="let col of columns">
+                <th [pSortableColumn]="col?.field" [style]="{'width': col?.width}">
+                    {{ col?.name | translate }}
+                    <!-- <p-sortIcon [field]="col?.field" *ngIf="!col?.hidesortableColumn"></p-sortIcon> -->
+                    <!-- <p-columnFilter type="text" [field]="col?.field" display="menu"
+                        *ngIf="!col?.hidefilterColumn && !field?.lazy"></p-columnFilter> -->
+                    <p-columnFilter #filter [field]="col?.field" display="menu"
+                        *ngIf="!col?.hidefilterColumn && field?.lazy" matchMode="icontains"
+                        [matchModeOptions]="col?.matchModeOption ?? matchModeOption" appendTo="body" hideOnClear="true"
+                        modal="true"></p-columnFilter>
+                    <p-sidebar [(visible)]="display" styleClass="p-sidebar-sm"></p-sidebar>
+                </th>
+            </ng-container>
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-item>
+        <tr pSelectableRowDisabled="true">
+            <td pFrozenColumn [style]="{'width': '10px'}">
+                <p-tableCheckbox id="checkbox" name="checkbox" [disabled]="item[field?.disabledField]"
+                    [ngStyle]="{ 'cursor': item[field?.disabledField] ? 'not-allowed' : 'pointer' }"
+                    [value]="item"></p-tableCheckbox>
+            </td>
+            <ng-container *ngFor="let row of field?.overlayPanelFormInitialise">
+                <td>{{item[row]}}</td>
+            </ng-container>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft" let-state>
+        <button pButton pRipple (click)="getOverlayPanel($event)" *ngIf="showAddButton"
+            class="p-button-success p-button-sm" label="ADD" type="button"
+            [disabled]="selectedArray?.length == 0"></button>
+    </ng-template>
+    <!-- <ng-template pTemplate="summary">
+              
+            </ng-template> -->
+</p-table>

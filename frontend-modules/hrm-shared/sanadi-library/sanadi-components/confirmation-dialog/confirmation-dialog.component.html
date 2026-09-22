@@ -1,0 +1,10 @@
+<div class="container">
+    <div class="header">
+        <i class="icon pi pi-exclamation-circle"></i>
+        <p class="message" [innerHTML]="this.config.data.message"></p>
+    </div>
+    <div class="buttons" style="display: flex; justify-content: space-between;">
+        <p-button (onClick)="reject()" label="Cancel" [outlined]="true" size="small" />
+        <p-button (onClick)="accept()" label="Confirm" size="small" />
+    </div>
+</div>

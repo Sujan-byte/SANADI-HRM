@@ -1,0 +1,52 @@
+<div *ngIf="shouldShowComponent" class="w-full mt-3 flex flex-column align-items-center text-center">
+  <div class="flex align-items-center gap-2 mb-1">
+    <span class="text-500 text-lg">
+      (Exchange rate as on <b>{{ exchangeRateDate }}</b>)
+    </span>
+
+    <span *ngIf="exchangeRateText" class="text-primary font-semibold text-lg">
+      {{ exchangeRateText }}
+    </span>
+
+
+    <i class="pi pi-pencil text-lg transition-duration-200" [ngClass]="{
+    'text-primary cursor-pointer opacity-80 hover:opacity-100': !field?.readonlyFunction,
+    'text-400 cursor-not-allowed opacity-50': field?.readonlyFunction
+  }" pTooltip="Edit exchange rate manually" tooltipPosition="top" (click)="!field?.readonlyFunction && onEditClick($event)">
+    </i>
+  </div>
+  <div *ngIf="externalLinkUrl && externalLinkUrl !== '#'" class="flex align-items-center gap-1 text-md mt-1">
+    <!-- <i class="pi pi-info-circle text-400 text-xs"></i> -->
+
+    <!-- <span class="text-500">
+      Refer the exchange rates in the
+    </span>
+    <a [href]="externalLinkUrl" target="_blank" (click)="onExternalLinkClick($event)"
+      class="text-primary underline font-medium cursor-pointer hover:text-primary-700 transition-duration-150">
+      Central Bank Of UAE
+    </a> -->
+  </div>
+</div>
+
+<p-overlayPanel #editOverlay [dismissable]="true" [showCloseIcon]="true" styleClass="currency-edit-overlay">
+  <div class="flex flex-column gap-3" style="width: 250px;">
+    <div class="flex flex-column gap-2">
+      <label class="text-sm font-medium">Exchange Rate</label>
+      <p-inputNumber [(ngModel)]="manualExchangeRate" [min]="0" [maxFractionDigits]="6" [minFractionDigits]="2"
+        placeholder="Enter exchange rate" [style]="{ width: '100%' }" [showButtons]="false">
+      </p-inputNumber>
+      <small class="text-500 text-xs">
+        Enter the exchange rate for 1 {{ baseCurrency }} = ? {{ targetCurrency }}
+      </small>
+    </div>
+
+    <div class="flex justify-content-end gap-2 pt-2 border-top-1 surface-border">
+      <p-button label="Clear" icon="pi pi-times" [outlined]="true" (onClick)="onClearManualRate()"
+        [styleClass]="'p-button-secondary p-button-sm'">
+      </p-button>
+      <p-button label="Apply" icon="pi pi-check" (onClick)="onApplyManualRate()"
+        [disabled]="!manualExchangeRate || manualExchangeRate <= 0" [styleClass]="'p-button-sm'">
+      </p-button>
+    </div>
+  </div>
+</p-overlayPanel>

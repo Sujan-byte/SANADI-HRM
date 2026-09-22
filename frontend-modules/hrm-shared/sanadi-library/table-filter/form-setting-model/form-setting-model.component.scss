@@ -1,0 +1,139 @@
+// @import "src/assets/styles/variables";
+
+* {
+  color: var(--sanadi-text-color);
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0.25;
+  }
+
+  to {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out {
+  from {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateX(100%);
+    opacity: 0.25;
+  }
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.form-settings-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  max-width: 410px;
+  // width: 30%;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--ef-color-secondary);
+  z-index: 9999;
+  padding: 0px 10px 10px 0;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  animation: slide-in 500ms;
+
+  &.close {
+    animation: slide-out 500ms;
+  }
+
+  p-tabview {
+    height: calc(100% - 30px);
+    display: block;
+    background-color: transparent;
+  }
+
+  .form-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 85vh;
+
+    .form-section {
+      border: 1px solid #d3d3d3;
+      border-radius: 10px;
+      padding: 0px 1px;
+      height: calc(100% - 46px);
+      overflow: hidden;
+    }
+
+    .btn-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding-top: 10px;
+      height: 46px;
+    }
+  }
+}
+
+.close-icon {
+  height: 30px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 15px 1.25rem 0;
+
+  i {
+    scale: 1.5;
+    cursor: pointer;
+  }
+}
+
+#selectAllCheckbox {
+  transform: scale(1.3);
+  /* Scale up the checkbox */
+  margin-top: 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+  /* To indicate that the element is clickable */
+}
+
+.success-button {
+  background-color: transparent;
+  border-radius: 5px;
+  border: 1px solid var(--color-2);
+  cursor: pointer;
+  font-size: 12.5px !important;
+  text-align: center;
+  text-transform: uppercase;
+  width: 100%;
+  padding: 0 20px;
+  min-width: 80px !important;
+  color: var(--primary-button-text) !important;
+  background-color: var(--sanadi-primary-btn) !important;
+}
+
+.reset-button {
+  background-color: transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12.5px !important;
+  padding: 10px 20px;
+  text-align: center;
+  text-transform: uppercase;
+  width: 100%;
+  border: none !important;
+  background-color: unset !important;
+}

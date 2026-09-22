@@ -1,0 +1,13 @@
+<p-card>
+  <ng-template pTemplate="header">
+      <h4>{{header}}</h4>
+  </ng-template>
+  <div   class="flex flex-row flex-wrap gap-2">
+  <div class="field-container flex" *ngFor="let field of fields">
+  <dynamic-field-builder [field]="field" [form]="form"></dynamic-field-builder>
+ </div>
+</div>
+  <ng-template pTemplate="footer">
+      {{footer}}
+  </ng-template>
+</p-card>

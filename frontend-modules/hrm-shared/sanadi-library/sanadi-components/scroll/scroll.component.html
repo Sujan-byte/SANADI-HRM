@@ -1,0 +1,22 @@
+@if(scrollVariant === "1"){
+<p-scroller [items]="itemsScroll" [itemSize]="50" styleClass="border-1 surface-border flex h-full w-full">
+    <ng-template pTemplate="item" let-item let-options="options">
+        <p-card class="flex-grow-1" header="{{item}}">
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                mollit anim id est laborum.
+            </p>
+        </p-card>
+    </ng-template>
+</p-scroller>
+}
+@else{
+<p-scrollPanel [style]="{ width: '100%', height: '150px' }" class="flex-grow-1 flex min-h-full min-w-full h-full w-full"
+    styleClass="sanadi-scroll flex-grow-1 flex min-h-full min-w-full w-full">
+    <ng-content></ng-content>
+</p-scrollPanel>
+}

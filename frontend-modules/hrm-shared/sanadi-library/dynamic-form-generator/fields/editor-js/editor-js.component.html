@@ -1,0 +1,77 @@
+<div style="height: 10px; display: flex; justify-content: end;">
+    <button pButton pRipple icon="pi pi-eye" class="p-button-primary p-button-sm button-spacing" label="Shortcut"
+        style="margin-top: -20px;" (click)="onDrawTable()"></button>
+    &nbsp;&nbsp;
+    <button pButton pRipple icon="pi pi-refresh" class="p-button-primary p-button-sm" label="Refresh"
+        style="margin-top: -20px;" (click)="onRefresh($event)" *ngIf="field?.buttonVisible"></button>
+</div>
+
+<p-card class="shadow">
+    <div *ngIf="field?.buttonVisible" class="scrolling-text" style="color: red;">
+        Once you edit the form, any changes will be reflected on the print page after refreshing the button value.
+    </div>
+    <br><br>
+    <div id="editorjs" style="width: 94vw;"></div>
+</p-card>
+
+<p-dialog #op [(visible)]="isDrawTable" [responsive]="true" [autoZIndex]="true" [baseZIndex]="10000"
+        header="Shortcut" [modal]="true" [appendTo]="'body'" [dismissableMask]="true"
+        [breakpoints]="{ '760px': '55vw' }" [style]="{ width: '100vw' }" [draggable]="true" [resizable]="true"
+        [maximizable]="true">
+        <div class="shortcut">
+            <p-dialog #op [(visible)]="isDrawTable" [responsive]="true" [autoZIndex]="true" [baseZIndex]="10000"
+                header="Shortcut" [modal]="true" [appendTo]="'body'" [dismissableMask]="true"
+                [breakpoints]="{ '760px': '55vw' }" [style]="{ width: '100vw' }" [draggable]="true" [resizable]="true"
+                [maximizable]="true">
+                <div class="shortcut">
+                    <table style="border-collapse: collapse; width: 100%; border: 2px solid #000;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid #000; background-color: #f2f2f2;">
+                                <th style="padding: 8px; border: 1px solid #000;   background-color: hsla(0, 0%, 93%, .2);">
+                                    Shortcut</th>
+                                <th style="padding: 8px; border: 1px solid #000;  background-color: hsla(0, 0%, 93%, .2);">
+                                    Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid #000; background-color: #f2f2f2;">
+                                <td style="padding: 8px; border: 1px solid #000;">Ctrl + B (Cmd + B)</td>
+                                <td style="padding: 8px; border: 1px solid #000;">Bold text</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #000; background-color: #f2f2f2;">
+                                <td style="padding: 8px; border: 1px solid #000;">Ctrl + I (Cmd + I)</td>
+                                <td style="padding: 8px; border: 1px solid #000;">Italicize text</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #000; background-color: #f2f2f2;">
+                                <td style="padding: 8px; border: 1px solid #000;">Ctrl + U (Cmd + U)</td>
+                                <td style="padding: 8px; border: 1px solid #000;">Underline text</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #000; background-color: #f2f2f2;">
+                                <td style="padding: 8px; border: 1px solid #000;">Ctrl + Z</td>
+                                <td style="padding: 8px; border: 1px solid #000;">Undo</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #000; background-color: #f2f2f2;">
+                                <td style="padding: 8px; border: 1px solid #000;">Ctrl + Y</td>
+                                <td style="padding: 8px; border: 1px solid #000;">Redo</td>
+                            </tr>
+                        </tbody>
+                        <tfoot style="border-top: 2px solid #000;">
+                            <tr>
+                                <td colspan="2" style="padding: 8px; border: 1px solid #000;">
+                                    <!-- Footer content -->
+                                    1 To move to the next line within a table row, press Shift+Enter.<br>
+                                    2 To make text bold inside a table, use Ctrl+B.<br>
+                                    3 To underline text, use Ctrl+U.<br>
+                                    4 Place notes where needed; some functions are accessible by clicking on the
+                                    ellipsis icon.<br>
+                                    5 Clicking on the ellipsis allows you to add columns to the right or left, as well
+                                    as delete them.<br>
+                                    6 Similarly, you can add or delete rows by clicking on the ellipsis icon.
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </p-dialog>
+        </div>
+    </p-dialog>

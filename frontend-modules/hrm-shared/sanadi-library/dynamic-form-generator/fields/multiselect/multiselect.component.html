@@ -1,0 +1,38 @@
+<div [formGroup]="form" class="flex flex-row w-full" style="width: 100%;">
+    @if(field?.variant === "basic"){
+        <p-multiSelect [options]="field?.options" [optionLabel]="field?.optionLabel" [(ngModel)]="selecteddata"
+            [placeholder]="dynamicPlaceholder" class="multiselect-custom" [filter]="true" [virtualScroll]="true"
+            [virtualScrollItemSize]="50" (ngModelChange)="onSelect()" [pTooltip]="field?.options.name"
+            [optionValue]="field?.optionValue" display="chip" [style]="{'width': field?.button? '90%' : '100%'}">
+
+            <ng-template let-multiselect pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    <div [pTooltip]="multiselect.tooltip" [tooltipPosition]="'right'">{{multiselect[field?.optionLabel] }}
+                    </div>
+                </div>
+            </ng-template>
+        </p-multiSelect>
+        <button pButton [style]="{'width':'10%'}" icon="pi pi-check" type="button" (click)="onClick($event)"
+            *ngIf="field?.button"></button>
+    }
+    @else{
+        <p-multiSelect #ms class="flex-grow-1" appendTo="body" [options]="field?.options()"
+            [optionLabel]="field?.optionLabel" [formControlName]="field?.name" [placeholder]="dynamicPlaceholder"
+            [filter]="true" [virtualScroll]="true" [virtualScrollItemSize]="50"
+            [style]="{'width': '100%','border-radius':'6px 6px 6px 6px','max-width':field?.maxWidth??'18rem'}"
+            (onPanelHide)="onPanelHide()" [optionValue]="field?.optionValue" display="chip" (onChange)="onRemove($event)"
+            (onClick)="onClickMultiselect(ms)" lazy="true">
+
+            <ng-template let-multiselect pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    <div [pTooltip]="multiselect.tooltip" [tooltipPosition]="'right'">{{multiselect[field?.optionLabel] }}
+                    </div>
+                </div>
+            </ng-template>
+        </p-multiSelect>
+        @if(field?.subForm?.length || field.dynamicDialogConfig || field?.hrefButtonConfig){
+            <button pButton [icon]="field?.hrefButtonConfig?field.hrefButtonConfig.hrefButtonIcon:'pi pi-plus'" type="button"
+                class="primary custom-mult-iselect-button" (click)="onClickDp()"></button>
+        }
+    }
+</div>

@@ -1,0 +1,39 @@
+<p-confirmPopup></p-confirmPopup>
+<p-toast position="top-center" key="toaster"></p-toast>
+<div [formGroup]="form">
+    <button pButton type="button" (click)="clickOnUpload($event)" icon="pi pi-upload" label="Choose"  style="width: 100px;"></button>
+    <div *ngIf="fileSelected?.length > 0">
+        <p-carousel 
+        [value]="fileSelected" 
+        [numVisible]="2" 
+        [numScroll]="1" 
+        [responsiveOptions]="responsiveOptions">
+            <ng-template let-file let-index pTemplate="item">
+                <div #img class="flex flex-row justify-content-between border-1 surface-border border-round 
+                m-2 p-3 max-h-21rem h-21rem gap-2 shadow-1"
+                (contextmenu)="onContextMenu($event, file)">
+                    <div>
+                        <ng-container *ngIf="isImage(file); else defaultFileIcon">
+                            <img role="presentation" [alt]="file?.file_name" [src]="file?.file" width="100%"
+                                height="100%" class="max-h-21rem"
+                                onerror="if (this.src != 'error.jpg') this.src = '/assets/images/image_not_found.png'" />
+                        </ng-container>
+                        <ng-template #defaultFileIcon>
+                            <img role="presentation" [src]="getDefaultIcon(file)" alt="{{ file?.file_name }}" width="100"
+                                height="100" class="h-full"
+                                onerror="if (this.src != 'error.jpg') this.src = '/assets/images/image_not_found.png'" />
+                        </ng-template>
+                    </div>
+                    <div class="flex flex-column justify-content-center align-items-center gap-4">
+                        <span class="font-semibold  text-overflow-ellipsis">{{ file?.file_name }}</span>
+                        <div>{{ file?.size }}</div>
+                        <p-button icon="pi pi-times" (click)="onRemoveTemplatingFile($event, file, index)"
+                            [outlined]="true" [rounded]="true" severity="danger" />
+                    </div>
+                    <p-contextMenu [target]="img" [model]="imageOptions" appendTo="body" autoZIndex="true"
+                        (onHide)="onHideImageContext()" />
+                </div>
+            </ng-template>
+        </p-carousel>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<div>
+    <p-table #tb [value]="field?.list" [selectionMode]="field?.selectionMode" [(selection)]="selectedArray"
+        (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="field?.rows ? field?.rows : 5"
+        responsiveLayout="scroll" [columns]="field?.columnSchema" dataKey="id"
+        (onLazyLoad)="nextPage($event, this.field.queryParams)" [loading]="loading" [totalRecords]="totalRecords"
+        styleClass="p-datatable-gridlines p-datatable-sm"
+        [lazy]="field?.lazy ? field.lazy : false" [style]="{'font-size':'10.5px'}"
+        [showCurrentPageReport]="true" [resizableColumns]="true" columnResizeMode="expand"
+        [scrollable]="field?.scrollable" [scrollHeight]="field?.scrollHeight ? field.scrollHeight : '65vh'"
+        [globalFilterFields]="field?.formInitialise"
+        >
+        <ng-template pTemplate="caption">
+            <span class="text-xl font-bold">{{field?.header}}</span>
+            <div class="flex flex-row justify-content-between">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" [(ngModel)]="searchText" (ngModelChange)="globalSearch($event, tb)"
+                        placeholder="{{ 'search_TC' | translate}}" />
+                </span>
+                <button class="p-button-outlined secondary  lg:flex xl:flex" pButton icon="pi pi-filter"
+                    (click)="clearFilters(tb)" pTooltip="Clear Filters"></button>
+                    <!-- md:hidden -->
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <ng-container *ngFor="let col of columns">
+                    <th [pSortableColumn]="col?.field" [style]="{'width': col?.width}">
+                        {{ col?.name | translate }}
+                        <p-columnFilter #filter [field]="col?.field" display="menu"
+                            *ngIf="!col?.filter && field?.lazy" matchMode="icontains" [type]="col?.fieldType??'text'"
+                            [matchModeOptions]="col?.matchModeOptions ?? matchModeOption" appendTo="body" hideOnClear="true"
+                            modal="true"></p-columnFilter>
+                    </th>
+                </ng-container>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-item>
+            <tr [pSelectableRow]="rowData">
+                <ng-container *ngFor="let row of field?.formInitialise">
+                    <td class="{{ (row?.type === 'number') ? 'text-right' : '' }}">
+                        @if (row?.key) {
+                            @if(row?.type === 'number') {
+                                {{ displayNumber(item[row?.key], row?.format, row?.locale) }}
+                            } @else if (row?.type === 'date') {
+                                {{ row?.format ? formatDate(item, row) : item[row?.key] }}
+                            } @else {
+                                {{ item[row?.key] }}
+                            }
+                        } @else {
+                            {{item[row]}}
+                        }
+                    </td>
+                </ng-container>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

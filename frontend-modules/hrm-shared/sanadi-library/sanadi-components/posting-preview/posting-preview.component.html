@@ -1,0 +1,224 @@
+<div class="posting-preview">
+  @if (loading()) {
+  <div class="pp-state">
+    <i class="pi pi-spin pi-spinner"></i>
+    <span>Loading posting preview...</span>
+  </div>
+  } @else if (error()) {
+  <div class="pp-state pp-state-error">
+    <i class="pi pi-exclamation-triangle"></i>
+    <span>{{ error() }}</span>
+  </div>
+  } @else if (!data() || !data()?.postings?.length) {
+  <div class="pp-state">
+    <i class="pi pi-inbox"></i>
+    <span>No posting entries to preview yet.</span>
+  </div>
+  } @else {
+  <div class="pp-header">
+    <div class="pp-header-icon"><i class="pi pi-file"></i></div>
+    <div class="pp-header-text">
+      <div class="pp-title-row">
+        <h3>{{ title }}</h3>
+        <span class="pp-badge" [class.pp-badge-actual]="data()?.data_source === 'ACTUAL'">
+          {{ data()?.data_source === 'ACTUAL' ? 'Actual Posted' : 'Preview' }}
+        </span>
+      </div>
+      <p>{{ subtitle }}</p>
+    </div>
+    <button type="button" class="pp-export-btn" [disabled]="exporting()" (click)="exportPdf()">
+      @if (exporting()) {
+      <i class="pi pi-spin pi-spinner"></i>
+      } @else {
+      <i class="pi pi-file-pdf"></i>
+      }
+      Export PDF
+    </button>
+  </div>
+
+  <div class="pp-info-cards">
+    @if (!sameCurrency) {
+    <div class="pp-info-card pp-info-card-purple">
+      <div class="pp-info-icon"><i class="pi pi-globe"></i></div>
+      <div>
+        <div class="pp-info-label">Transaction Currency</div>
+        <div class="pp-info-value">
+          {{ data()?.transaction_currency }}
+          <span class="pp-tag pp-tag-purple">Transaction Currency</span>
+        </div>
+        <div class="pp-info-name">{{ currencyName(data()?.transaction_currency) }}</div>
+      </div>
+    </div>
+    }
+    <div class="pp-info-card pp-info-card-blue {{ sameCurrency ? 'same-currency-info-card' : '' }}">
+      <div class="pp-info-icon"><i class="pi pi-wallet"></i></div>
+      <div>
+        <div class="pp-info-label">Base Currency</div>
+        <div class="pp-info-value">
+          {{ data()?.base_currency }}
+          <span class="pp-tag pp-tag-blue">Accounting Currency</span>
+        </div>
+        <div class="pp-info-name">{{ currencyName(data()?.base_currency) }}</div>
+      </div>
+    </div>
+    @if (!sameCurrency) {
+    <div class="pp-info-card pp-info-card-amber">
+      <div class="pp-info-icon"><i class="pi pi-sync"></i></div>
+      <div>
+        <div class="pp-info-label">Exchange Rate</div>
+        <div class="pp-info-conversion">{{ data()?.transaction_currency }} to {{ data()?.base_currency }}</div>
+        <div class="pp-info-value">
+          1 {{ data()?.transaction_currency }} = {{ data()?.tc_to_bc_rate | number: (data()?.tc_to_bc_rate === 1 ? '1.0-0' : '1.6-6') }} {{ data()?.base_currency }}
+        </div>
+        @if (data()?.as_of_date) {
+        <div class="pp-info-sub">Effective Date: {{ data()?.as_of_date | date: 'dd-MM-yyyy' }}</div>
+        }
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="pp-table-wrap">
+    <table class="pp-table">
+      <colgroup>
+        @if (sameCurrency) {
+        <col style="width: 36%;">
+        <col style="width: 32%;">
+        <col style="width: 32%;">
+        } @else {
+        <col style="width: 26%;">
+        <col style="width: 18.5%;">
+        <col style="width: 18.5%;">
+        <col style="width: 18.5%;">
+        <col style="width: 18.5%;">
+        }
+      </colgroup>
+      <thead>
+        <tr class="pp-table-group-row">
+          <th rowspan="2" class="pp-account-header">
+            <span class=" pp-group-icon pp-ledger-icon"><i class="pi pi-file"></i></span>
+            Ledgers
+          </th>
+          @if (!sameCurrency) {
+          <th colspan="2" class="pp-group-tc">
+            <span class="pp-group-icon pp-group-icon-tc"><i class="pi pi-globe"></i></span>
+            Transaction Currency ({{ data()?.transaction_currency }})
+          </th>
+          }
+          <th colspan="2" class="pp-group-bc">
+            <span class="pp-group-icon pp-group-icon-bc"><i class="pi pi-wallet"></i></span>
+            Base Currency ({{ data()?.base_currency }})
+          </th>
+        </tr>
+        <tr>
+          @if (!sameCurrency) {
+          <th class="pp-group-tc">Debit</th>
+          <th class="pp-group-tc">Credit</th>
+          }
+          <th class="pp-group-bc">Debit</th>
+          <th class="pp-group-bc">Credit</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of data()?.postings; track row.ledger_name + $index) {
+        <tr>
+          <td class="pp-account-cell">
+            <span>{{ row.ledger_name || '-' }}</span>
+          </td>
+          @if (!sameCurrency) {
+          <td class="pp-amount pp-amount-tc pp-group-tc">{{ row.tc_debit_amount ? (row.tc_debit_amount | number: amountFormat) : '–' }}</td>
+          <td class="pp-amount pp-amount-tc pp-group-tc">{{ row.tc_credit_amount ? (row.tc_credit_amount | number: amountFormat) : '–' }}</td>
+          }
+          <td class="pp-amount pp-amount-bc pp-group-bc">{{ row.bc_debit_amount ? (row.bc_debit_amount | number: amountFormat) : '–' }}</td>
+          <td class="pp-amount pp-amount-bc pp-group-bc">{{ row.bc_credit_amount ? (row.bc_credit_amount | number: amountFormat) : '–' }}</td>
+        </tr>
+        }
+      </tbody>
+      <tfoot>
+        <tr class="pp-total-row">
+          <td>Total</td>
+          @if (!sameCurrency) {
+          <td class="pp-amount pp-amount-tc pp-group-tc">{{ data()?.totals?.transaction_currency?.total_debit | number: amountFormat }}</td>
+          <td class="pp-amount pp-amount-tc pp-group-tc">{{ data()?.totals?.transaction_currency?.total_credit | number: amountFormat }}</td>
+          }
+          <td class="pp-amount pp-amount-bc pp-group-bc">{{ data()?.totals?.base_currency?.total_debit | number: amountFormat }}</td>
+          <td class="pp-amount pp-amount-bc pp-group-bc">{{ data()?.totals?.base_currency?.total_credit | number: amountFormat }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="pp-summary-cards">
+    @if (!sameCurrency) {
+    <div class="pp-summary-card pp-summary-purple">
+      <div class="pp-summary-header">
+        <div class="pp-summary-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="3.5" r="1" fill="currentColor" stroke="none"></circle>
+            <line x1="12" y1="4.5" x2="12" y2="19"></line>
+            <line x1="4" y1="7" x2="20" y2="7"></line>
+            <line x1="4" y1="7" x2="2" y2="13"></line>
+            <line x1="20" y1="7" x2="22" y2="13"></line>
+            <path d="M2 13a3 3 0 0 0 6 0"></path>
+            <path d="M16 13a3 3 0 0 0 6 0"></path>
+            <line x1="8" y1="20" x2="16" y2="20"></line>
+          </svg>
+        </div>
+        <div class="pp-summary-title">Transaction Currency ({{ data()?.transaction_currency }})</div>
+      </div>
+      <div class="pp-summary-metrics">
+        <div>
+          <div class="pp-summary-label">Difference</div>
+          <div class="pp-summary-value">{{ differenceDisplay(data()?.totals?.transaction_currency) }}</div>
+        </div>
+        <div>
+          <div class="pp-summary-label">Higher Side</div>
+          <div class="pp-summary-value">{{ higherSide(data()?.totals?.transaction_currency) }}</div>
+        </div>
+        <div>
+          <div class="pp-summary-label">Status</div>
+          <div class="pp-status" [class.pp-status-ok]="data()?.totals?.transaction_currency?.is_balanced" [class.pp-status-bad]="!data()?.totals?.transaction_currency?.is_balanced">
+            <i class="pi" [class.pi-check-circle]="data()?.totals?.transaction_currency?.is_balanced" [class.pi-times-circle]="!data()?.totals?.transaction_currency?.is_balanced"></i>
+            {{ data()?.totals?.transaction_currency?.is_balanced ? 'Balanced' : 'Not Balanced' }}
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+    <div class="pp-summary-card pp-summary-blue {{ sameCurrency ? 'same-currency-summary-card' : '' }}">
+      <div class="pp-summary-header">
+        <div class="pp-summary-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="3.5" r="1" fill="currentColor" stroke="none"></circle>
+            <line x1="12" y1="4.5" x2="12" y2="19"></line>
+            <line x1="4" y1="7" x2="20" y2="7"></line>
+            <line x1="4" y1="7" x2="2" y2="13"></line>
+            <line x1="20" y1="7" x2="22" y2="13"></line>
+            <path d="M2 13a3 3 0 0 0 6 0"></path>
+            <path d="M16 13a3 3 0 0 0 6 0"></path>
+            <line x1="8" y1="20" x2="16" y2="20"></line>
+          </svg>
+        </div>
+        <div class="pp-summary-title">Base Currency ({{ data()?.base_currency }})</div>
+      </div>
+      <div class="pp-summary-metrics">
+        <div>
+          <div class="pp-summary-label">Difference</div>
+          <div class="pp-summary-value">{{ differenceDisplay(data()?.totals?.base_currency) }}</div>
+        </div>
+        <div>
+          <div class="pp-summary-label">Higher Side</div>
+          <div class="pp-summary-value">{{ higherSide(data()?.totals?.base_currency) }}</div>
+        </div>
+        <div>
+          <div class="pp-summary-label">Status</div>
+          <div class="pp-status" [class.pp-status-ok]="data()?.totals?.base_currency?.is_balanced" [class.pp-status-bad]="!data()?.totals?.base_currency?.is_balanced">
+            <i class="pi" [class.pi-check-circle]="data()?.totals?.base_currency?.is_balanced" [class.pi-times-circle]="!data()?.totals?.base_currency?.is_balanced"></i>
+            {{ data()?.totals?.base_currency?.is_balanced ? 'Balanced' : 'Not Balanced' }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>

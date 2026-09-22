@@ -1,0 +1,6 @@
+<div [formGroup]="form">
+    <p-fileUpload [customUpload]="field.customUpload" [name]="field.name" [multiple]="field.multiple" (uploadHandler)="onFileChange($event)"></p-fileUpload>
+    <!-- <div *ngIf="field.value">
+        <img src="field.value" />
+    </div> -->
+</div>

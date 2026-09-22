@@ -1,0 +1,208 @@
+<div class="bank-details">
+    <h2 class="title">BANK DETAILS</h2>
+
+    <table class="print-table">
+        <tr>
+            <td>Date</td>
+            <td>{{bankDetailsObj?.bd_date}}</td>
+            <td>BD No.</td>
+            <td>{{bankDetailsObj?.bd_number}}</td>
+        </tr>
+
+        <tr>
+            <td>Company</td>
+            <td>{{companyName}}</td>
+            <td>BD Type</td>
+            <td>{{bankDetailsObj?.bd_type}}</td>
+        </tr>
+
+        <tr>
+            <td>PO No</td>
+            <td>{{bankDetailsObj?.purchase_order_no.form_code}}</td>
+            <td>B/L No</td>
+            <td>{{bankDetailsObj?.bl_no}}</td>
+        </tr>
+
+        <tr class="section">
+            <th colspan="4">Beneficiary</th>
+        </tr>
+
+        <tr>
+            <td>Name</td>
+            <td colspan="3">{{bankDetailsObj?.party_name}}</td>
+        </tr>
+
+        <tr>
+            <td>Address</td>
+            <td colspan="3">{{bankDetailsObj?.address}}</td>
+        </tr>
+
+        <tr>
+            <td>Country</td>
+            <td>{{bankDetailsObj?.country}}</td>
+            <td>Line of Business</td>
+            <td>{{bankDetailsObj?.line_of_business}}</td>
+        </tr>
+
+        <tr class="section">
+            <th colspan="4">Beneficiary's Bank</th>
+        </tr>
+
+        <tr>
+            <td>Name</td>
+            <td>{{bankDetailsObj?.bank_name}}</td>
+            <td>Branch</td>
+            <td>   </td>
+        </tr>
+
+        <tr>
+            <td>Address</td>
+            <td colspan="3">{{bankDetailsObj?.bank_address}}</td>
+        </tr>
+
+        <tr>
+            <!-- <td>Country</td>
+            <td>  </td> -->
+            <td>Account No</td>
+            <td>{{bankDetailsObj?.account_number}}</td>
+            <td>Swift Code</td>
+            <td>{{bankDetailsObj?.swift_code}}</td>
+        </tr>
+
+        <tr>
+            <td>IBAN</td>
+            <td>{{bankDetailsObj?.iban}}</td>
+        </tr>
+
+        <tr class="section">
+            <th colspan="4"> </th>
+        </tr>
+
+        <tr>
+            <td>Currency</td>
+            <td>{{bankDetailsObj?.currency}}</td>
+            <td>Amount</td>
+            <td>{{bankDetailsObj?.amount_payable}} </td>
+        </tr>
+
+        <tr>
+            <td>Amount In Words</td>
+            <td colspan="3">{{bankDetailsObj?.amount_in_words}}  </td>
+        </tr>
+
+        <!-- <tr>
+            <td>Reason of Payment</td>
+            <td colspan="3">IMPORT OF FLEXIBLE PIPE</td>
+        </tr> -->
+        <tr>
+            <td>Reason of Payment</td>
+            <td> {{bankDetailsObj?.reason_for_payment}}</td>
+            <td>Down Payment</td>
+            <td> {{bankDetailsObj?.down_payment_amount}} </td>
+        </tr>
+
+
+        <tr>
+            <td>PI/Contract No</td>
+            <td> {{bankDetailsObj?.pi_no}}</td>
+            <!-- <td>DXB PI</td>
+            <td>F-AZ--PRT552DXBCGT14045</td> -->
+            <td>Total Amount of PI</td>
+            <td>{{bankDetailsObj?.total_amount_of_pi}} {{bankDetailsObj?.currency}} / PC</td>
+        </tr>
+
+        <tr>
+            <td>DXB PI</td>
+            <td> {{bankDetailsObj?.dxb_pi_no}}</td>
+            <td>Remaining Balance</td>
+            <td>{{bankDetailsObj?.remaining_balance}} </td>
+        </tr>
+
+        <tr>
+            <td>Country Origin of the Goods</td>
+            <td> {{bankDetailsObj?.coo}}</td>
+            <td>Destination of the Goods</td>
+            <td> {{bankDetailsObj?.destination_of_goods}}</td>
+        </tr>
+
+
+
+
+        <tr>
+            <td><b>Date Of Payment </b></td>
+            <td><b> {{bankDetailsObj?.date_of_payment}}</b></td>
+            <td><b>Average Price </b></td>
+            <td><b>{{bankDetailsObj?.average_price}} </b></td>
+        </tr>
+
+        <tr>
+            <td>Remark</td>
+            <td colspan="3">{{bankDetailsObj?.remarks}}  </td>
+        </tr>
+
+        <tr class="section">
+            <th colspan="4">Signatures</th>
+        </tr>
+
+        <tr>
+            <td>Initiator : </td>
+            <td colspan="3">
+                Name:<br>Signature:<br>Date:
+            </td>
+        </tr>
+
+        <tr>
+            <td>Confirmed By : </td>
+            <td colspan="3">
+                Name:<br>Signature:<br>Date:
+            </td>
+        </tr>
+
+        <tr>
+            <td>Financial Expert / Manager (HLD) : </td>
+            <td colspan="3">
+                Name:<br>Signature:<br>Date:
+            </td>
+        </tr>
+
+        <tr>
+            <td>Final Approval by CEO/COO : </td>
+            <td colspan="3">
+                Name:<br>Signature:<br>Date:
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="4" style="padding-top:3%; padding-bottom:3%; padding-left:2%;">
+                <span
+                    style="display:inline-block; width:13px; height:13px; border:1px solid #000; margin-right:6px;"></span>
+                I have checked and I confirm Supplier bank Account Information
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="4" style="padding-top:1%; padding-bottom:1%; padding-left:2%;">
+                <span
+                    style="display:inline-block; width:13px; height:13px; border:1px solid #000; margin-right:6px;"></span>
+                General
+
+                <span
+                    style="display:inline-block; width:13px; height:13px; border:1px solid #000; margin-right:6px; margin-left:2%;"></span>
+                Exclusive
+
+                <span
+                    style="display:inline-block; width:13px; height:13px; border:1px solid #000; margin-right:6px; margin-left:2%;"></span>
+                Confidential
+
+
+
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="4">
+                Code: 
+            </td>
+        </tr>
+    </table>
+</div>

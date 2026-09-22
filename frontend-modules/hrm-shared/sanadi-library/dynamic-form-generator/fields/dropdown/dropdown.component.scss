@@ -1,0 +1,136 @@
+::ng-deep p-dropdown.ng-invalid .p-dropdown {
+    border: 1px solid var(--red-500);
+}
+
+::ng-deep p-dropdown.ng-invalid .p-dropdown:hover {
+    border-color: var(--red-500);
+}
+
+.custom-dropdown-button{
+    border-radius: 0 5px 5px 0 !important;
+}
+
+.elipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+}
+
+/* New line clamp styles */
+.line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-word;
+}
+
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.4;
+    max-height: 2.8em; /* 2 lines * 1.4 line-height */
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-word;
+}
+
+/* Dropdown item styling */
+.dropdown-item-text {
+    width: 100%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
+
+    font-size: 11px;
+    line-height: 10px;
+}
+
+.dropdown-selected-text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
+}
+
+/* Dropdown panel constraints */
+::ng-deep .p-dropdown-panel {
+    max-width: 400px !important;
+    
+    .p-dropdown-items {
+        max-width: 100% !important;
+        
+        .p-dropdown-item {
+            max-width: 100% !important;
+            white-space: normal !important;
+            padding: 0.5rem 1rem;
+            margin: 0;
+            border-bottom: 1px solid #f0f0f0;
+            
+            &:last-child {
+                border-bottom: none;
+            }
+            
+            .item-item {
+                width: 100%;
+                
+                .dropdown-item-text {
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                    overflow: hidden;
+                    word-break: break-word;
+                    line-height: 1.4;
+                }
+            }
+        }
+    }
+}
+
+/* Ensure dropdown doesn't exceed viewport on mobile */
+::ng-deep .p-dropdown-panel {
+    max-width: min(400px, 90vw) !important;
+}
+
+/* Selected item in dropdown field */
+::ng-deep .p-dropdown .p-dropdown-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+/* Tooltip popup */
+::ng-deep .p-tooltip {
+    max-width: 300px !important;
+    white-space: normal !important;
+    word-wrap: break-word;
+}
+
+/* For the selected value display */
+.selected-item-tooltip {
+    max-width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-word;
+}

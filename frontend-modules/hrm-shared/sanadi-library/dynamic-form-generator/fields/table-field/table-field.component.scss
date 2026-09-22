@@ -1,0 +1,59 @@
+.table-container {
+    margin-top: 20px;
+    // width: 96vw;
+
+    th {
+        width: 218px;
+        padding: 0.5rem !important;
+        justify-content: center;
+
+    }
+
+    td {
+        justify-content: center;
+        background-color: #ffffff;
+    }
+
+    .table-footer {
+        background-color: #ddd;
+        padding: 0.25rem 0.5rem;
+        max-width: 211.5px !important;
+        border-left: 1px solid #5e5d5d;
+        border-width: 3 !important;
+    }
+}
+
+
+::ng-deep tbody.p-element.p-datatable-tbody {
+    min-height: calc(100vh - 380px);
+}
+
+::ng-deep tfoot.p-datatable-tfoot {
+    background-color: #ddd !important;
+}
+
+.table-caption {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    gap:5px;
+    p {
+        margin: 0%;
+    }
+}
+
+.cursor-pointer-none{
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+// ::ng-deep.p-dialog .p-dialog-content {
+//     background: white;
+// }
+
+.table-disabled {
+  pointer-events: none;
+  opacity: 0.7;
+  user-select: none;
+}

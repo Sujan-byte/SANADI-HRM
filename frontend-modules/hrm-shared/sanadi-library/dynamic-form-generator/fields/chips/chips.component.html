@@ -1,0 +1,61 @@
+<div class="flexx flex-row gap-2">
+    <p-chips [(ngModel)]="selectedData" [allowDuplicate]="allowDuplicate" (onRemove)="onChipRemoved($event)" [disabled]="field?.readonly">
+        <ng-template pTemplate="selectedItem" let-selectedItem>
+            {{selectedItem[field?.optionLabel]}}
+        </ng-template>
+    </p-chips>
+    <button pButton [disabled]="field.readonly" [pTooltip]="field?.buttonToolTip" *ngIf="field?.openDiaogButton"
+        icon="pi pi-spin pi-slack" (click)="openDialog()"
+        styleClass="p-button-rounded p-button-help p-button-outlined" [disabled]="field?.readonly"></button>
+</div>
+<p-dialog #op header="Dialog Title" [(visible)]="displayDialog" [responsive]="true" [autoZIndex]="true"
+    [baseZIndex]="10000" (onHide)="onCloseDialog($event,op)" [header]="field?.headerText" [modal]="true"
+    [appendTo]="'body'" [dismissableMask]="true">
+    <!-- (visibleChange)="handleDialogue($event)" -->
+    <ng-template pTemplate>
+        <p-table #tb [value]="field?.tableList" [selectionMode]="field?.columnSelectionMode"
+            [paginator]="field?.tablePaginator" [rows]="field?.tableRows" dataKey="id" [(selection)]="selectedArray"
+            [scrollable]="field?.scrollable" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
+            [globalFilterFields]="field?.tableFormInitialise" [columns]="field?.tableColumnSchema" [lazy]="false"
+            [style]="{'font-size':field?.fontSize}" (onHeaderCheckboxToggle)="onSelectAllData($event)">
+            <ng-template pTemplate="caption">
+                <div class="flex flex-row justify-content-end">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="globalSearch($event, tb)"
+                            placeholder="{{ 'search_TC' | translate}}" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th pFrozenColumn [style]="{'width': '20px'}">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <ng-container *ngFor="let col of columns">
+                        <th [pSortableColumn]="col?.field" [style]="{'width': col?.width}">
+                            {{ col?.name | translate }}
+                            <p-sortIcon [field]="col?.field"></p-sortIcon>
+                            <p-columnFilter type="text" [field]="col?.field" display="menu"></p-columnFilter>
+                        </th>
+                    </ng-container>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-item>
+                <tr>
+                    <td pFrozenColumn>
+                        <p-tableCheckbox [value]="item"></p-tableCheckbox>
+                    </td>
+                    <ng-container *ngFor="let row of field?.tableFormInitialise">
+                        <td>{{item[row]}}</td>
+                    </ng-container>
+                </tr>
+            </ng-template>
+        </p-table>
+        <div *ngIf="field?.addDialogButton && tempArray?.length || field?.addDialogButton && rowUnSelected"
+            style="display: flex; justify-content: flex-end;">
+            <button pButton pRipple (click)="getDialogueData($event)" class="p-button-success" label="ADD"
+                type="button"></button>
+        </div>
+    </ng-template>
+</p-dialog>

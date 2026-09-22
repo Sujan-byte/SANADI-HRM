@@ -1,0 +1,34 @@
+<div [ngClass]="{ 'receipt-form': layout }">
+  <div
+    style="display: flex; justify-content: center; align-items: center;"
+    [ngClass]="{
+      'landscape-card': layout === 'landscape',
+      'card': layout === 'portrait'
+    }"
+  >
+    <div class="card" id="print" [ngClass]="selectedColorClass">
+      <ng-container *ngIf="!pdfSrc">
+        <app-receipt-field-builder [fields]="fields"></app-receipt-field-builder>
+      </ng-container>
+      <ng-container *ngIf="pdfSrc">
+        <ngx-extended-pdf-viewer [src]="pdfSrc" height="85vh" useBrowserLocale="true" [showDownloadButton]="true"
+          [showPrintButton]="true" [showOpenFileButton]="false" [showPresentationModeButton]="true">
+        </ngx-extended-pdf-viewer>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="flex align-items-center justify-content-center w-full" *ngIf="!pdfSrc">
+    <button
+      pButton
+      class="bg-white text-black-alpha-90 mt-2"
+      printTitle="Al Fhakama"
+      printSectionId="print"
+      [useExistingCss]="true"
+      ngxPrint
+      [disabled]="config?.disabled"
+    >
+      Print
+    </button>
+  </div>
+</div>

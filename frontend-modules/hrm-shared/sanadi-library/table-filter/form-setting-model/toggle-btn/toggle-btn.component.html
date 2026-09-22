@@ -1,0 +1,13 @@
+<div class="app-toogle-btn">
+  <span class="switch">
+    <p-inputSwitch 
+      [id]="id"
+      [(ngModel)]="value"
+      (ngModelChange)="value = !value; handleOnToggleChange()"
+    />
+  </span>
+
+  <label *ngIf="label" class="form-check-label small-text" [for]="id">
+    {{ label }}
+  </label>
+</div>

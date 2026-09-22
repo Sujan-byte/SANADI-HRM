@@ -1,0 +1,68 @@
+<div [formGroup]="form">
+  <div class="drop-container dropzone" dropZone (hovered)="toggleHover($event)"
+    (dropped)="onChange($event)" [class.hovering]="isHovering">
+    <p class="m-0">
+      Drag a file here or
+      <label class="upload-button">
+        <input #file type="file" [multiple]="field.multiple" accept=".jpg,.png,.jpeg" (change)="this.field?.isBase64String?onChangeConvertToBase64($event):onChange($event)"> browse
+      </label>
+      to upload.
+    </p>
+    <p>JPG, PNG,PDF,Excel are allowed. </p>
+  </div>
+  <div *ngIf="isShowPreviewImage">
+    <p-carousel *ngIf="field.multiple && preloadedImageArray.length; else singleImage" [value]="preloadedImageArray" [responsiveOptions]="responsiveOptions">
+      <ng-template let-image pTemplate="item" >
+        <div class="card"  [ngStyle]="{'height':cardHeight,'text-align': align}">
+          <ng-container [ngSwitch]="checkType(image.file)">
+            <img *ngSwitchCase="'.pdf'" class="card-img-top" src="assets/images/pdf.png" (click)="openImage(image.file)">
+            <p *ngSwitchCase="'.pdf'" class="centered">{{display(image.file)}}</p>
+            <img *ngSwitchCase="'.xlsx'" class="card-img-top" src="assets/images/excel.png" (click)="openImage(image.file)">
+            <p *ngSwitchCase="'.xlsx'" class="centered">{{display(image.file)}}</p>
+            <img *ngSwitchCase="'.csv'" class="card-img-top" src="assets/images/excel.png" (click)="openImage(image.file)">
+            <p *ngSwitchCase="'.csv'" class="centered">{{display(image.file)}}</p>
+            <img *ngSwitchCase="'.xls'" class="card-img-top" src="assets/images/excel.png" (click)="openImage(image.file)">
+            <p *ngSwitchCase="'.xls'" class="centered">{{display(image.file)}}</p>
+            <img *ngSwitchCase="'.doc'" class="card-img-top" src="assets/images/word-doc.png" (click)="openImage(image.file)">
+            <p *ngSwitchCase="'.doc'" class="centered">{{display(image.file)}}</p>
+            <img *ngSwitchCase="'.docx'" class="card-img-top" src="assets/images/word-doc.png" (click)="openImage(image.file)">
+            <p *ngSwitchCase="'.docx'" class="centered">{{display(image.file)}}</p>
+            <img *ngSwitchDefault class="card-img-top" (click)="openImage(image.file)" [src]="image.file" onerror="if (this.src != 'error.jpg') this.src = 'assets/images/default-image.jpg'">
+          </ng-container>
+          <button (click)="deleteImage($event, image)" class="p-button-rounded p-button-warning delete" pButton icon="pi pi-trash" type="button"></button>
+          <p-confirmPopup [key]="'deleteFile'"></p-confirmPopup>
+          <a *ngIf="downloadButton" href="{{image.file}}"pButton class="btn btn-primary " 
+            target="_blank" download="{{labelOnDownload}}">Download</a> 
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div>
+  <ng-template #singleImage>
+    <div *ngIf="!this.field?.isBase64String">
+      <div class="card"   [ngStyle]="{'height':cardHeight,'text-align': align}" *ngFor="let image of preloadedImage" >
+        <ng-container [ngSwitch]="getFileType(image)">
+          <div id="print">
+          <img *ngSwitchCase="'.pdf'" class="card-img-top" [ngStyle]="{'height':imageHeight,'width':imageWidth}" src="assets/images/pdf.png" >
+          <img *ngSwitchCase="'.xlsx'" class="card-img-top" [ngStyle]="{'height':imageHeight,'width':imageWidth}" src="assets/images/excel.png" >
+          <img *ngSwitchDefault class="card-img-top" [ngStyle]="{'height':imageHeight,'width':imageWidth}"  [src]="image" onerror="if (this.src != 'error.jpg') this.src = '../../../../assets/images/default-image.jpg'">
+        </div>
+        </ng-container>
+        <button (click)="deleteImage($event, image)" class="p-button-rounded p-button-warning delete" pButton icon="pi pi-trash" type="button"></button>
+        <p-confirmPopup [key]="'deleteFile'"></p-confirmPopup>
+        <!-- <button *ngIf="printButton" pButton class="btn btn-primary " printTitle="Geostorage"  printSectionId="print" [useExistingCss]="true"  ngxPrint>Print</button> -->
+        <a *ngIf="downloadButton" href="{{image}}"pButton class="btn btn-primary " 
+        target="_blank" download="{{labelOnDownload}}">Download</a>
+      </div>
+    </div>
+    <div *ngIf="this.field?.isBase64String && !field.multiple">
+      <div class="card"   [ngStyle]="{'height':cardHeight,'text-align': align}">
+        <div id="print">
+          <img class="card-img-top" [ngStyle]="{'height':imageHeight,'width':imageWidth}" [src]="base64Image" >
+        </div>
+        <!-- <button *ngIf="printButton" pButton class="btn btn-primary " printTitle="Geostorage"  printSectionId="print" [useExistingCss]="true"  ngxPrint>Print</button> -->
+        <a *ngIf="downloadButton" href="{{base64Image}}"pButton class="btn btn-primary " 
+        target="_blank" download="{{labelOnDownload}}">Download</a>
+      </div>
+    </div>
+  </ng-template>
+</div> 
