@@ -892,10 +892,11 @@ class EmployeeMasterSerializer(AuditModelMixinSerializer):
             try:
                 code = NumberConstructor().generate_next_sequence(
                     NumberConstructorConstants.EMPLOYEE_CODE)
-                # print("code",code)
-                prefix, number = code.split('-')
-                padded_number = number.zfill(3)
-                final_code = f"{prefix}{number}"
+                if '-' in code:
+                    prefix, number = code.split('-', 1)
+                    final_code = f"{prefix}{number.zfill(3)}"
+                else:
+                    final_code = code
                 validated_data['employee_code'] = final_code
 
             except Exception as e:

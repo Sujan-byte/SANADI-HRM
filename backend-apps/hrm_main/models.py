@@ -1,16 +1,11 @@
 ﻿from django.db import models
 from hrm_audit_fields.models import AuditUuidModelMixin
-# Vendor or Party master
 from hrm_audit_fields.models.Protect_Delete_Mixin import ProtectDeleteMixin, ProtectWithDeleteMixin
 from hrm_audit_fields.models.validator_mixin import DynamicValidatorModel
-
 from hrm_audit_fields.models.approval_model_mixin import ApprovalModelMixin
 from hrm_audit_fields.approval_stages.approval_stages_base_mixin import MultiApprovalMixinBase
-
-
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
-
 
 
 class EmployeeMonthlySalary(AuditUuidModelMixin):
@@ -38,7 +33,6 @@ class EmployeeMonthlySalary(AuditUuidModelMixin):
         ordering = ['created']
         # unique_together = ('employee', 'b_id','grade')
 
-
 class EmployeeMonthlyAllowanceDetails(AuditUuidModelMixin):
     gross_earnings = models.ForeignKey(EmployeeMonthlySalary, on_delete=models.CASCADE, null=True,
                                        blank=True,
@@ -56,7 +50,6 @@ class EmployeeMonthlyAllowanceDetails(AuditUuidModelMixin):
         db_table = 'hrm_employeemonthlyallowancedetails'
         ordering = ['salary_component__type', 'salary_component__order', 'id']
 
-
 class EmployeeMonthlyDeductionDetails(AuditUuidModelMixin):
     gross_deductions = models.ForeignKey(EmployeeMonthlySalary, on_delete=models.CASCADE, null=True,
                                          blank=True, related_name="gross_deductions")
@@ -72,8 +65,6 @@ class EmployeeMonthlyDeductionDetails(AuditUuidModelMixin):
     class Meta:
         db_table = 'hrm_employeemonthlydeductiondetails'
         ordering = ['salary_component__type', 'salary_component__order', 'id']
-
-
 
 class CareerLetter(AuditUuidModelMixin):
     class Meta:
@@ -102,6 +93,7 @@ class CareerLetterImages(AuditUuidModelMixin):
     class Meta:
         db_table = 'hrm_careerletterimages'
         ordering = ['created']
+
 class Advance(AuditUuidModelMixin, ApprovalModelMixin):
     class Meta:
         db_table = 'hrm_advance'
@@ -115,7 +107,6 @@ class Advance(AuditUuidModelMixin, ApprovalModelMixin):
     balance_loan_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, null=True, blank=True)
     loan_start_date = models.DateField(null=True, default=None, blank=True)
 
-
 class Bonus(AuditUuidModelMixin, ApprovalModelMixin):
     class Meta:
         db_table = 'hrm_bonus'
@@ -124,7 +115,6 @@ class Bonus(AuditUuidModelMixin, ApprovalModelMixin):
     date = models.DateField(null=True, default=None, blank=True)
     bonus_months = models.DateField(default=None, blank=True, null=True)
     total_bonus_amount = models.FloatField(default=0, blank=True, null=True)
-
 
 class BonusDetails(AuditUuidModelMixin):
     bonus = models.ForeignKey("Bonus", on_delete=models.CASCADE,
@@ -146,7 +136,6 @@ class BonusDetails(AuditUuidModelMixin):
     class Meta:
         db_table = 'hrm_bonusdetails'
         ordering = ['created']
-
 
 class GratuityEmployeeForm(AuditUuidModelMixin, ApprovalModelMixin, metaclass=MultiApprovalMixinBase):
     # â”€â”€ Form Number (auto-generated from app settings) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -308,14 +297,12 @@ class GratuityEmployeeForm(AuditUuidModelMixin, ApprovalModelMixin, metaclass=Mu
             )
         super().save(*args, **kwargs)
 
-
 class Gratuity(AuditUuidModelMixin):
     class Meta:
         db_table = 'hrm_gratuity'
 
     from_date = models.DateField(null=True, default=None, blank=True)
     to_date = models.DateField(null=True, default=None, blank=True)
-
 
 class GratuityCalculations(AuditUuidModelMixin):
     employee_id = models.ForeignKey('hrm_master.EmployeeMaster', on_delete=models.CASCADE, related_name="emp_gratuity")
@@ -328,7 +315,6 @@ class GratuityCalculations(AuditUuidModelMixin):
     class Meta:
         db_table = 'hrm_gratuitycalculations'
         pass
-
 
 class SalaryHold(AuditUuidModelMixin,ApprovalModelMixin):
     employee_ids    = models.JSONField(default=list, blank=True)   # list of EmployeeMaster PKs
@@ -343,7 +329,6 @@ class SalaryHold(AuditUuidModelMixin,ApprovalModelMixin):
     class Meta:
         db_table = 'hrm_salaryhold'
         ordering = ['-hold_from_date']
-
 
 class SalaryCalculation(AuditUuidModelMixin, ApprovalModelMixin):
     class Meta:
@@ -362,7 +347,6 @@ class SalaryCalculation(AuditUuidModelMixin, ApprovalModelMixin):
     filter_department_ids  = models.TextField(null=True, blank=True)
     filter_sponsor         = models.TextField(null=True, blank=True,default=None)
     selected_columns       = models.JSONField(default=list, blank=True)
-
 
 class EmployeeList(AuditUuidModelMixin):
     salary = models.ForeignKey("hrm_main.SalaryCalculation", on_delete=models.CASCADE,
@@ -429,7 +413,6 @@ class EmployeeList(AuditUuidModelMixin):
     # def sorted_queryset(cls):
     #     return cls.objects.raw('SELECT * FROM hrm_employeelist ORDER BY first_name COLLATE "C"')
 
-
 class AllowanceDetails(AuditUuidModelMixin):
     allowance_salary = models.ForeignKey("hrm_main.EmployeeList", on_delete=models.CASCADE,
                                          null=True, related_name="employee_gross")
@@ -441,7 +424,6 @@ class AllowanceDetails(AuditUuidModelMixin):
         db_table = 'hrm_allowancedetails'
         ordering = ['created']
 
-
 class DeductionDetails(AuditUuidModelMixin):
     deduction_salary = models.ForeignKey("hrm_main.EmployeeList", on_delete=models.CASCADE,
                                          null=True, related_name="employee_deduction")
@@ -452,7 +434,6 @@ class DeductionDetails(AuditUuidModelMixin):
     class Meta:
         db_table = 'hrm_deductiondetails'
         ordering = ['created']
-
 
 class OTSalaryCalculation(AuditUuidModelMixin, ApprovalModelMixin):
     PAYROLL_TYPE_CHOICES = [
@@ -482,7 +463,6 @@ class OTSalaryCalculation(AuditUuidModelMixin, ApprovalModelMixin):
         db_table = 'hrm_otsalarycalculation'
         ordering = ['-created']
 
-
 class OTEmployeeList(AuditUuidModelMixin):
     ot_salary = models.ForeignKey("hrm_main.OTSalaryCalculation", on_delete=models.CASCADE,
                                   null=True, related_name="ot_employee_list")
@@ -505,7 +485,6 @@ class OTEmployeeList(AuditUuidModelMixin):
         db_table = 'hrm_otemployeelist'
         ordering = ['first_name']
 
-
 class AttendanceImport(AuditUuidModelMixin):
     date = models.DateField(null=True, default=None, blank=True)
     import_code = models.CharField(max_length=30, blank=True, null=True)
@@ -516,7 +495,6 @@ class AttendanceImport(AuditUuidModelMixin):
         db_table = 'hrm_attendanceimport'
         # pass
         unique_together = ('date', 'b_id')
-
 
 class AttendanceDetails(AuditUuidModelMixin, ApprovalModelMixin):
     date = models.DateField(null=True, default=None, blank=True)
@@ -560,7 +538,6 @@ class AttendanceDetails(AuditUuidModelMixin, ApprovalModelMixin):
             ("custom_can_view_actual_timesheet", "Can View Actual Timesheet")
         ]
 
-
 class FinalSettlement(AuditUuidModelMixin, ApprovalModelMixin):
     employee = models.ForeignKey('hrm_master.EmployeeMaster', on_delete=models.CASCADE, null=True, blank=True)
     date_of_resignation_lt_received = models.DateField(null=True, default=None, blank=True)
@@ -584,7 +561,6 @@ class FinalSettlement(AuditUuidModelMixin, ApprovalModelMixin):
         ordering = ['created']
         # unique_together = ('employee', 'b_id')
 
-
 class FinalSettlementEmployeeMonthlyAllowanceDetails(AuditUuidModelMixin):
     final_settlement = models.ForeignKey(FinalSettlement, on_delete=models.CASCADE, null=True,
                                          blank=True,
@@ -596,7 +572,6 @@ class FinalSettlementEmployeeMonthlyAllowanceDetails(AuditUuidModelMixin):
         db_table = 'hrm_finalsettlementemployeemonthlyallowancedetails'
         ordering = ['created']
 
-
 class FinalSettlementEmployeeMonthlyDeductionDetails(AuditUuidModelMixin):
     final_settlement = models.ForeignKey(FinalSettlement, on_delete=models.CASCADE, null=True,
                                          blank=True, related_name="final_settlement_deduction")
@@ -606,7 +581,6 @@ class FinalSettlementEmployeeMonthlyDeductionDetails(AuditUuidModelMixin):
     class Meta:
         db_table = 'hrm_finalsettlementemployeemonthlydeductiondetails'
         ordering = ['created']
-
 
 class TaDa(AuditUuidModelMixin, ApprovalModelMixin):
     tada_number = models.CharField(max_length=100, blank=True, null=True)
@@ -623,7 +597,6 @@ class TaDa(AuditUuidModelMixin, ApprovalModelMixin):
         db_table = 'hrm_tada'
         pass
 
-
 class TaDaDetails(AuditUuidModelMixin):
     tada = models.ForeignKey("hrm_main.TaDa", on_delete=models.CASCADE,
                              null=True, related_name="tada_details")
@@ -635,7 +608,6 @@ class TaDaDetails(AuditUuidModelMixin):
     class Meta:
         db_table = 'hrm_tadadetails'
         ordering = ('id',)
-
 
 class TaDaDetailsImages(AuditUuidModelMixin):
     tada_details = models.ForeignKey("hrm_main.TaDaDetails", on_delete=models.CASCADE, null=True,
@@ -650,7 +622,6 @@ class TaDaDetailsImages(AuditUuidModelMixin):
         db_table = 'hrm_tadadetailsimages'
         pass
 
-
 class TravelPlanning(AuditUuidModelMixin, ProtectWithDeleteMixin):
     plan_number = models.CharField(max_length=100, blank=True, null=True)
     employee = models.ForeignKey("hrm_master.EmployeeMaster", on_delete=models.PROTECT, null=True)
@@ -663,7 +634,6 @@ class TravelPlanning(AuditUuidModelMixin, ProtectWithDeleteMixin):
     class Meta:
         db_table = 'hrm_travelplanning'
         pass
-
 
 class TravelPlanningLog(AuditUuidModelMixin):
     travel_planning = models.ForeignKey("hrm_main.TravelPlanning", on_delete=models.PROTECT, null=True)
@@ -691,7 +661,6 @@ class TravelPlanningLog(AuditUuidModelMixin):
         db_table = 'hrm_travelplanninglog'
         pass
 
-
 class GraceDetails(AuditUuidModelMixin,ProtectDeleteMixin):
     type = models.CharField(max_length=50, default="", verbose_name="Type")
     from_date = models.DateField(null=True, blank=True)
@@ -716,7 +685,6 @@ class GraceDetails(AuditUuidModelMixin,ProtectDeleteMixin):
     class Meta:
         db_table = 'hrm_gracedetails'
         pass
-
 
 class DisciplinaryAction(AuditUuidModelMixin, ApprovalModelMixin):
     PENALTY_CHOICES = [
@@ -753,7 +721,6 @@ class DisciplinaryAction(AuditUuidModelMixin, ApprovalModelMixin):
         self.affects_pay = self.penalty_type in self.AFFECTS_PAY_PENALTIES
         super().save(*args, **kwargs)
 
-
 class AttendanceStatusMaster(AuditUuidModelMixin, ProtectDeleteMixin):
     class Meta:
         db_table = 'hrm_attendancestatusmaster'
@@ -766,16 +733,6 @@ class AttendanceStatusMaster(AuditUuidModelMixin, ProtectDeleteMixin):
                                   help_text="If True, days with this status attract full salary (or partial via "
                                             "leave policy pay_percentage). If False, full daily salary is deducted.")
 
-
-
-
-
-
-# ============================================================
-# Expense Claim Module
-# ============================================================
-
-
 class ExpenseClaimCategory(AuditUuidModelMixin):
     name = models.CharField(max_length=100, null=True, blank=True)
     code = models.CharField(max_length=100, blank=True, null=True)
@@ -784,7 +741,6 @@ class ExpenseClaimCategory(AuditUuidModelMixin):
     class Meta:
         db_table = 'hrm_expenseclaimcategory'
         ordering = ['name']
-
 
 class ExpenseClaimLinkType(AuditUuidModelMixin):
     label = models.CharField(
@@ -819,7 +775,6 @@ class ExpenseClaimLinkType(AuditUuidModelMixin):
     class Meta:
         db_table = 'hrm_expenseclaimlinktype'
         ordering = ['order', 'label']
-
 
 class ExpenseClaim(AuditUuidModelMixin,ApprovalModelMixin,metaclass=MultiApprovalMixinBase):
 
@@ -977,7 +932,6 @@ class ExpenseClaim(AuditUuidModelMixin,ApprovalModelMixin,metaclass=MultiApprova
             ('custom_approval_stage_secondary_approver', 'Can approve as secondary approver'),
         ]
 
-
 class ExpenseClaimLine(AuditUuidModelMixin):
     claim = models.ForeignKey(
         'hrm_main.ExpenseClaim',
@@ -1052,7 +1006,6 @@ class ExpenseClaimLine(AuditUuidModelMixin):
         db_table = 'hrm_expenseclaimline'
         ordering = ['id']
 
-
 class ExpenseClaimAttachment(AuditUuidModelMixin):
     claim = models.ForeignKey(
         'hrm_main.ExpenseClaim',
@@ -1079,12 +1032,6 @@ class ExpenseClaimAttachment(AuditUuidModelMixin):
     class Meta:
         db_table = 'hrm_expenseclaimattachment'
         ordering = ['created']
-
-
-# ============================================================
-# Petty Cash Module
-# ============================================================
-
 
 class PettyCashFund(AuditUuidModelMixin,ApprovalModelMixin,metaclass=MultiApprovalMixinBase):
 
@@ -1152,7 +1099,6 @@ class PettyCashFund(AuditUuidModelMixin,ApprovalModelMixin,metaclass=MultiApprov
             ('custom_approval_stage_approver', 'Can approve as approver'),
             ('custom_approval_stage_secondary_approver', 'Can approve as secondary approver'),
         ]
-
 
 class PettyCashTransaction(AuditUuidModelMixin):
 
