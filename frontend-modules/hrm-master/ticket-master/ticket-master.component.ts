@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
 import { FormConfig } from 'src/app/modules/hrm-shared/core/shared/common/form-config.service';
-import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
 import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/table-filter.component';
 
 @Component({
@@ -84,10 +84,10 @@ export class TicketMasterComponent {
       get:{required_fields:this.ticketMasterRequiredFields()}
     },
     url: {
-      post: ServiceUrlConstants.TICKET_MASTER,
-      get: ServiceUrlConstants.TICKET_MASTER,
-      delete: ServiceUrlConstants.TICKET_MASTER,
-      put: ServiceUrlConstants.TICKET_MASTER,
+      post: HrmServiceUrlConstants.TICKET_MASTER,
+      get: HrmServiceUrlConstants.TICKET_MASTER,
+      delete: HrmServiceUrlConstants.TICKET_MASTER,
+      put: HrmServiceUrlConstants.TICKET_MASTER,
     },
     actions: [
       {

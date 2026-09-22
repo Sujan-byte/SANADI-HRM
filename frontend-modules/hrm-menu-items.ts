@@ -33,6 +33,7 @@ export const HRM_MASTER_PERMISSIONS: string[] = [
   'hrm_master.view_leaveextension',
   'hrm_main.view_attendancedetails',
   'hrm_master.view_documenttypemaster',
+  'hrm_master.view_ticketmaster',
 ];
 
 /** Permission strings that gate the whole "HRM transactions" group (for a host's own group-level `visible`). */
@@ -75,6 +76,7 @@ function getHrmMasterMenuItems(cb: HrmMenuCallbacks): MenuItem[] {
     { label: 'Leave Application', routerLink: '/app/masters/leave-application', icon: 'pi pi-file-export', command: cb.onClick, visible: cb.checkPermission('hrm_master.view_leaveapplication') },
     { label: 'Leave Reversal Application', routerLink: '/app/masters/leave-reversal-request', icon: 'pi pi-file-export', command: cb.onClick, visible: cb.checkPermission('hrm_master.view_leavereversalrequest') },
     { label: 'Leave Extension', routerLink: '/app/masters/leave-extension', icon: 'pi pi-file-export', command: cb.onClick, visible: cb.checkPermission('hrm_master.view_leaveextension') },
+    { label: 'Ticket Master', routerLink: '/app/masters/ticket-master', icon: 'pi pi-file-export', command: cb.onClick, visible: cb.checkPermission('hrm_master.view_ticketmaster') },
     { label: 'Time Sheet', routerLink: '/app/report/time-sheet', icon: 'pi pi-chart-line', command: cb.onClick, visible: cb.checkPermission('hrm_main.view_attendancedetails') },
   ];
 }
@@ -102,11 +104,24 @@ function getHrmTransactionMenuItems(cb: HrmMenuCallbacks): MenuItem[] {
 }
 
 /** Single top-level "HRM" menu group: a "Masters" submenu (Employee, Department, Leave*, Shift*,
- * etc.) plus the transaction screens (Advance, Bonus, Payroll, etc.) as direct children. */
+ * etc.) plus the transaction screens (Advance, Bonus, Payroll, etc.) as direct children.
+ *
+ * `hideRouterLinks` lets one host hide specific screens from its own menu (e.g. a feature this
+ * project doesn't use yet) without touching this file - which every host shares. Match by
+ * routerLink rather than label, since routerLink is the stable identifier here; pass the exact
+ * `routerLink` values from getHrmMasterMenuItems()/getHrmTransactionMenuItems() below. This only
+ * hides the menu entry - the route itself still works if a user navigates to it directly, so pair
+ * this with removing/guarding the route in the host's own routing module if it should be fully
+ * unreachable, not just off the menu. */
 export function getHrmMenuGroup(
   cb: HrmMenuCallbacks,
-  checkModulePermissions: (permissions: string[]) => boolean
+  checkModulePermissions: (permissions: string[]) => boolean,
+  hideRouterLinks: string[] = []
 ): MenuItem {
+  const hide = new Set(hideRouterLinks);
+  const withHidden = (items: MenuItem[]): MenuItem[] =>
+    items.filter(item => !item.routerLink || !hide.has(item.routerLink as string));
+
   return {
     label: 'HRM',
     visible: checkModulePermissions([...HRM_MASTER_PERMISSIONS, ...HRM_TRANSACTION_PERMISSIONS]),
@@ -114,9 +129,9 @@ export function getHrmMenuGroup(
       {
         label: 'Masters',
         visible: checkModulePermissions(HRM_MASTER_PERMISSIONS),
-        items: getHrmMasterMenuItems(cb),
+        items: withHidden(getHrmMasterMenuItems(cb)),
       },
-      ...getHrmTransactionMenuItems(cb),
+      ...withHidden(getHrmTransactionMenuItems(cb)),
     ],
   };
 }

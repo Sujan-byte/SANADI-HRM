@@ -27,4 +27,5 @@ export class HrmServiceUrlConstants {
   public static SHIFT_MASTER_DURATION = '/master/shift-master/';
   public static SALARY_COMPONET_CRUD = '/master/salary-components/';
   public static EXPENSE_CLAIM_LINK_TYPE_CRUD = '/hrm/expense-claim-link-types/';
+  public static TICKET_MASTER = '/master/ticket-master/';
 }
