@@ -55,9 +55,9 @@ export const HRM_TRANSACTION_PERMISSIONS: string[] = [
   'hrm_main.view_pettycashtransaction',
 ];
 
-/** HRM-owned master-data screens (Employee, Department, Leave*, Shift*, etc.) - items only, so a
- * host can splice these into its own existing "Master" menu group alongside its own generic items. */
-export function getHrmMasterMenuItems(cb: HrmMenuCallbacks): MenuItem[] {
+/** HRM-owned master-data screens (Employee, Department, Leave*, Shift*, etc.) - items only, nested
+ * under a "Masters" submenu inside the single top-level "HRM" group returned by getHrmMenuGroup(). */
+function getHrmMasterMenuItems(cb: HrmMenuCallbacks): MenuItem[] {
   return [
     { label: 'Department', routerLink: '/app/masters/department', icon: 'pi pi-file-export', command: cb.onClick, visible: cb.checkPermission('hrm_master.view_department') },
     { label: 'Designation', routerLink: '/app/masters/designation', icon: 'pi pi-file-export', command: cb.onClick, visible: cb.checkPermission('hrm_master.view_designation') },
@@ -79,16 +79,8 @@ export function getHrmMasterMenuItems(cb: HrmMenuCallbacks): MenuItem[] {
   ];
 }
 
-/** HRM transaction screens (Advance, Bonus, Payroll, etc.) - a full top-level "HRM" menu group,
- * since this group is entirely plugin-owned with nothing generic mixed in. */
-export function getHrmTransactionMenuGroup(
-  cb: HrmMenuCallbacks,
-  checkModulePermissions: (permissions: string[]) => boolean
-): MenuItem {
-  return {
-    label: 'HRM',
-    visible: checkModulePermissions(HRM_TRANSACTION_PERMISSIONS),
-    items: [
+function getHrmTransactionMenuItems(cb: HrmMenuCallbacks): MenuItem[] {
+  return [
       { label: 'Allowance Management', icon: 'pi pi-file-export', routerLink: '/app/masters/allowance-assignment', command: cb.onClick, visible: cb.checkPermission('hrm_master.view_allowanceassignment') },
       { label: 'Disciplinary Action', icon: 'pi pi-file-export', routerLink: '/app/masters/disciplinary-action', command: cb.onClick, visible: cb.checkPermission('hrm_main.view_disciplinaryaction') },
       { label: 'Employee Salary', icon: 'pi pi-file-export', routerLink: '/app/hrm/employee-salary', command: cb.onClick, visible: cb.checkPermission('hrm_main.view_employeemonthlysalary') },
@@ -106,6 +98,25 @@ export function getHrmTransactionMenuGroup(
       { label: 'Expense Claim', icon: 'pi pi-file-export', routerLink: '/app/hrm/expense-claim', command: cb.onClick, visible: cb.checkPermission('hrm_main.view_expenseclaim') },
       { label: 'Petty Cash Fund', icon: 'pi pi-file-export', routerLink: '/app/hrm/petty-cash-fund', command: cb.onClick, visible: cb.checkPermission('hrm_main.view_pettycashfund') },
       { label: 'Petty Cash Transaction', icon: 'pi pi-file-export', routerLink: '/app/hrm/petty-cash-transaction', command: cb.onClick, visible: cb.checkPermission('hrm_main.view_pettycashtransaction') },
+  ];
+}
+
+/** Single top-level "HRM" menu group: a "Masters" submenu (Employee, Department, Leave*, Shift*,
+ * etc.) plus the transaction screens (Advance, Bonus, Payroll, etc.) as direct children. */
+export function getHrmMenuGroup(
+  cb: HrmMenuCallbacks,
+  checkModulePermissions: (permissions: string[]) => boolean
+): MenuItem {
+  return {
+    label: 'HRM',
+    visible: checkModulePermissions([...HRM_MASTER_PERMISSIONS, ...HRM_TRANSACTION_PERMISSIONS]),
+    items: [
+      {
+        label: 'Masters',
+        visible: checkModulePermissions(HRM_MASTER_PERMISSIONS),
+        items: getHrmMasterMenuItems(cb),
+      },
+      ...getHrmTransactionMenuItems(cb),
     ],
   };
 }
