@@ -16,7 +16,7 @@ from hrm_main.models import (AttendanceStatusMaster)
 from hrm_audit_fields.approval_stages.approval_stages_base_mixin import MultiApprovalMixinBase
 from hrm_utils.constants import ItemTypeConstants
 from django.contrib.contenttypes.models import ContentType
-from .contract import resolve
+from hrm_contract_resolver import resolve
 User = get_user_model()
 
 

@@ -16,6 +16,14 @@ Both directions read HRM_MODEL_MAP from hrm_contract.py at the host project
 root (importable because it sits next to manage.py), falling back to this
 submodule's own defaults when that file, or a given key in it, is absent -
 so the plugin still works standalone with nothing configured.
+
+Deliberately a plain top-level module of the submodule (like
+hrm_plugin_config.py), not owned by any one app (hrm_master, hrm_utils,
+etc.): both directions of the contract cross app boundaries, so no single
+app should be a dependency just to reach this function. Also deliberately
+NOT named hrm_contract.py itself - backend-apps/ sits ahead of the host
+project root on sys.path, so a same-named file here would shadow the host's
+real hrm_contract.py the moment resolve() does `import hrm_contract`.
 """
 
 _DEFAULTS = {
