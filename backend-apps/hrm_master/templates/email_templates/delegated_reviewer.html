@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; color: #333; }
+        .container { max-width: 600px; margin: auto; padding: 20px; }
+        .header { border-bottom: 1px solid #eee; margin-bottom: 20px; }
+        .highlight { background: #f9f9f9; padding: 10px; border-left: 4px solid #f1c40f; margin-bottom: 20px; }
+        .footer { font-size: 0.85em; color: #999; text-align: center; margin-top: 30px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>{{ form_type|default:"Leave" }} Request - Action Needed</h2>
+        </div>
+
+        <p>Hi {{ approver_name }},</p>
+
+        <p>This {{ form_type|default:"Leave" }} request has been approved by {{ fra_name }}. Your review is now required.</p>
+
+        <div class="highlight">
+            <p><strong>Employee:</strong> {{ employee_name }}</p>
+            <p><strong>Period:</strong> {{ start_date }} to {{ end_date }}</p>
+            <p><strong>Type:</strong> {{ leave_type }}</p>
+            <p><strong>Days:</strong> {{ leave_days }}</p>
+            {% if request_reason %}
+                <p><strong>Reason:</strong> {{ request_reason }}</p>
+            {% endif %}
+        </div>
+
+        <p>Please log in to approve or reject this request.</p>
+
+        <div class="footer">
+            <p>This is an automated message. Do not reply.</p>
+            <p>© {% now "Y" %} {{ company_name }}</p>
+        </div>
+    </div>
+</body>
+</html>
