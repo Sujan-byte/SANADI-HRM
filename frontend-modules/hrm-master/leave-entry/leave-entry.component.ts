@@ -1,22 +1,23 @@
 import { Component, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ApprovalOptions, FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { FormConfig } from 'src/app/core/shared/common/form-config.service';
-import { LocalCompServiceConfig } from 'src/app/core/shared/common/model/app.model';
-import { LeaveEntryModel } from 'src/app/core/shared/common/model/masters/leave-entry.model';
-import { TableFilterComponent } from 'src/app/sanadi-library/table-filter/table-filter.component';
+import { ApprovalOptions, FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { FormConfig } from 'src/app/modules/hrm-shared/core/shared/common/form-config.service';
+import { LocalCompServiceConfig } from 'src/app/modules/hrm-shared/core/shared/common/model/app.model';
+import { LeaveEntryModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/leave-entry.model';
+import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/table-filter.component';
 import { LeaveEntryService } from './services/leave-entry.service';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { colorSets } from '@swimlane/ngx-charts';
-import { DialogHandlerService } from 'src/app/core/shared/services/dialog-form.service';
+import { DialogHandlerService } from 'src/app/modules/hrm-shared/core/shared/services/dialog-form.service';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { ApiService } from 'src/app/core/services/api.service';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
 import { LeaveReversalRequestComponent } from '../leave-reversal-request/leave-reversal-request.component';
-import { LeaveEntryEnum } from 'src/app/core/shared/common/enum/masters_enum/leave-entry.enum';
-import { LeaveReversalEnum } from 'src/app/core/shared/common/enum/masters_enum/leave-reversal-enum';
-import { LeaveExtensionEnum } from 'src/app/core/shared/common/enum/masters_enum/leave-extension.enum';
-import { LeaveExtensionModel } from 'src/app/core/shared/common/model/masters/leave-extension.model';
+import { LeaveEntryEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/leave-entry.enum';
+import { LeaveReversalEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/leave-reversal-enum';
+import { LeaveExtensionEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/leave-extension.enum';
+import { LeaveExtensionModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/leave-extension.model';
 import { LeaveExtensionDialogComponent } from '../leave-application/leave-extension-dialog/leave-extension-dialog.component';
 
 @Component({
@@ -314,11 +315,11 @@ export class LeaveEntryComponent {
         formName:     'leave-extension',
         pageTitle:    this.translate.instant('leaveExtension_TC'),
         url: {
-          post:      ServiceUrlConstants.LEAVE_EXTENSION_CRUD,
-          get:       ServiceUrlConstants.LEAVE_EXTENSION_CRUD,
-          put:       ServiceUrlConstants.LEAVE_EXTENSION_CRUD,
-          delete:    ServiceUrlConstants.LEAVE_EXTENSION_CRUD,
-          get_by_pk: ServiceUrlConstants.LEAVE_EXTENSION_CRUD,
+          post:      HrmServiceUrlConstants.LEAVE_EXTENSION_CRUD,
+          get:       HrmServiceUrlConstants.LEAVE_EXTENSION_CRUD,
+          put:       HrmServiceUrlConstants.LEAVE_EXTENSION_CRUD,
+          delete:    HrmServiceUrlConstants.LEAVE_EXTENSION_CRUD,
+          get_by_pk: HrmServiceUrlConstants.LEAVE_EXTENSION_CRUD,
         },
         isShowDialog:  true,
         customDialog:  false,
@@ -350,7 +351,7 @@ export class LeaveEntryComponent {
 
   getLeaveDetailsById(id) {
     return new Promise((resolve) => {
-      this.apiService.get(`${ServiceUrlConstants.LEAVE_ENTRY_CRUD}${id}`).subscribe((res: any) => {
+      this.apiService.get(`${HrmServiceUrlConstants.LEAVE_ENTRY_CRUD}${id}`).subscribe((res: any) => {
         resolve(res);
       })
     })
@@ -358,7 +359,7 @@ export class LeaveEntryComponent {
 
   getLeaveDetailsRevertById(id) {
     return new Promise((resolve, reject) => {
-      const url = `${ServiceUrlConstants.LEAVE_REVERSAL_CRUD}${id}`;
+      const url = `${HrmServiceUrlConstants.LEAVE_REVERSAL_CRUD}${id}`;
       this.apiService.get(url).subscribe({
         next: (res: any) => resolve(res),
         error: (err) => reject(err)

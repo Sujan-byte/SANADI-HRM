@@ -1,8 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { FilterOptions, matchModeOptions, matchModeOptionsDate } from 'src/app/core/shared/common/enum/app.enum';
-import { TableFilterComponent } from 'src/app/sanadi-library/table-filter/table-filter.component';
+import { FilterOptions, matchModeOptions, matchModeOptionsDate } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/table-filter.component';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
 
 @Component({
   selector: 'app-allowance-register',
@@ -110,10 +111,10 @@ export class AllowanceRegisterComponent {
     editable: false,
     isShowDialog: false,
     url: {
-      get:    `${ServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD}register/`,
-      post:   ServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD,
-      put:    ServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD,
-      delete: ServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD,
+      get:    `${HrmServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD}register/`,
+      post:   HrmServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD,
+      put:    HrmServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD,
+      delete: HrmServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD,
     },
     toolBarActionConfig: {
       newButton:      false,

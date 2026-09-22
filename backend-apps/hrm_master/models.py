@@ -26,7 +26,6 @@ class Department(AuditUuidModelMixin, ProtectDeleteMixin):
     order           = models.IntegerField(default=None, null=True, blank=True)
 
     class Meta:
-        db_table = 'master_department'
         unique_together = ('department_name', 'b_id')
         ordering        = ['order', 'department_name']
 
@@ -35,7 +34,6 @@ class Designation(AuditUuidModelMixin, ProtectDeleteMixin):
     designation_name = models.CharField(max_length=100)
 
     class Meta:
-        db_table = 'master_designation'
         unique_together = ('designation_name', 'b_id')
 
 class AllowanceMaster(AuditUuidModelMixin, ProtectDeleteMixin):
@@ -63,7 +61,6 @@ class AllowanceMaster(AuditUuidModelMixin, ProtectDeleteMixin):
     unit_rate       = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
 
     class Meta:
-        db_table = 'master_allowancemaster'
         unique_together = ('allowance_name', 'b_id')
 
 class Grade(AuditUuidModelMixin, ProtectDeleteMixin):
@@ -76,7 +73,6 @@ class Grade(AuditUuidModelMixin, ProtectDeleteMixin):
     confirm_msg = models.BooleanField(default=False)
 
     class Meta:
-        db_table = 'master_grade'
         pass  # unique_together = ('grade_code', 'grade_description', 'b_id')
 
 class GradeMonthlyAllowanceDetails(AuditUuidModelMixin):
@@ -92,7 +88,6 @@ class GradeMonthlyAllowanceDetails(AuditUuidModelMixin):
                                          blank=True)
 
     class Meta:
-        db_table = 'master_grademonthlyallowancedetails'
         default_permissions = {}
         ordering = ['salary_component__type', 'salary_component__order', 'id']
 
@@ -108,7 +103,6 @@ class GradeMonthlyDeductionDetails(AuditUuidModelMixin):
                                          blank=True)
 
     class Meta:
-        db_table = 'master_grademonthlydeductiondetails'
         default_permissions = {}
         ordering = ['salary_component__type', 'salary_component__order', 'id']
 
@@ -119,7 +113,6 @@ class LeaveDetails(AuditUuidModelMixin, DynamicValidatorModel):
                               null=True, related_name="leave_details")
 
     class Meta:
-        db_table = 'master_leavedetails'
         pass
 
     def __init__(self, *args, **kwargs):
@@ -128,7 +121,7 @@ class LeaveDetails(AuditUuidModelMixin, DynamicValidatorModel):
 
 class EmployeeMaster(AuditUuidModelMixin, SoftDeleteMixin):
     class Meta:
-        db_table = 'master_employeemaster'
+        pass
 
     employee_code = models.CharField(max_length=50, null=True, default=None, blank=True)
     employee_card_number = models.CharField(max_length=100, null=True, default=None, blank=True)
@@ -305,7 +298,6 @@ class PreviousEmploymentDetails(AuditUuidModelMixin, DynamicValidatorModel):
     resigned_date = models.DateField(null=True, default=None, blank=True)
 
     class Meta:
-        db_table = 'master_previousemploymentdetails'
         default_permissions = {}
         ordering = ['id']
 
@@ -322,7 +314,6 @@ class EmployeeLetterImages(AuditUuidModelMixin):
     file_type = models.TextField(default='', null=True, blank=True)
 
     class Meta:
-        db_table = 'master_employeeletterimages'
         ordering = ['created']
 
 class DocumentTypeMaster(AuditUuidModelMixin):
@@ -369,7 +360,6 @@ class DocumentTypeMaster(AuditUuidModelMixin):
         return self.doc_type_name or self.doc_type_code or ""
 
     class Meta:
-        db_table = 'master_documenttypemaster'
         ordering = ["id"]
 
 class EmployeeDocumentsDetails(AuditUuidModelMixin, DynamicValidatorModel):
@@ -390,7 +380,6 @@ class EmployeeDocumentsDetails(AuditUuidModelMixin, DynamicValidatorModel):
     issue_date = models.DateField(null=True,default=None,blank=True)
 
     class Meta:
-        db_table = 'master_employeedocumentsdetails'
         default_permissions = {}
         ordering = ['id']
 
@@ -430,7 +419,6 @@ class LeaveEntry(AuditUuidModelMixin, ApprovalModelMixin, metaclass=MultiApprova
     extension_lop_attendance_ids = models.JSONField(default=list, blank=True)
 
     class Meta:
-        db_table = 'master_leaveentry'
         permissions = [
             ('custom_approval_stage_initiator', 'Can approve as initiator'),
             ('custom_approval_stage_HR', 'Can approve as HR'),
@@ -463,7 +451,6 @@ class LeaveMaster(AuditUuidModelMixin):
     total_available_leaves = models.FloatField(default=0, blank=True, null=True)
 
     class Meta:
-        db_table = 'master_leavemaster'
         permissions = [
             ('custom_show_all_employees', 'Can view all employees')
         ]
@@ -482,7 +469,6 @@ class LeaveMasterDetails(AuditUuidModelMixin):
     lapse_days = models.FloatField(default=0, blank=True, null=True)
 
     class Meta:
-        db_table = 'master_leavemasterdetails'
         default_permissions = {}
         ordering = ('id',)
 
@@ -512,7 +498,6 @@ class LeaveMasterDetailBreakup(AuditUuidModelMixin):
     remarks = models.TextField(null=True, blank=True)
 
     class Meta:
-        db_table = 'master_leavemasterdetailbreakup'
         default_permissions = {}
         ordering = ('id',)
         # unique_together = ("leave_master_detail", "leave_policy_detail")  # Prevent duplicate allocations
@@ -524,7 +509,6 @@ class HolidayMaster(AuditUuidModelMixin, ApprovalModelMixin):
     description = models.TextField(default='', null=True, blank=True)
 
     class Meta:
-        db_table = 'master_holidaymaster'
         unique_together = ('date', 'to_date', 'b_id')
 
 class ProfessionalTaxSlab(AuditUuidModelMixin):
@@ -534,7 +518,6 @@ class ProfessionalTaxSlab(AuditUuidModelMixin):
     tax_amount = models.DecimalField(max_digits=10, decimal_places=2, help_text="Tax amount for this slab")
 
     class Meta:
-        db_table = 'master_professionaltaxslab'
         unique_together = ('min_salary', 'max_salary')
         ordering = ['min_salary']
 
@@ -543,7 +526,7 @@ class ProfessionalTaxSlab(AuditUuidModelMixin):
 
 class ShiftTimings(AuditUuidModelMixin):
     class Meta:
-        db_table = 'master_shifttimings'
+        pass
 
     shift_name = models.CharField(max_length=200)
     shift_code = models.CharField(max_length=200, blank=True, null=True, default=None)
@@ -645,7 +628,6 @@ class LeaveApplication(AuditUuidModelMixin, ProtectDeleteMixin, ApprovalModelMix
     #     pass
 
     class Meta:
-        db_table = 'master_leaveapplication'
         permissions = [
             ('custom_approval_stage_initiator', 'Can approve as initiator'),
             ('custom_approval_stage_HR', 'Can approve as HR'),
@@ -709,7 +691,6 @@ class LeavePolicy(AuditUuidModelMixin, ProtectDeleteMixin):
                               help_text="Whether leave pay percentage applies on Basic Pay or Gross Pay")
 
     class Meta:
-        db_table = 'master_leavepolicy'
         verbose_name = 'Leave Policy'
         verbose_name_plural = 'Leave Policies'
         # unique_together = ('employee_type', 'type_of_leave', 'b_id')
@@ -729,7 +710,6 @@ class LeavePolicyDetail(AuditUuidModelMixin, ProtectDeleteMixin):
     number_of_days = models.FloatField(default=0, null=True, blank=True)
 
     class Meta:
-        db_table = 'master_leavepolicydetail'
         default_permissions = {}
         verbose_name = 'Leave Policy Detail'
         verbose_name_plural = 'Leave Policy Details'
@@ -751,7 +731,6 @@ class TicketMaster(AuditUuidModelMixin):
         return f"{self.ticket_sector} - {self.ticket_period}"
 
     class Meta:
-        db_table = 'master_ticketmaster'
         verbose_name = "Ticket Master"
         verbose_name_plural = "Ticket Masters"
 
@@ -766,7 +745,6 @@ class TicketHistory(AuditUuidModelMixin):
         return f"History for {self.ticket_master.ticket_sector} on {self.date}"
 
     class Meta:                  
-        db_table = 'master_tickethistory'
         verbose_name = "Ticket History"
         verbose_name_plural = "Ticket Histories"
 
@@ -826,7 +804,6 @@ class AllowanceAssignment(AuditUuidModelMixin, ProtectDeleteMixin, ApprovalModel
     filter_department_ids  = models.CharField(max_length=500, blank=True)
 
     class Meta:
-        db_table = 'master_allowanceassignment'
         ordering = ['-created']
 
 class SalaryComponents(AuditUuidModelMixin, ProtectDeleteMixin):
@@ -835,7 +812,6 @@ class SalaryComponents(AuditUuidModelMixin, ProtectDeleteMixin):
     order = models.IntegerField(default=0)
 
     class Meta:
-        db_table = 'master_salarycomponents'
         pass
         ordering = ['type', 'order']
         # unique_together = ('component', 'b_id', 'type',)
@@ -858,7 +834,6 @@ class ShiftMaster(AuditUuidModelMixin):
     is_cross_midnight = models.BooleanField(default=False, editable=False)
 
     class Meta:
-        db_table = 'master_shiftmaster'
         pass
 
 class LeaveReversalRequest(AuditUuidModelMixin, ApprovalModelMixin,metaclass=MultiApprovalMixinBase):
@@ -892,7 +867,6 @@ class LeaveReversalRequest(AuditUuidModelMixin, ApprovalModelMixin,metaclass=Mul
     include_holidays = models.BooleanField(default=False, help_text="Include approved holidays in reverse_no_of_days (only relevant when type_of_days is Working_days)")
     delegated_reviewer_mail_sent = models.BooleanField(default=False)
     class Meta:
-        db_table = 'master_leavereversalrequest'
         verbose_name = "Leave Reversal Request"
         verbose_name_plural = "Leave Reversal Requests"
         permissions = [
@@ -950,7 +924,6 @@ class LeaveExtension(AuditUuidModelMixin,ApprovalModelMixin):
     )
 
     class Meta:
-        db_table = 'master_leaveextension'
         verbose_name = "Leave Extension"
         verbose_name_plural = "Leave Extensions"
 

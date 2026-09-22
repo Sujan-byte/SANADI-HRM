@@ -1,0 +1,36 @@
+﻿export class LeaveEntryModel {
+    employee?: string;
+    first_name?: string;
+    last_name?: string;
+    grade?: string;
+    designation?: string;
+    doj?: any;
+    leave_type?: number;
+    approval_status?: any;
+    available_leaves?:any;
+    from_date?: any;
+    to_date?: any;
+    condition?: string;
+    no_of_days?: number;
+    reason?: string;
+    remarks?: string;
+    is_lop?: any;
+    employee_default_object: any;
+    leave_type_default_object: any;
+    comp_off_date:any;
+    is_comp_off:any;
+    is_system_generated: any;
+    travel_or_leave?: any;
+    default_delegated_reviewer_object?:any;
+    weekly_off_days?:any;
+    holiday_days?:any;
+    type_of_days?:any;
+    certificate?:any;
+    is_reversal:boolean=false;
+    balance_no_of_days:number=0;
+    leave_type_status_code:number=0;
+    extended_to_date?: any;
+    allow_beyond_eligible: boolean = false;
+    lop_days_from_extension: number = 0;
+    is_paid_beyond: boolean = false;
+}

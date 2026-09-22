@@ -1,17 +1,17 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { ApiService } from 'src/app/core/services/api.service';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
-import { BonusDetails, BonusModel } from 'src/app/core/shared/common/model/hrm/bonus.model';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
+import { BonusDetails, BonusModel } from 'src/app/modules/hrm-shared/core/shared/common/model/hrm/bonus.model';
 import { BonusDetailsEnum, BonusEnum } from 'src/app/modules/hrm-main/hrm-enum/bonus.enum';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
-import { TableBuilder } from 'src/app/core/shared/common/forms/core/builders/table.builder';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
+import { TableBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/table.builder';
 import { GradeFormConfig } from 'src/app/modules/hrm-master/shared-forms/masters-forms/grade-form.config.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { CalenderDateEnum, FilterOptions, MomentDateEnum } from 'src/app/core/shared/common/enum/app.enum';
-import { NumberField } from 'src/app/core/shared/common/forms/core/builders/number.builder';
+import { CalenderDateEnum, FilterOptions, MomentDateEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { NumberField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/number.builder';
 import * as moment from 'moment';
 @Injectable({
   providedIn: 'root',

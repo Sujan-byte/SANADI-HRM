@@ -9,8 +9,9 @@ import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { ApiService } from 'src/app/core/services/api.service';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
 
 const ALL_COLUMNS = [
   { field: 'employee_code',    header: 'Employee Code'   },
@@ -40,7 +41,7 @@ const GROUP_BY_OPTIONS = [
   { label: 'Allowance',    value: 'allowance'    },
 ];
 
-const BASE_URL = `${ServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD}`;
+const BASE_URL = `${HrmServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD}`;
 
 @Component({
   selector: 'app-allowance-register-dialog',

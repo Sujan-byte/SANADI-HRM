@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { LocalCompServiceConfig } from 'src/app/core/shared/common/model/app.model';
+import { LocalCompServiceConfig } from 'src/app/modules/hrm-shared/core/shared/common/model/app.model';
 
 @Injectable({ providedIn: 'root' })
 export class SalaryIncrementService implements LocalCompServiceConfig {

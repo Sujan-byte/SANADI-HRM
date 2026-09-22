@@ -1,15 +1,15 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { TextBuilder } from 'src/app/core/shared/common/forms/core/builders/textarea.builder';
-import { ApiService } from 'src/app/core/services/api.service';
-import { DepartmentEnum } from 'src/app/core/shared/common/enum/masters_enum/department-enum';
-import { DepartmentModel } from 'src/app/core/shared/common/model/masters/department.model';
-import { SalaryComponentsEnum } from 'src/app/core/shared/common/enum/masters_enum/salary-components-enum';
-import { SalaryComponentsModel } from 'src/app/core/shared/common/model/masters/salary-components.model';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
-import { NumberField } from 'src/app/core/shared/common/forms/core/builders/number.builder';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { TextBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/textarea.builder';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { DepartmentEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/department-enum';
+import { DepartmentModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/department.model';
+import { SalaryComponentsEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/salary-components-enum';
+import { SalaryComponentsModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/salary-components.model';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
+import { NumberField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/number.builder';
 
 
 @Injectable({

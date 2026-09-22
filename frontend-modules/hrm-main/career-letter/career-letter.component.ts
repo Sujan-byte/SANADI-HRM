@@ -1,10 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { FormConfig } from 'src/app/core/shared/common/form-config.service';
-import { TableFilterComponent } from 'src/app/sanadi-library/table-filter/table-filter.component';
+import { FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { FormConfig } from 'src/app/modules/hrm-shared/core/shared/common/form-config.service';
+import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/table-filter.component';
 import { CarrerLetterService } from './services/carrer-letter.service';
-import { LocalCompServiceConfig } from 'src/app/core/shared/common/model/app.model';
+import { LocalCompServiceConfig } from 'src/app/modules/hrm-shared/core/shared/common/model/app.model';
 
 @Component({
   selector: 'sanadi-career-letter',

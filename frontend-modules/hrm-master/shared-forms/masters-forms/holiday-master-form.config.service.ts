@@ -1,12 +1,12 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { ApiService } from 'src/app/core/services/api.service';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
-import { HolidayMasterModel } from 'src/app/core/shared/common/model/masters/holiday-master.model';
-import { HolidayMasterEnum } from 'src/app/core/shared/common/enum/masters_enum/holiday-master.enum';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { TextBuilder } from 'src/app/core/shared/common/forms/core/builders/textarea.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
+import { HolidayMasterModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/holiday-master.model';
+import { HolidayMasterEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/holiday-master.enum';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { TextBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/textarea.builder';
 
 
 @Injectable({

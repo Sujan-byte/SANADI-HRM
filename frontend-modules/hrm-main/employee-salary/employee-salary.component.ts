@@ -1,12 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ApiService } from 'src/app/core/services/api.service';
-import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { FormConfig } from 'src/app/core/shared/common/form-config.service';
-import { LocalCompServiceConfig } from 'src/app/core/shared/common/model/app.model';
-import { EmployeeSalaryModel } from 'src/app/core/shared/common/model/hrm/employee-salary-model';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { FormConfig } from 'src/app/modules/hrm-shared/core/shared/common/form-config.service';
+import { LocalCompServiceConfig } from 'src/app/modules/hrm-shared/core/shared/common/model/app.model';
+import { EmployeeSalaryModel } from 'src/app/modules/hrm-shared/core/shared/common/model/hrm/employee-salary-model';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { TableFilterComponent } from 'src/app/sanadi-library/table-filter/table-filter.component';
+import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/table-filter.component';
 
 @Component({
   selector: 'sanadi-employee-salary',

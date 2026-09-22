@@ -1,8 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TableFilterComponent } from 'src/app/sanadi-library/table-filter/table-filter.component';
-import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
+import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/table-filter.component';
+import { FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
 import { DocumentTypeMasterFormConfig } from 'src/app/modules/hrm-master/shared-forms/masters-forms/document-type-master-form.config.service';
 
 @Component({
@@ -110,10 +111,10 @@ export class DocumentTypeMasterComponent {
     isShowDialog: true,
 
     url: {
-      get: ServiceUrlConstants.DOCUMENT_TYPE_MASTER_CRUD,
-      post: ServiceUrlConstants.DOCUMENT_TYPE_MASTER_CRUD,
-      put: ServiceUrlConstants.DOCUMENT_TYPE_MASTER_CRUD,
-      delete: ServiceUrlConstants.DOCUMENT_TYPE_MASTER_CRUD,
+      get: HrmServiceUrlConstants.DOCUMENT_TYPE_MASTER_CRUD,
+      post: HrmServiceUrlConstants.DOCUMENT_TYPE_MASTER_CRUD,
+      put: HrmServiceUrlConstants.DOCUMENT_TYPE_MASTER_CRUD,
+      delete: HrmServiceUrlConstants.DOCUMENT_TYPE_MASTER_CRUD,
     },
 
     params: {

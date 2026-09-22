@@ -1,17 +1,17 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { ApiService } from 'src/app/core/services/api.service';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
-import { NumberField } from 'src/app/core/shared/common/forms/core/builders/number.builder';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
+import { NumberField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/number.builder';
 import { AdvanceEnum } from 'src/app/modules/hrm-main/hrm-enum/advance.enum';
-import { AdvanceModel } from 'src/app/core/shared/common/model/hrm/advance.model';
+import { AdvanceModel } from 'src/app/modules/hrm-shared/core/shared/common/model/hrm/advance.model';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { CalenderDateEnum, FilterOptions, MomentDateEnum } from 'src/app/core/shared/common/enum/app.enum';
-import { GlobalMasterFormConfig } from 'src/app/core/shared/common/forms/masters-forms/global-master-from.config.service';
-import { SharedService } from 'src/app/core/shared/services/shared.service';
+import { CalenderDateEnum, FilterOptions, MomentDateEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { GlobalMasterFormConfig } from 'src/app/modules/hrm-shared/core/shared/common/forms/masters-forms/global-master-from.config.service';
+import { SharedService } from 'src/app/modules/hrm-shared/core/shared/services/shared.service';
 
 
 @Injectable({

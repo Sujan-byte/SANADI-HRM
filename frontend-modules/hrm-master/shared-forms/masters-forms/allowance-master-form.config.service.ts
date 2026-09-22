@@ -1,10 +1,10 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { AllowanceMasterEnum } from 'src/app/core/shared/common/enum/masters_enum/allowance-master-enum';
-import { AllowanceMasterModel } from 'src/app/core/shared/common/model/masters/allowance-master.model';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { AllowanceMasterEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/allowance-master-enum';
+import { AllowanceMasterModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/allowance-master.model';
 
 const ALLOWANCE_TYPE_OPTIONS = [
     { label: 'Fixed Per Day',              value: 'fixed_per_day' },

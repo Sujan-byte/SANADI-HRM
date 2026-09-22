@@ -1,21 +1,21 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { ApiService } from 'src/app/core/services/api.service';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { EmployeeList, SalaryCalculationModel } from 'src/app/core/shared/common/model/hrm/salary-calculation.model';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { EmployeeList, SalaryCalculationModel } from 'src/app/modules/hrm-shared/core/shared/common/model/hrm/salary-calculation.model';
 import { EmployeeListEnum, SalaryCalculationEnum } from 'src/app/modules/hrm-main/hrm-enum/salary-calculation.enum';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
-import { TableBuilder } from 'src/app/core/shared/common/forms/core/builders/table.builder';
-import { TextBuilder } from 'src/app/core/shared/common/forms/core/builders/textarea.builder';
-import { ToggleBuilder } from 'src/app/core/shared/common/forms/core/builders/toggle.builder';
-import { GlobalMasterService } from 'src/app/modules/masters/global-master/services/global-master.service';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
+import { TableBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/table.builder';
+import { TextBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/textarea.builder';
+import { ToggleBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/toggle.builder';
+import { GlobalMasterService } from 'src/app/modules/hrm-shared/modules/masters/global-master/services/global-master.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { CustomDialogService } from 'src/app/core/shared/services/custom-dialog';
-import { DynamicTableComponent } from 'src/app/sanadi-library/sanadi-components/dynamic-table/dynamic-table.component';
+import { CustomDialogService } from 'src/app/modules/hrm-shared/core/shared/services/custom-dialog';
+import { DynamicTableComponent } from 'src/app/modules/hrm-shared/sanadi-library/sanadi-components/dynamic-table/dynamic-table.component';
 import { SalaryPreviewDialogComponent } from 'src/app/modules/hrm-main/salary-calculation/salary-preview-dialog/salary-preview-dialog.component';
 
 const FILTER_CRITERIA = [

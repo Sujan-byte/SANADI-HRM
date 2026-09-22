@@ -1,19 +1,19 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
-import { NumberField } from 'src/app/core/shared/common/forms/core/builders/number.builder';
-import { TextBuilder } from 'src/app/core/shared/common/forms/core/builders/textarea.builder';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
+import { NumberField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/number.builder';
+import { TextBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/textarea.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
 
 import {
   PettyCashFundEnum,
   pettyCashFundStatusOptions,
 } from 'src/app/modules/hrm-main/hrm-enum/petty-cash-fund.enum';
 
-import { PettyCashFundModel } from 'src/app/core/shared/common/model/hrm/petty-cash-fund.model';
+import { PettyCashFundModel } from 'src/app/modules/hrm-shared/core/shared/common/model/hrm/petty-cash-fund.model';
 
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 

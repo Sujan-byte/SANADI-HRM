@@ -1,18 +1,19 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { TextBuilder } from 'src/app/core/shared/common/forms/core/builders/textarea.builder';
-import { ApiService } from 'src/app/core/services/api.service';
-import { NumberField } from 'src/app/core/shared/common/forms/core/builders/number.builder';
-import { ToggleBuilder } from 'src/app/core/shared/common/forms/core/builders/toggle.builder';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { TextBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/textarea.builder';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { NumberField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/number.builder';
+import { ToggleBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/toggle.builder';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { ApprovalOptions, FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
-import { SharedService } from 'src/app/core/shared/services/shared.service';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
+import { ApprovalOptions, FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
+import { SharedService } from 'src/app/modules/hrm-shared/core/shared/services/shared.service';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { LeaveReversalModel } from 'src/app/core/shared/common/model/masters/leave-reversal.model';
-import { LeaveReversalEnum } from 'src/app/core/shared/common/enum/masters_enum/leave-reversal-enum';
+import { LeaveReversalModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/leave-reversal.model';
+import { LeaveReversalEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/leave-reversal-enum';
 
 @Injectable({
     providedIn: 'root',
@@ -140,7 +141,7 @@ export class LeaveReversalConfig {  // ✅ Changed to PascalCase
                                                     .setDefaultObject(default_leave_type_object)
                                                     .getUrlConfig({
                                                         get: {
-                                                            url: ServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD,
+                                                            url: HrmServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD,
                                                             params: {
                                                                 page_size: 30,
                                                                 is_active: true,
@@ -465,7 +466,7 @@ export class LeaveReversalConfig {  // ✅ Changed to PascalCase
     }
 
     getHolidayMasters() {
-        this.apiService.get(ServiceUrlConstants.HOLIDAY_MASTER_CRUD, { approval_status: ApprovalOptions.APPROVED })
+        this.apiService.get(HrmServiceUrlConstants.HOLIDAY_MASTER_CRUD, { approval_status: ApprovalOptions.APPROVED })
             .subscribe((res: any) => {
                 if (res?.results) {
                     this.holidayList.set(res?.results);

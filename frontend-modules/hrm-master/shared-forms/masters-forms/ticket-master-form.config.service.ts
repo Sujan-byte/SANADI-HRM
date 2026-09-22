@@ -1,16 +1,16 @@
 ﻿import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { ApiService } from 'src/app/core/services/api.service';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { TableBuilder } from 'src/app/core/shared/common/forms/core/builders/table.builder';
-import { NumberField } from 'src/app/core/shared/common/forms/core/builders/number.builder';
-import { TicketMasterDetails, TicketMasterModel } from 'src/app/core/shared/common/model/masters/ticket-master.model';
-import { TicketHistoryDetailsEnum, TicketMasterEnum } from 'src/app/core/shared/common/enum/masters_enum/ticket-master.enum';
-import { GlobalMasterFormConfig } from 'src/app/core/shared/common/forms/masters-forms/global-master-from.config.service';
+import { FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { TableBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/table.builder';
+import { NumberField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/number.builder';
+import { TicketMasterDetails, TicketMasterModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/ticket-master.model';
+import { TicketHistoryDetailsEnum, TicketMasterEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/ticket-master.enum';
+import { GlobalMasterFormConfig } from 'src/app/modules/hrm-shared/core/shared/common/forms/masters-forms/global-master-from.config.service';
 
 
 @Injectable({

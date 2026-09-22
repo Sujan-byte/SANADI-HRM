@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LeaveEntryEnum } from 'src/app/core/shared/common/enum/masters_enum/leave-entry.enum';
+import { LeaveEntryEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/leave-entry.enum';
 
 @Injectable({
   providedIn: 'root'

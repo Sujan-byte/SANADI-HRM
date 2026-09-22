@@ -1,8 +1,8 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TableBuilder } from 'src/app/core/shared/common/forms/core/builders/table.builder';
-import { LeaveMasterDetailsBreakupEnum, LeaveMasterDetailsEnum } from 'src/app/core/shared/common/enum/masters_enum/leave-master.enum';
-import { LeaveMasterBreakupDetails } from 'src/app/core/shared/common/model/masters/leave-master.model';
+import { TableBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/table.builder';
+import { LeaveMasterDetailsBreakupEnum, LeaveMasterDetailsEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/leave-master.enum';
+import { LeaveMasterBreakupDetails } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/leave-master.model';
 import { filter } from 'rxjs';
 
 

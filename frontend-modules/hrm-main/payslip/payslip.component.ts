@@ -15,7 +15,7 @@ import { TableModule }        from 'primeng/table';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 import { DataImportService } from '../data-import/service/data-import.service';
-import { SharedService }     from 'src/app/core/shared/services/shared.service';
+import { SharedService }     from 'src/app/modules/hrm-shared/core/shared/services/shared.service';
 
 const ALL_MONTHS = [
   { label: 'January',   value: 1  },

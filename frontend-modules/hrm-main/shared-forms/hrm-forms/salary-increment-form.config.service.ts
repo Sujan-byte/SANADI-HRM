@@ -1,18 +1,19 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { lastValueFrom } from 'rxjs';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
-import { OverlayPanelBuilder, TableBuilder } from 'src/app/core/shared/common/forms/core/builders/table.builder';
-import { ApiService } from 'src/app/core/services/api.service';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
+import { OverlayPanelBuilder, TableBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/table.builder';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { SalaryIncrementModel, SalaryIncrementEarning, SalaryIncrementDeduction } from 'src/app/core/shared/common/model/hrm/salary-increment.model';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
+import { FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { SalaryIncrementModel, SalaryIncrementEarning, SalaryIncrementDeduction } from 'src/app/modules/hrm-shared/core/shared/common/model/hrm/salary-increment.model';
 import { SalaryIncrementEnum, SalaryIncrementReasonEnum } from 'src/app/modules/hrm-main/hrm-enum/salary-increment.enum';
-import { SalaryComponentsModel } from 'src/app/core/shared/common/model/masters/salary-components.model';
-import { SalaryComponentsEnum } from 'src/app/core/shared/common/enum/masters_enum/salary-components-enum';
+import { SalaryComponentsModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/salary-components.model';
+import { SalaryComponentsEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/salary-components-enum';
 
 const REASON_OPTIONS = [
   { key: 'Annual Increment',     value: SalaryIncrementReasonEnum.annual_increment     },
@@ -148,7 +149,7 @@ export class SalaryIncrementFormConfig {
                         .setFontSize('14px')
                         .setQueryParams({ type: 'Allowance', is_active: true, search_key: SalaryComponentsEnum.component })
                         .setDisabledField('false')
-                        .setUrls(ServiceUrlConstants.SALARY_COMPONET_CRUD)
+                        .setUrls(HrmServiceUrlConstants.SALARY_COMPONET_CRUD)
                         .setOverlayDialogConfig({ width: '35vw', height: '75vh' })
                         .build()
                     )
@@ -196,7 +197,7 @@ export class SalaryIncrementFormConfig {
                         .setFontSize('14px')
                         .setQueryParams({ type: 'Deduction', is_active: true, search_key: SalaryComponentsEnum.component })
                         .setDisabledField('false')
-                        .setUrls(ServiceUrlConstants.SALARY_COMPONET_CRUD)
+                        .setUrls(HrmServiceUrlConstants.SALARY_COMPONET_CRUD)
                         .setOverlayDialogConfig({ width: '35vw', height: '75vh' })
                         .build()
                     )

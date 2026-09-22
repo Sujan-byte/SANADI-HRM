@@ -1,7 +1,8 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TableFilterComponent } from 'src/app/sanadi-library/table-filter/table-filter.component';
+import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/table-filter.component';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
 import { AllowanceAssignmentFormConfig } from 'src/app/modules/hrm-master/shared-forms/masters-forms/allowance-assignment-form.config.service';
 import { DialogService } from 'primeng/dynamicdialog';
 import { AllowanceRegisterDialogComponent } from './allowance-register-dialog/allowance-register-dialog.component';
@@ -75,17 +76,17 @@ export class AllowanceAssignmentComponent implements OnInit {
     editable: true,
     isShowDialog: true,
     url: {
-      get:        `${ServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD}batch_list/`,
+      get:        `${HrmServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD}batch_list/`,
       // get_by_pk: getApiDataByID calls url.get_by_pk + item.id
       // item.id from batch_list = '{batch_id}/get_by_batch'
       // → GET /master/allowance-assignment/{batch_id}/get_by_batch/
-      get_by_pk:  `${ServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD}`,
-      post:       `${ServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD}bulk_create/`,
+      get_by_pk:  `${HrmServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD}`,
+      post:       `${HrmServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD}bulk_create/`,
       // footer builds: url.put + item.id + '/'
       // get_by_batch returns id = '{batch_id}/bulk_update_by_batch'
       // → PUT /master/allowance-assignment/{batch_id}/bulk_update_by_batch/
-      put:        `${ServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD}`,
-      delete:     `${ServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD}bulk_delete/`,
+      put:        `${HrmServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD}`,
+      delete:     `${HrmServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD}bulk_delete/`,
     },
     captionButton: [
       {

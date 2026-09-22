@@ -1,9 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { FormConfig } from 'src/app/core/shared/common/form-config.service';
+import { FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { FormConfig } from 'src/app/modules/hrm-shared/core/shared/common/form-config.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { TableFilterComponent } from 'src/app/sanadi-library/table-filter/table-filter.component';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
+import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/table-filter.component';
 
 @Component({
   selector: 'sanadi-status-master',
@@ -73,10 +74,10 @@ export class StatusMasterComponent {
       get:{required_fields:this.gradeRequiredFields()}
     },
     url: {
-      post: ServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD,
-      get: ServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD,
-      delete: ServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD,
-      put: ServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD,
+      post: HrmServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD,
+      get: HrmServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD,
+      delete: HrmServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD,
+      put: HrmServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD,
     },
     actions: [
       {

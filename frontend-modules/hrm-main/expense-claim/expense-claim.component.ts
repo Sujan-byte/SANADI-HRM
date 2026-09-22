@@ -3,10 +3,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { FormConfig } from 'src/app/core/shared/common/form-config.service';
-import { TableFilterComponent } from 'src/app/sanadi-library/table-filter/table-filter.component';
+import { FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { FormConfig } from 'src/app/modules/hrm-shared/core/shared/common/form-config.service';
+import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/table-filter.component';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
 
 @Component({
   selector: 'sanadi-expense-claim',
@@ -105,10 +106,10 @@ export class ExpenseClaimComponent {
     editable: true,
 
     url: {
-      post: ServiceUrlConstants.EXPENSE_CLAIM_CRUD,
-      get: ServiceUrlConstants.EXPENSE_CLAIM_CRUD,
-      delete: ServiceUrlConstants.EXPENSE_CLAIM_CRUD,
-      put: ServiceUrlConstants.EXPENSE_CLAIM_CRUD,
+      post: HrmServiceUrlConstants.EXPENSE_CLAIM_CRUD,
+      get: HrmServiceUrlConstants.EXPENSE_CLAIM_CRUD,
+      delete: HrmServiceUrlConstants.EXPENSE_CLAIM_CRUD,
+      put: HrmServiceUrlConstants.EXPENSE_CLAIM_CRUD,
     },
 
     actions: [
@@ -138,7 +139,7 @@ export class ExpenseClaimComponent {
         receiptBuilderConfig: {
           type: 'expense-claim',
           dynamicPrint: true,
-          formUrl: ServiceUrlConstants.EXPENSE_CLAIM_CRUD,
+          formUrl: HrmServiceUrlConstants.EXPENSE_CLAIM_CRUD,
         },
         tooltip: 'Print',
       },

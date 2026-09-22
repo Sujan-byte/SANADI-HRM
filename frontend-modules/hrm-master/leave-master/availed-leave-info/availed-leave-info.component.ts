@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { LeaveMasterDetails } from 'src/app/core/shared/common/model/masters/leave-master.model';
-import { TableFilterComponent } from 'src/app/sanadi-library/table-filter/table-filter.component';
+import { LeaveMasterDetails } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/leave-master.model';
+import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/table-filter.component';
 
 @Component({
   selector: 'sanadi-availed-leave-info',

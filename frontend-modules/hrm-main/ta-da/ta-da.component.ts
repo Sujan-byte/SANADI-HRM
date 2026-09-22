@@ -1,12 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ApprovalOptions, FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { FormConfig } from 'src/app/core/shared/common/form-config.service';
-import { TaDaModel } from 'src/app/core/shared/common/model/hrm/ta-da.model';
-import { AppUtils } from 'src/app/core/utils/app.utils';
-import { TableFilterComponent } from 'src/app/sanadi-library/table-filter/table-filter.component';
+import { ApprovalOptions, FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { FormConfig } from 'src/app/modules/hrm-shared/core/shared/common/form-config.service';
+import { TaDaModel } from 'src/app/modules/hrm-shared/core/shared/common/model/hrm/ta-da.model';
+import { AppUtils } from 'src/app/modules/hrm-shared/core/utils/app.utils';
+import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/table-filter.component';
 import { TaDaService } from './services/ta-da.service';
-import { EncryptedStorageService } from 'src/app/core/shared/services/secure-cookie-service';
+import { EncryptedStorageService } from 'src/app/modules/hrm-shared/core/shared/services/secure-cookie-service';
 
 @Component({
   selector: 'sanadi-ta-da',

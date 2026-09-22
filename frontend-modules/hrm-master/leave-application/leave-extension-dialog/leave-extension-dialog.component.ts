@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableFilterComponent } from 'src/app/sanadi-library/table-filter/table-filter.component';
-import { FormConfig } from 'src/app/core/shared/common/form-config.service';
+import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/table-filter.component';
+import { FormConfig } from 'src/app/modules/hrm-shared/core/shared/common/form-config.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { ApprovalOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { LeaveExtensionEnum } from 'src/app/core/shared/common/enum/masters_enum/leave-extension.enum';
-import { LeaveExtensionModel } from 'src/app/core/shared/common/model/masters/leave-extension.model';
-import { LeaveApplicationEnum } from 'src/app/core/shared/common/enum/masters_enum/leave-application.enum';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
+import { ApprovalOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { LeaveExtensionEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/leave-extension.enum';
+import { LeaveExtensionModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/leave-extension.model';
+import { LeaveApplicationEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/leave-application.enum';
 
 @Component({
   selector: 'app-leave-extension-dialog',
@@ -111,11 +112,11 @@ export class LeaveExtensionDialogComponent implements OnInit {
       ],
       tableBody: ['leave_type', 'extended_to_date', 'extension_days', 'lop_days', 'approval_status'],
       url: {
-        get:       ServiceUrlConstants.LEAVE_EXTENSION_CRUD,
-        post:      ServiceUrlConstants.LEAVE_EXTENSION_CRUD,
-        put:       ServiceUrlConstants.LEAVE_EXTENSION_CRUD,
-        delete:    ServiceUrlConstants.LEAVE_EXTENSION_CRUD,
-        get_by_pk: ServiceUrlConstants.LEAVE_EXTENSION_CRUD,
+        get:       HrmServiceUrlConstants.LEAVE_EXTENSION_CRUD,
+        post:      HrmServiceUrlConstants.LEAVE_EXTENSION_CRUD,
+        put:       HrmServiceUrlConstants.LEAVE_EXTENSION_CRUD,
+        delete:    HrmServiceUrlConstants.LEAVE_EXTENSION_CRUD,
+        get_by_pk: HrmServiceUrlConstants.LEAVE_EXTENSION_CRUD,
       },
       params: {
         get: getParams,

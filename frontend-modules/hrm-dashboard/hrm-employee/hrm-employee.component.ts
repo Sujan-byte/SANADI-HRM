@@ -1,8 +1,8 @@
 ﻿import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { TableModule } from 'primeng/table';
-import { HomeService } from 'src/app/components/home.service';
-import { TruncatePipe } from 'src/app/core/shared/common/truncate.pipe';
+import { HomeService } from 'src/app/modules/hrm-shared/components/home.service';
+import { TruncatePipe } from 'src/app/modules/hrm-shared/core/shared/common/truncate.pipe';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { Holiday, HRMEmployeeDashboardData, Leave, LeaveApplication } from 'src/app/modules/hrm-dashboard/models/hrm-employee.model';

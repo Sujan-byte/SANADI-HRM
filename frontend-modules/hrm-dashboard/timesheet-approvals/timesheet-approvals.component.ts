@@ -10,17 +10,18 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { Table, TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import { ApiService } from 'src/app/core/services/api.service';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ApprovalOptions, BranchTypes, FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
+import { ApprovalOptions, BranchTypes, FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
 import { TimeSheetDetailsEnum } from 'src/app/modules/hrm-main/hrm-enum/attendance.enum';
-import { CustomDialogService } from 'src/app/core/shared/services/custom-dialog';
-import { EncryptedStorageService } from 'src/app/core/shared/services/secure-cookie-service';
-import { SharedService } from 'src/app/core/shared/services/shared.service';
+import { CustomDialogService } from 'src/app/modules/hrm-shared/core/shared/services/custom-dialog';
+import { EncryptedStorageService } from 'src/app/modules/hrm-shared/core/shared/services/secure-cookie-service';
+import { SharedService } from 'src/app/modules/hrm-shared/core/shared/services/shared.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { TimeSheetMoreDetailsComponent } from 'src/app/modules/custom-reports/time-sheet-report/time-sheet-more-details/time-sheet-more-details.component';
-import { ConsolidatedAsficTimesheetCalculator } from 'src/app/modules/custom-reports/time-sheet-report/time-sheet-table/time-sheet-calculation-asfic-consolidated';
-import { TimesheetCalculator } from 'src/app/modules/custom-reports/time-sheet-report/time-sheet-table/time-sheet-calculation-sfic';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
+import { TimeSheetMoreDetailsComponent } from 'src/app/modules/hrm-shared/modules/custom-reports/time-sheet-report/time-sheet-more-details/time-sheet-more-details.component';
+import { ConsolidatedAsficTimesheetCalculator } from 'src/app/modules/hrm-shared/modules/custom-reports/time-sheet-report/time-sheet-table/time-sheet-calculation-asfic-consolidated';
+import { TimesheetCalculator } from 'src/app/modules/hrm-shared/modules/custom-reports/time-sheet-report/time-sheet-table/time-sheet-calculation-sfic';
 
 @Component({
   selector: 'sanadi-timesheet-approvals',
@@ -164,7 +165,7 @@ export class TimesheetApprovalsComponent implements AfterViewInit {
 
 
   getAttendanceStatusMaster() {
-    this.apiService.get(`${ServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD}`).subscribe((res: any) => {
+    this.apiService.get(`${HrmServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD}`).subscribe((res: any) => {
       this.attendanceStatusList.set(res?.results);
     })
   }

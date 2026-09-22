@@ -1,14 +1,14 @@
 import { Component, ViewChild, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ApprovalOptions, FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { FormConfig } from 'src/app/core/shared/common/form-config.service';
+import { ApprovalOptions, FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { FormConfig } from 'src/app/modules/hrm-shared/core/shared/common/form-config.service';
 import { SalaryCalculationFormConfig } from 'src/app/modules/hrm-main/shared-forms/hrm-forms/salary-calculation-form.config.service';
-import { LocalCompServiceConfig } from 'src/app/core/shared/common/model/app.model';
-import { TableFilterComponent } from 'src/app/sanadi-library/table-filter/table-filter.component';
+import { LocalCompServiceConfig } from 'src/app/modules/hrm-shared/core/shared/common/model/app.model';
+import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/table-filter.component';
 import { SalaryCalculationService } from './service/salary-calculation.service';
 import { ConfirmPopup } from 'primeng/confirmpopup';
 import { Router } from '@angular/router';
-import { ReportListService } from 'src/app/modules/report-engine/modules/report-list/services/report-list.service';
+import { ReportListService } from 'src/app/modules/hrm-shared/modules/report-engine/modules/report-list/services/report-list.service';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ConsolidatedPayslipComponent } from './consolidated-payslip/consolidated-payslip.component';
 

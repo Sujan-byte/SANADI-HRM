@@ -1,24 +1,25 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { DummyField } from 'src/app/core/shared/common/forms/core/builders/dummy.builder';
-import { OverlayPanelBuilder, TableBuilder } from 'src/app/core/shared/common/forms/core/builders/table.builder';
-import { ApiService } from 'src/app/core/services/api.service';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { DummyField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dummy.builder';
+import { OverlayPanelBuilder, TableBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/table.builder';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
 import {
   GradeGrossDeductionsModel,
   GradeGrossEarningsModel,
   GradeModel,
-} from 'src/app/core/shared/common/model/masters/grade.model';
+} from 'src/app/modules/hrm-shared/core/shared/common/model/masters/grade.model';
 import {
   GradeEnum,
   GradeGrossDeductionsEnum,
   GradeGrossEarningsEnum,
-} from 'src/app/core/shared/common/enum/masters_enum/grade.enum';
+} from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/grade.enum';
 import { SalaryCalculationComponent } from 'src/app/modules/hrm-main/salary-calculation/salary-calculation.component';
-import { SalaryComponentsEnum } from 'src/app/core/shared/common/enum/masters_enum/salary-components-enum';
+import { SalaryComponentsEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/salary-components-enum';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { SalaryComponentsModel } from 'src/app/core/shared/common/model/masters/salary-components.model';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
+import { SalaryComponentsModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/salary-components.model';
 
 @Injectable({
   providedIn: 'root',
@@ -141,7 +142,7 @@ export class GradeFormConfig {
                               })
                               .setDisabledField('false')
                               // .setOverlayPanelSelectedArray(this.selectedJobCardList)
-                              .setUrls(`${ServiceUrlConstants.SALARY_COMPONET_CRUD}`)
+                              .setUrls(`${HrmServiceUrlConstants.SALARY_COMPONET_CRUD}`)
                               .setOverlayDialogConfig({ width: '35vw', height: '75vh' })
                               .build()
                           )
@@ -212,7 +213,7 @@ export class GradeFormConfig {
                               })
                               .setDisabledField('false')
                               // .setOverlayPanelSelectedArray(this.selectedJobCardList)
-                              .setUrls(`${ServiceUrlConstants.SALARY_COMPONET_CRUD}`)
+                              .setUrls(`${HrmServiceUrlConstants.SALARY_COMPONET_CRUD}`)
                               .setOverlayDialogConfig({ width: '35vw', height: '75vh' })
                               .build()
                           )

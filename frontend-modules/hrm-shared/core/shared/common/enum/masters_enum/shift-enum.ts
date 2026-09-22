@@ -1,0 +1,15 @@
+export enum ShiftMasterEnum {
+    shift_code = 'shift_code',
+    shift_name = 'shift_name',
+    status = 'status',
+    start_time = 'start_time',
+    end_time = 'end_time',
+    grace_period_in = 'grace_period_in',
+    grace_period_out = 'grace_period_out',
+    duration = 'duration',
+    max_ot = 'max_ot',
+    ot_multiplier = 'ot_multiplier',
+    ot_rounding = 'ot_rounding',
+    notes = 'notes',
+    is_cross_midnight = 'is_cross_midnight',
+}

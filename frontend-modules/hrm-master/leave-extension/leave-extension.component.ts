@@ -2,10 +2,11 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { ApprovalOptions, FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { FormConfig } from 'src/app/core/shared/common/form-config.service';
-import { TableFilterComponent } from 'src/app/sanadi-library/table-filter/table-filter.component';
+import { ApprovalOptions, FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { FormConfig } from 'src/app/modules/hrm-shared/core/shared/common/form-config.service';
+import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/table-filter.component';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
 
 @Component({
   selector: 'sanadi-leave-extension',
@@ -109,11 +110,11 @@ export class LeaveExtensionComponent implements OnInit {
       },
     },
     url: {
-      get:      ServiceUrlConstants.LEAVE_EXTENSION_CRUD,
-      post:     ServiceUrlConstants.LEAVE_EXTENSION_CRUD,
-      put:      ServiceUrlConstants.LEAVE_EXTENSION_CRUD,
-      delete:   ServiceUrlConstants.LEAVE_EXTENSION_CRUD,
-      get_by_pk: ServiceUrlConstants.LEAVE_EXTENSION_CRUD,
+      get:      HrmServiceUrlConstants.LEAVE_EXTENSION_CRUD,
+      post:     HrmServiceUrlConstants.LEAVE_EXTENSION_CRUD,
+      put:      HrmServiceUrlConstants.LEAVE_EXTENSION_CRUD,
+      delete:   HrmServiceUrlConstants.LEAVE_EXTENSION_CRUD,
+      get_by_pk: HrmServiceUrlConstants.LEAVE_EXTENSION_CRUD,
     },
     actions: [
       {

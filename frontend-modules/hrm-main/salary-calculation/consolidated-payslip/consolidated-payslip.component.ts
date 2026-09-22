@@ -9,7 +9,7 @@ import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { ApiService } from 'src/app/core/services/api.service';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 
 const MONTHS = [

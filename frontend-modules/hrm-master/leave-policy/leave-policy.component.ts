@@ -1,10 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { FormConfig } from 'src/app/core/shared/common/form-config.service';
-import { LeavePolicyModel } from 'src/app/core/shared/common/model/masters/leave-policy.model';
-import { TableFilterComponent } from 'src/app/sanadi-library/table-filter/table-filter.component';
+import { FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { FormConfig } from 'src/app/modules/hrm-shared/core/shared/common/form-config.service';
+import { LeavePolicyModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/leave-policy.model';
+import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/table-filter.component';
 
 @Component({
   selector: 'sanadi-leave-policy',

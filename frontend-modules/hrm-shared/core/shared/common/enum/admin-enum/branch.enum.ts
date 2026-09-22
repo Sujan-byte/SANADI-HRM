@@ -1,0 +1,58 @@
+export enum BranchEnum {
+    branchName = 'branch_name',
+    city = 'city',
+    pinCode = 'pin_code',
+    stateCode = 'state_code',
+    countryCode = 'country_code',
+    stateName = 'state_name',
+    countryName = 'country_name',
+    gstNo = 'gst_no',
+    cinNo = 'cin_no',
+    email = 'email',
+    phoneNo = 'phone_no',
+    faxNumber = 'fax_number',
+    website = 'website',
+    dunsNumber = 'duns_number',
+    isHeadOffice = 'is_head_office',
+    registeredAddress = 'registered_address',
+    corporateAddress = 'corporate_address',
+    organizationType = 'organization_type',
+    businessCategory = 'business_category',
+    description = 'description',
+    images = 'images',
+    fiscal_from_date = 'fiscal_from_date',
+    fiscal_to_date = 'fiscal_to_date',
+    is_weightage_average = 'is_weightage_average',
+    branchBankDetails = 'branch_bank_details',
+    branchAddress = 'branch_address',
+    branchAppConfig='branch_app_config',
+    company='company'
+}
+
+export enum BranchBankDetailsEnums {
+    id = "id",
+    branch = "branch",
+    bankName = "bank_name",
+    branchName = "branch_name",
+    accountName = "account_name",
+    accountNumber = "account_number",
+    bankAddress = "bank_address",
+    ifsc = "ifsc",
+    swiftCode = "swift_code",
+    bankCode = "bank_code",
+}
+
+export enum BranchAddressEnums {
+    id = "id",
+    branch = "branch",
+    branchName = "branch_name",
+    address = "address",
+    country = "country",
+    city = "city",
+    state = "state",
+    stateCode = "state_code",
+    zipCode = "zip_code",
+    faxNumber = "fax_number",
+    phoneNumber = "phone_number",
+    taxNumber = "tax_number"
+}

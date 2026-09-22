@@ -14,11 +14,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { FormConfig } from 'src/app/core/shared/common/form-config.service';
+import { FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { FormConfig } from 'src/app/modules/hrm-shared/core/shared/common/form-config.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
 
-import { TableFilterComponent } from 'src/app/sanadi-library/table-filter/table-filter.component';
+import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/table-filter.component';
 
 @Component({
   selector: 'sanadi-expense-claim-category',
@@ -78,10 +79,10 @@ export class ExpenseClaimCategoryComponent {
     editable: true,
 
     url: {
-      post: ServiceUrlConstants.EXPENSE_CLAIM_CATEGORY_CRUD,
-      get: ServiceUrlConstants.EXPENSE_CLAIM_CATEGORY_CRUD,
-      delete: ServiceUrlConstants.EXPENSE_CLAIM_CATEGORY_CRUD,
-      put: ServiceUrlConstants.EXPENSE_CLAIM_CATEGORY_CRUD,
+      post: HrmServiceUrlConstants.EXPENSE_CLAIM_CATEGORY_CRUD,
+      get: HrmServiceUrlConstants.EXPENSE_CLAIM_CATEGORY_CRUD,
+      delete: HrmServiceUrlConstants.EXPENSE_CLAIM_CATEGORY_CRUD,
+      put: HrmServiceUrlConstants.EXPENSE_CLAIM_CATEGORY_CRUD,
     },
 
     actions: [

@@ -1,14 +1,14 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ShiftMasterModel } from 'src/app/core/shared/common/model/masters/shift-master.model';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { ShiftMasterEnum } from 'src/app/core/shared/common/enum/masters_enum/shift-enum';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
-import { TextBuilder } from 'src/app/core/shared/common/forms/core/builders/textarea.builder';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
-import { ToggleBuilder } from 'src/app/core/shared/common/forms/core/builders/toggle.builder';
-import { NumberField } from 'src/app/core/shared/common/forms/core/builders/number.builder';
+import { ShiftMasterModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/shift-master.model';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { ShiftMasterEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/shift-enum';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
+import { TextBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/textarea.builder';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
+import { ToggleBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/toggle.builder';
+import { NumberField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/number.builder';
 
 @Injectable({
     providedIn: 'root',

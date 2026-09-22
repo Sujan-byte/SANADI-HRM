@@ -1,26 +1,27 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { TextBuilder } from 'src/app/core/shared/common/forms/core/builders/textarea.builder';
-import { ApiService } from 'src/app/core/services/api.service';
-import { NumberField } from 'src/app/core/shared/common/forms/core/builders/number.builder';
-import { TableBuilder } from 'src/app/core/shared/common/forms/core/builders/table.builder';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { TextBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/textarea.builder';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { NumberField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/number.builder';
+import { TableBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/table.builder';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { ApprovalOptions, FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
-import { LeaveEntryEnum } from 'src/app/core/shared/common/enum/masters_enum/leave-entry.enum';
-import { LeaveEntryModel } from 'src/app/core/shared/common/model/masters/leave-entry.model';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
+import { ApprovalOptions, FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
+import { LeaveEntryEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/leave-entry.enum';
+import { LeaveEntryModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/leave-entry.model';
 import * as moment from 'moment';
-import { ToggleBuilder } from 'src/app/core/shared/common/forms/core/builders/toggle.builder';
-import { SharedService } from 'src/app/core/shared/services/shared.service';
+import { ToggleBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/toggle.builder';
+import { SharedService } from 'src/app/modules/hrm-shared/core/shared/services/shared.service';
 import { resolve } from 'path';
 import { HttpParams } from '@angular/common/http';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { MultiSelectField } from 'src/app/core/shared/common/forms/core/builders/multiselect.builder';
-import { FileField } from 'src/app/core/shared/common/forms/core/builders/file.builder';
+import { MultiSelectField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/multiselect.builder';
+import { FileField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/file.builder';
 import { firstValueFrom } from 'rxjs';
 
 
@@ -275,7 +276,7 @@ export class leaveEntryConfig {
                             .setDefaultObject(default_leave_type_object)
                             .getUrlConfig({
                               get: {
-                                url: ServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD,
+                                url: HrmServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD,
                                 params: {
                                   page_size: 30,
                                   is_active: true,
@@ -627,7 +628,7 @@ onChangeAllowBeyond(prev, next, formValue, formFields) {
 
   //   if (next && emp_id) {
   //     return new Promise((resolve) => {
-  //       this.apiService.get(`${ServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD}${next}`)
+  //       this.apiService.get(`${HrmServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD}${next}`)
   //       .subscribe((ress: any) => {
   //         console.log("resss.",ress);
   //         var nextValuee = ress.status_name; 
@@ -676,7 +677,7 @@ onChangeAllowBeyond(prev, next, formValue, formFields) {
 
 
       this.apiService.get(
-        `${ServiceUrlConstants.LEAVE_POLICY_CRUD}?leave_policy__type_of_leave__code=7`
+        `${HrmServiceUrlConstants.LEAVE_POLICY_CRUD}?leave_policy__type_of_leave__code=7`
       ).subscribe((response: any) => {
         const priorityOrder = ["Full_pay", "75%_pay", "Half_pay", "35%_pay"];
         const leavePolicy = response.results
@@ -749,7 +750,7 @@ onChangeAllowBeyond(prev, next, formValue, formFields) {
   //   if (next && emp_id) {
   //     return new Promise((resolve) => {
   //       // First API call to get status name
-  //       this.apiService.get(`${ServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD}${next}/`)
+  //       this.apiService.get(`${HrmServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD}${next}/`)
   //         .pipe(
   //           switchMap(async (ress: any) => {
   //             statusName = ress?.status_name;
@@ -796,7 +797,7 @@ onChangeAllowBeyond(prev, next, formValue, formFields) {
     if (next && emp_id) {
       try {
         const ress: any = await firstValueFrom(
-          this.apiService.get(`${ServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD}${next}/`)
+          this.apiService.get(`${HrmServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD}${next}/`)
         );
 
         const statusName = ress?.status_name;
@@ -1043,7 +1044,7 @@ onChangeAllowBeyond(prev, next, formValue, formFields) {
       // formValue.leave_type = "";
 
       // Refresh the dropdown options
-      // this.apiService.get(ServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD, {
+      // this.apiService.get(HrmServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD, {
       //   params: leaveTypeField.urlConfig.get.params
       // }).subscribe((response) => {
       //   leaveTypeField.options = this.updateAttendanceStatusDropdownOptions(response);
@@ -1151,7 +1152,7 @@ onChangeAllowBeyond(prev, next, formValue, formFields) {
   }
 
   getHolidayMasters() {
-    this.apiService.get(ServiceUrlConstants.HOLIDAY_MASTER_CRUD, { approval_status: ApprovalOptions.APPROVED }).subscribe((res: any) => {
+    this.apiService.get(HrmServiceUrlConstants.HOLIDAY_MASTER_CRUD, { approval_status: ApprovalOptions.APPROVED }).subscribe((res: any) => {
       if (res?.results) {
         this.holidayList.set(res?.results);
       }

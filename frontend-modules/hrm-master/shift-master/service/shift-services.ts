@@ -3,17 +3,17 @@ import { inject, Injectable, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ApiService } from 'src/app/core/services/api.service';
-import { EmployeeEnum } from 'src/app/core/shared/common/enum/masters_enum/employee-enum';
-import { PasswordFormConfig } from 'src/app/core/shared/common/forms/masters-forms/password-form.config.service';
-import { DynamicTableModel } from 'src/app/core/shared/common/model/app.model';
-import { SecurityUser } from 'src/app/core/shared/common/model/masters/employee.model';
-import { ShiftMasterModel } from 'src/app/core/shared/common/model/masters/shift-master.model';
-import { CustomDialogService } from 'src/app/core/shared/services/custom-dialog';
-import { DialogHandlerService } from 'src/app/core/shared/services/dialog-form.service';
-import { SharedService } from 'src/app/core/shared/services/shared.service';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { EmployeeEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/employee-enum';
+import { PasswordFormConfig } from 'src/app/modules/hrm-shared/core/shared/common/forms/masters-forms/password-form.config.service';
+import { DynamicTableModel } from 'src/app/modules/hrm-shared/core/shared/common/model/app.model';
+import { SecurityUser } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/employee.model';
+import { ShiftMasterModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/shift-master.model';
+import { CustomDialogService } from 'src/app/modules/hrm-shared/core/shared/services/custom-dialog';
+import { DialogHandlerService } from 'src/app/modules/hrm-shared/core/shared/services/dialog-form.service';
+import { SharedService } from 'src/app/modules/hrm-shared/core/shared/services/shared.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { DynamicTableComponent } from 'src/app/sanadi-library/sanadi-components/dynamic-table/dynamic-table.component';
+import { DynamicTableComponent } from 'src/app/modules/hrm-shared/sanadi-library/sanadi-components/dynamic-table/dynamic-table.component';
 
 @Injectable({
   providedIn: 'root'

@@ -6,13 +6,14 @@ import { CalendarModule } from 'primeng/calendar';
 import { ChartModule } from 'primeng/chart';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import { ApiService } from 'src/app/core/services/api.service';
-import { ApprovalOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { CustomDialogService } from 'src/app/core/shared/services/custom-dialog';
-import { DialogHandlerService } from 'src/app/core/shared/services/dialog-form.service';
-import { EncryptedStorageService } from 'src/app/core/shared/services/secure-cookie-service';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { ApprovalOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { CustomDialogService } from 'src/app/modules/hrm-shared/core/shared/services/custom-dialog';
+import { DialogHandlerService } from 'src/app/modules/hrm-shared/core/shared/services/dialog-form.service';
+import { EncryptedStorageService } from 'src/app/modules/hrm-shared/core/shared/services/secure-cookie-service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { HomeService } from 'src/app/components/home.service';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
+import { HomeService } from 'src/app/modules/hrm-shared/components/home.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
@@ -191,7 +192,7 @@ export class AdminDashboardComponent implements OnInit {
     this.appliedLeaveLoading = true;
     const accessToken = await this.secureStorage.getItem('accessToken');
     if (accessToken) {
-      this.apiService.get(ServiceUrlConstants.LEAVE_ENTRY_CRUD, {
+      this.apiService.get(HrmServiceUrlConstants.LEAVE_ENTRY_CRUD, {
         is_active: true,
         page: this.appliedLeavePage,
         page_size: 10,
@@ -224,7 +225,7 @@ export class AdminDashboardComponent implements OnInit {
 
   getAppliedLeaveApplicationData() {
     this.appliedLeaveApplicationLoading = true;
-    // this.apiService.get(ServiceUrlConstants.LEAVE_APPLICATION_CRUD, {
+    // this.apiService.get(HrmServiceUrlConstants.LEAVE_APPLICATION_CRUD, {
     this.apiService.get(ServiceUrlConstants.LEAVE_APPLICATION_DASHBOARD, {
       is_active: true,
       page: this.appliedLeaveApplicationPage,

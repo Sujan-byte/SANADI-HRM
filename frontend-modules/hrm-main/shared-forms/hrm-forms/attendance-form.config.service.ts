@@ -1,13 +1,13 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { ApiService } from 'src/app/core/services/api.service';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
 import { AttendanceDetailsEnum, AttendanceImportEnum } from 'src/app/modules/hrm-main/hrm-enum/attendance.enum';
-import { AttendanceDetails, AttendanceImportModel } from 'src/app/core/shared/common/model/hrm/attendance.model';
-import { FileField } from 'src/app/core/shared/common/forms/core/builders/file.builder';
-import { TableBuilder } from 'src/app/core/shared/common/forms/core/builders/table.builder';
+import { AttendanceDetails, AttendanceImportModel } from 'src/app/modules/hrm-shared/core/shared/common/model/hrm/attendance.model';
+import { FileField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/file.builder';
+import { TableBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/table.builder';
 import * as moment from 'moment';
 @Injectable({
   providedIn: 'root',

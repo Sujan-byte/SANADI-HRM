@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { catchError, Observable, of } from 'rxjs';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { ConfirmationDialogComponent } from 'src/app/sanadi-library/sanadi-components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from 'src/app/modules/hrm-shared/sanadi-library/sanadi-components/confirmation-dialog/confirmation-dialog.component';
 
 @Injectable({
   providedIn: 'root'

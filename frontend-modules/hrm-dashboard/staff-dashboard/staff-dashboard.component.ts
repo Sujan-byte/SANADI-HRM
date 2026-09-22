@@ -7,16 +7,17 @@ import { CalendarModule } from 'primeng/calendar';
 import { ChartModule } from 'primeng/chart';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import { ApiService } from 'src/app/core/services/api.service';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ApprovalOptions } from 'src/app/core/shared/common/enum/app.enum';
+import { ApprovalOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
 import { LeaveApplicationFormConfig } from 'src/app/modules/hrm-master/shared-forms/masters-forms/leave-application-form.config.service';
 import { leaveEntryConfig } from 'src/app/modules/hrm-master/shared-forms/masters-forms/leave-entry-form.config.service';
 import { LeaveMasterFormConfig } from 'src/app/modules/hrm-master/shared-forms/masters-forms/leave-master-form.config.service';
-import { CustomDialogService } from 'src/app/core/shared/services/custom-dialog';
-import { DialogHandlerService } from 'src/app/core/shared/services/dialog-form.service';
-import { EncryptedStorageService } from 'src/app/core/shared/services/secure-cookie-service';
+import { CustomDialogService } from 'src/app/modules/hrm-shared/core/shared/services/custom-dialog';
+import { DialogHandlerService } from 'src/app/modules/hrm-shared/core/shared/services/dialog-form.service';
+import { EncryptedStorageService } from 'src/app/modules/hrm-shared/core/shared/services/secure-cookie-service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
 import { LeaveApplicationComponent } from 'src/app/modules/hrm-master/leave-application/leave-application.component';
 import { LeaveEntryComponent } from 'src/app/modules/hrm-master/leave-entry/leave-entry.component';
 import { LeaveMasterComponent } from 'src/app/modules/hrm-master/leave-master/leave-master.component';
@@ -203,7 +204,7 @@ export class StaffDashboardComponent {
     this.appliedLeaveLoading = true;
      const accessToken = await this.secureStorage.getItem('accessToken');
     if (accessToken) {
-    this.apiService.get(ServiceUrlConstants.LEAVE_ENTRY_CRUD, {
+    this.apiService.get(HrmServiceUrlConstants.LEAVE_ENTRY_CRUD, {
       is_active: true,
       page: this.appliedLeavePage,
       page_size: 10,
@@ -235,7 +236,7 @@ export class StaffDashboardComponent {
     this.appliedLeaveApplicationLoading = true;
     const accessToken = await this.secureStorage.getItem('accessToken');
     if (accessToken) {
-      this.apiService.get(ServiceUrlConstants.LEAVE_APPLICATION_CRUD, {
+      this.apiService.get(HrmServiceUrlConstants.LEAVE_APPLICATION_CRUD, {
         is_active: true,
         page: this.appliedLeaveApplicationPage,
         page_size: 10,

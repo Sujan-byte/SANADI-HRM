@@ -3,10 +3,10 @@ import { Injectable, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { catchError, of } from 'rxjs';
-import { SharedService } from 'src/app/core/shared/services/shared.service';
+import { SharedService } from 'src/app/modules/hrm-shared/core/shared/services/shared.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { SalaryCalculationComponent } from '../salary-calculation.component';
-import { ConfirmationDialogComponent } from 'src/app/sanadi-library/sanadi-components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from 'src/app/modules/hrm-shared/sanadi-library/sanadi-components/confirmation-dialog/confirmation-dialog.component';
 import { SalaryCalculationFormConfig } from 'src/app/modules/hrm-main/shared-forms/hrm-forms/salary-calculation-form.config.service';
 
 @Injectable({

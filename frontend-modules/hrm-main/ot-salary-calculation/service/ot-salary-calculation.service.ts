@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
-import { SharedService } from 'src/app/core/shared/services/shared.service';
+import { SharedService } from 'src/app/modules/hrm-shared/core/shared/services/shared.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { OTSalaryCalculationFormConfig } from 'src/app/modules/hrm-main/shared-forms/hrm-forms/ot-salary-calculation-form.config.service';
 

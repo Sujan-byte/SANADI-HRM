@@ -1,22 +1,23 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { ApiService } from 'src/app/core/services/api.service';
-import { LeaveMasterDetails, LeaveMasterModel } from 'src/app/core/shared/common/model/masters/leave-master.model';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { LeaveMasterDetails, LeaveMasterModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/leave-master.model';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { TableBuilder } from 'src/app/core/shared/common/forms/core/builders/table.builder';
-import { LeaveMasterDetailsEnum, LeaveMasterEnum } from 'src/app/core/shared/common/enum/masters_enum/leave-master.enum';
-import { NumberField } from 'src/app/core/shared/common/forms/core/builders/number.builder';
-import { EmployeeEnum } from 'src/app/core/shared/common/enum/masters_enum/employee-enum';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
+import { FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { TableBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/table.builder';
+import { LeaveMasterDetailsEnum, LeaveMasterEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/leave-master.enum';
+import { NumberField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/number.builder';
+import { EmployeeEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/employee-enum';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
 import { LeaveBreakupFormConfig } from './leave-break-up.config.service';
-import { DialogHandlerService } from 'src/app/core/shared/services/dialog-form.service';
+import { DialogHandlerService } from 'src/app/modules/hrm-shared/core/shared/services/dialog-form.service';
 import { AvailedLeaveInfoComponent } from 'src/app/modules/hrm-master/leave-master/availed-leave-info/availed-leave-info.component';
-import { CustomDialogService } from 'src/app/core/shared/services/custom-dialog';
-import { CustomDialogComponent } from 'src/app/sanadi-library/custom-dialog/custom-dialog.component';
+import { CustomDialogService } from 'src/app/modules/hrm-shared/core/shared/services/custom-dialog';
+import { CustomDialogComponent } from 'src/app/modules/hrm-shared/sanadi-library/custom-dialog/custom-dialog.component';
 
 
 @Injectable({
@@ -337,7 +338,7 @@ private readonly leaveBreakupConfig = inject(LeaveBreakupFormConfig);
     }
     return new Promise((resolve) => {
       this.apiService
-        .getFile(`${ServiceUrlConstants.LEAVE_MASTER_CRUD}export_custom_excel/`, queryParams)
+        .getFile(`${HrmServiceUrlConstants.LEAVE_MASTER_CRUD}export_custom_excel/`, queryParams)
         .subscribe((res: any) => {
           resolve(res);
         });

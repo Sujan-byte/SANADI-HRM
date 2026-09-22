@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ApiService } from 'src/app/core/services/api.service';
-import { DepartmentEnum } from 'src/app/core/shared/common/enum/masters_enum/department-enum';
-import { DynamicTableModel } from 'src/app/core/shared/common/model/app.model';
-import { DepartmentModel } from 'src/app/core/shared/common/model/masters/department.model';
-import { CustomDialogService } from 'src/app/core/shared/services/custom-dialog';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { DepartmentEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/department-enum';
+import { DynamicTableModel } from 'src/app/modules/hrm-shared/core/shared/common/model/app.model';
+import { DepartmentModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/department.model';
+import { CustomDialogService } from 'src/app/modules/hrm-shared/core/shared/services/custom-dialog';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { SelectListComponent } from 'src/app/sanadi-library/sanadi-components/select-list/select-list.component';
+import { SelectListComponent } from 'src/app/modules/hrm-shared/sanadi-library/sanadi-components/select-list/select-list.component';
 
 @Injectable({
   providedIn: 'root'

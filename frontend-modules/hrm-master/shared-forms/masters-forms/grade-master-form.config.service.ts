@@ -1,11 +1,11 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
-import { GradeMasterModel } from 'src/app/core/shared/common/model/masters/grade-master.model';
-import { GradeMasterEnum } from 'src/app/core/shared/common/enum/masters_enum/grade-master.enum';
-import { TextBuilder } from 'src/app/core/shared/common/forms/core/builders/textarea.builder';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
+import { GradeMasterModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/grade-master.model';
+import { GradeMasterEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/grade-master.enum';
+import { TextBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/textarea.builder';
 
 @Injectable({
     providedIn: 'root',

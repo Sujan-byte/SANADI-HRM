@@ -1,21 +1,21 @@
 import { Injectable, ViewChild, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { ApiService } from 'src/app/core/services/api.service';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
-import { NumberField } from 'src/app/core/shared/common/forms/core/builders/number.builder';
-import { CareerLetterModel } from 'src/app/core/shared/common/model/hrm/career-letter.model';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
+import { NumberField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/number.builder';
+import { CareerLetterModel } from 'src/app/modules/hrm-shared/core/shared/common/model/hrm/career-letter.model';
 import { CareerLetterEnum } from 'src/app/modules/hrm-main/hrm-enum/career-letter.enum';
-import { GlobalMasterFormConfig } from 'src/app/core/shared/common/forms/masters-forms/global-master-from.config.service';
+import { GlobalMasterFormConfig } from 'src/app/modules/hrm-shared/core/shared/common/forms/masters-forms/global-master-from.config.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { EditorJSBuilder } from 'src/app/core/shared/common/forms/core/builders/editor.builder';
-import { EditorJsComponent } from 'src/app/sanadi-library/dynamic-form-generator/fields/editor-js/editor-js.component';
-import { EditorService } from 'src/app/modules/masters/editor/service/editor-services';
-import { ToggleBuilder } from 'src/app/core/shared/common/forms/core/builders/toggle.builder';
-import { CarouselField } from 'src/app/core/shared/common/forms/core/builders/carousel.builder';
+import { FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { EditorJSBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/editor.builder';
+import { EditorJsComponent } from 'src/app/modules/hrm-shared/sanadi-library/dynamic-form-generator/fields/editor-js/editor-js.component';
+import { EditorService } from 'src/app/modules/hrm-shared/modules/masters/editor/service/editor-services';
+import { ToggleBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/toggle.builder';
+import { CarouselField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/carousel.builder';
 
 
 

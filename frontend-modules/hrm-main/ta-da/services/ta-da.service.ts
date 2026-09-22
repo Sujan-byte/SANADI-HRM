@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ApiService } from 'src/app/core/services/api.service';
-import { matchModeOptionsDate } from 'src/app/core/shared/common/enum/app.enum';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { matchModeOptionsDate } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
 import { TravelPlanningEnum } from 'src/app/modules/hrm-main/hrm-enum/travel-planning.enum';
-import { DynamicTableModel } from 'src/app/core/shared/common/model/app.model';
-import { CustomDialogService } from 'src/app/core/shared/services/custom-dialog';
+import { DynamicTableModel } from 'src/app/modules/hrm-shared/core/shared/common/model/app.model';
+import { CustomDialogService } from 'src/app/modules/hrm-shared/core/shared/services/custom-dialog';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { DynamicTableComponent } from 'src/app/sanadi-library/sanadi-components/dynamic-table/dynamic-table.component';
+import { DynamicTableComponent } from 'src/app/modules/hrm-shared/sanadi-library/sanadi-components/dynamic-table/dynamic-table.component';
 
 @Injectable({
   providedIn: 'root'

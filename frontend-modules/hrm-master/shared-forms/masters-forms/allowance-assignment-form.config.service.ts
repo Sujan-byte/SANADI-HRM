@@ -2,27 +2,28 @@ import { Injectable, inject, signal } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { NumberField } from 'src/app/core/shared/common/forms/core/builders/number.builder';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
-import { TableBuilder } from 'src/app/core/shared/common/forms/core/builders/table.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { NumberField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/number.builder';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
+import { TableBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/table.builder';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ApiService } from 'src/app/core/services/api.service';
-import { CustomDialogService } from 'src/app/core/shared/services/custom-dialog';
-import { DynamicTableComponent } from 'src/app/sanadi-library/sanadi-components/dynamic-table/dynamic-table.component';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { CustomDialogService } from 'src/app/modules/hrm-shared/core/shared/services/custom-dialog';
+import { DynamicTableComponent } from 'src/app/modules/hrm-shared/sanadi-library/sanadi-components/dynamic-table/dynamic-table.component';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
 import {
     AllowanceAssignmentEnum,
     AllowanceAssignmentModeEnum,
     AllowanceAssignmentCriteriaEnum,
     AllowanceAssignmentEmployeeEnum,
-} from 'src/app/core/shared/common/enum/masters_enum/allowance-assignment-enum';
+} from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/allowance-assignment-enum';
 import {
     AllowanceAssignmentModel,
     AllowanceAssignmentEmployeeModel,
-} from 'src/app/core/shared/common/model/masters/allowance-assignment.model';
+} from 'src/app/modules/hrm-shared/core/shared/common/model/masters/allowance-assignment.model';
 
 // Only HR-payroll-applicable types; operational types (per trip, per km, etc.) are not relevant here
 const ALLOWANCE_TYPE_OPTIONS = [
@@ -45,7 +46,7 @@ const CRITERIA_OPTIONS = [
     { label: 'Department',  value: AllowanceAssignmentCriteriaEnum.department },
 ];
 
-const FILTER_EMP_URL = ServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD + 'filter_employees/';
+const FILTER_EMP_URL = HrmServiceUrlConstants.ALLOWANCE_ASSIGNMENT_CRUD + 'filter_employees/';
 
 @Injectable({ providedIn: 'root' })
 export class AllowanceAssignmentFormConfig {

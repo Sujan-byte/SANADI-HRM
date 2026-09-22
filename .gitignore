@@ -3,3 +3,8 @@ __pycache__/
 node_modules/
 .DS_Store
 backend-apps/attendance_logs/
+
+# Migrations are regenerated per host project rather than tracked - keep the
+# migrations package importable via __init__.py, ignore everything else.
+**/migrations/*.py
+!**/migrations/__init__.py

@@ -1,0 +1,15 @@
+export enum LeaveExtensionEnum {
+    leaveApplication = 'leave_application',
+    leaveEntry       = 'leave_entry',
+    employee         = 'employee',
+    extendedToDate   = 'extended_to_date',
+    extensionDays    = 'extension_days',
+    allowBeyondEligible = 'allow_beyond_eligible',
+    isPaidBeyond     = 'is_paid_beyond',
+    lopDays          = 'lop_days',
+    reason           = 'reason',
+    delegatedReviewer = 'delegated_reviewer',
+    currentEndDate   = 'current_end_date',
+    employeeName     = 'employee_name',
+    availableLeaves  = 'available_leaves',
+}

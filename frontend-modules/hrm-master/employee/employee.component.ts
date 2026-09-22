@@ -1,13 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { FormConfig } from 'src/app/core/shared/common/form-config.service';
-import { LocalCompServiceConfig, TableFilterFormConfig } from 'src/app/core/shared/common/model/app.model';
-import { TableFilterComponent } from 'src/app/sanadi-library/table-filter/table-filter.component';
+import { FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { FormConfig } from 'src/app/modules/hrm-shared/core/shared/common/form-config.service';
+import { LocalCompServiceConfig, TableFilterFormConfig } from 'src/app/modules/hrm-shared/core/shared/common/model/app.model';
+import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/table-filter.component';
 import { EmployeeService } from './services/employee.service';
-import { CustomDialogService } from 'src/app/core/shared/services/custom-dialog';
-import { EmployeeDocumentsTableModel, EmployeeModel } from 'src/app/core/shared/common/model/masters/employee.model';
-import { ApiService } from 'src/app/core/services/api.service';
+import { CustomDialogService } from 'src/app/modules/hrm-shared/core/shared/services/custom-dialog';
+import { EmployeeDocumentsTableModel, EmployeeModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/employee.model';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { HttpParams } from '@angular/common/http';
 

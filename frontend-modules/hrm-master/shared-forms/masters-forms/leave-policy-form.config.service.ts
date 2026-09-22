@@ -1,15 +1,16 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { LeavePolicyModel, LeavePolicyDetailModel } from 'src/app/core/shared/common/model/masters/leave-policy.model';
-import { LeavePolicyEnum, LeavePolicyDetailEnum } from 'src/app/core/shared/common/enum/masters_enum/leave-policy.enum';
-import { TableBuilder } from 'src/app/core/shared/common/forms/core/builders/table.builder';
-import { ToggleBuilder } from 'src/app/core/shared/common/forms/core/builders/toggle.builder';
-import { NumberField } from 'src/app/core/shared/common/forms/core/builders/number.builder';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
+import { LeavePolicyModel, LeavePolicyDetailModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/leave-policy.model';
+import { LeavePolicyEnum, LeavePolicyDetailEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/leave-policy.enum';
+import { TableBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/table.builder';
+import { ToggleBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/toggle.builder';
+import { NumberField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/number.builder';
 
 
 @Injectable({
@@ -146,7 +147,7 @@ export class LeavePolicyFormConfig {
                             .setDefaultObject(defaultTypeOfLeaveObject)
                             .getUrlConfig({
                               get: {
-                                url: ServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD,
+                                url: HrmServiceUrlConstants.ATTENDANCE_STATUS_MASTER_CRUD,
                                 params: { page_size: 30, is_active: true, type: 'Leave' }
                               }
                             })

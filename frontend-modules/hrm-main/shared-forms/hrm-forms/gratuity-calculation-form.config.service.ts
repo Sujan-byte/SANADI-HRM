@@ -1,9 +1,9 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { ApiService } from 'src/app/core/services/api.service';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
-import { GratuityCalculationModel } from 'src/app/core/shared/common/model/hrm/gratuity-calculation.model';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
+import { GratuityCalculationModel } from 'src/app/modules/hrm-shared/core/shared/common/model/hrm/gratuity-calculation.model';
 import { GratuityCalculationEnum } from 'src/app/modules/hrm-main/hrm-enum/gratuity-calculation.enum';
 
 

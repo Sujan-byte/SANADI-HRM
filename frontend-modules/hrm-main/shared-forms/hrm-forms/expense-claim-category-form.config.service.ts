@@ -1,12 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { ToggleBuilder } from 'src/app/core/shared/common/forms/core/builders/toggle.builder';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { ToggleBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/toggle.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
 
 import { ExpenseClaimCategoryEnum } from 'src/app/modules/hrm-main/hrm-enum/expense-claim-category.enum';
-import { ExpenseClaimCategoryModel } from 'src/app/core/shared/common/model/hrm/expense-claim-category.model';
+import { ExpenseClaimCategoryModel } from 'src/app/modules/hrm-shared/core/shared/common/model/hrm/expense-claim-category.model';
 
 @Injectable({
   providedIn: 'root',

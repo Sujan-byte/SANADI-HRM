@@ -1,10 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { FormConfig } from 'src/app/core/shared/common/form-config.service';
-import { TableFilterComponent } from 'src/app/sanadi-library/table-filter/table-filter.component';
+import { FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { FormConfig } from 'src/app/modules/hrm-shared/core/shared/common/form-config.service';
+import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/table-filter.component';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
 
 import { pettyCashFundStatusOptions } from 'src/app/modules/hrm-main/hrm-enum/petty-cash-fund.enum';
 
@@ -107,10 +108,10 @@ export class PettyCashFundComponent {
     editable: true,
 
     url: {
-      post: ServiceUrlConstants.PETTY_CASH_FUND_CRUD,
-      get: ServiceUrlConstants.PETTY_CASH_FUND_CRUD,
-      delete: ServiceUrlConstants.PETTY_CASH_FUND_CRUD,
-      put: ServiceUrlConstants.PETTY_CASH_FUND_CRUD,
+      post: HrmServiceUrlConstants.PETTY_CASH_FUND_CRUD,
+      get: HrmServiceUrlConstants.PETTY_CASH_FUND_CRUD,
+      delete: HrmServiceUrlConstants.PETTY_CASH_FUND_CRUD,
+      put: HrmServiceUrlConstants.PETTY_CASH_FUND_CRUD,
     },
 
     actions: [

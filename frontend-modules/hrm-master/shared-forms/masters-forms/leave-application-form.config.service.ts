@@ -1,22 +1,22 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { ApiService } from 'src/app/core/services/api.service';
-import { LeaveApplicationModel } from 'src/app/core/shared/common/model/masters/leave-application.model';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { LeaveApplicationModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/leave-application.model';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
-import { NumberField } from 'src/app/core/shared/common/forms/core/builders/number.builder';
-import { TextBuilder } from 'src/app/core/shared/common/forms/core/builders/textarea.builder';
-import { ToggleBuilder } from 'src/app/core/shared/common/forms/core/builders/toggle.builder';
-import { SharedService } from 'src/app/core/shared/services/shared.service';
-import { LeaveApplicationEnum } from 'src/app/core/shared/common/enum/masters_enum/leave-application.enum';
-import { EmployeeEnum } from 'src/app/core/shared/common/enum/masters_enum/employee-enum';
+import { FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
+import { NumberField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/number.builder';
+import { TextBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/textarea.builder';
+import { ToggleBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/toggle.builder';
+import { SharedService } from 'src/app/modules/hrm-shared/core/shared/services/shared.service';
+import { LeaveApplicationEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/leave-application.enum';
+import { EmployeeEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/employee-enum';
 import * as moment from 'moment';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { EncryptedStorageService } from 'src/app/core/shared/services/secure-cookie-service';
+import { EncryptedStorageService } from 'src/app/modules/hrm-shared/core/shared/services/secure-cookie-service';
 
 @Injectable({
   providedIn: 'root',

@@ -27,13 +27,18 @@ HRM_INSTALLED_APPS = [
 ]
 
 
-def get_hrm_urlpatterns(client_param: str = 'client'):
+def get_hrm_urlpatterns(client_param: str = 'client', dashboard_prefix: str = 'dashboard'):
     """Returns the list of Django path() entries this plugin needs registered under
     api/v1/<client>/... . Call this from the host project's root urls.py and extend
     urlpatterns with the result:
 
         from hrm_plugin_config import get_hrm_urlpatterns
         urlpatterns += get_hrm_urlpatterns()
+
+    `dashboard_prefix` defaults to 'dashboard' (this plugin's origin project has no
+    dashboard app of its own). A host project that already has its own generic/ERP
+    'dashboard' app should pass a distinct prefix instead, e.g. 'hrm-dashboard', so
+    the two don't both try to own the same URL prefix.
     """
     from django.urls import path, include
     from hrm_main.api import urls as hrm_urls
@@ -41,5 +46,5 @@ def get_hrm_urlpatterns(client_param: str = 'client'):
 
     return [
         path(f'api/v1/<str:{client_param}>/hrm/', include(hrm_urls)),
-        path(f'api/v1/<str:{client_param}>/dashboard/', include(dashboard_urls)),
+        path(f'api/v1/<str:{client_param}>/{dashboard_prefix}/', include(dashboard_urls)),
     ]

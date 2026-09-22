@@ -1,16 +1,17 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { ApiService } from 'src/app/core/services/api.service';
-import { GraceDetailsModel } from 'src/app/core/shared/common/model/hrm/grace-details.model';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { GraceDetailsModel } from 'src/app/modules/hrm-shared/core/shared/common/model/hrm/grace-details.model';
 import { GraceDetailsEnum } from 'src/app/modules/hrm-main/hrm-enum/grace-details.enum';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
-import { NumberField } from 'src/app/core/shared/common/forms/core/builders/number.builder';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
+import { NumberField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/number.builder';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { TextBuilder } from 'src/app/core/shared/common/forms/core/builders/textarea.builder';
-import { ToggleBuilder } from 'src/app/core/shared/common/forms/core/builders/toggle.builder';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
+import { TextBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/textarea.builder';
+import { ToggleBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/toggle.builder';
 
 
 
@@ -135,7 +136,7 @@ export class GraceDetailsFormConfig {
                             .setDefaultObject(isEditMode && data?.shift ? { id: data.shift, shift_name: data.shift_name } : {})
                             .getUrlConfig({
                               get: {
-                                url: ServiceUrlConstants.SHIFT_MASTER_DURATION,
+                                url: HrmServiceUrlConstants.SHIFT_MASTER_DURATION,
                                 params: { page_size: 30 },
                                 filterKeys: ['shift_name__icontains'],
                               }

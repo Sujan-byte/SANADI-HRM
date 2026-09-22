@@ -1,48 +1,49 @@
 ﻿import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { TextBuilder } from 'src/app/core/shared/common/forms/core/builders/textarea.builder';
-import { ApiService } from 'src/app/core/services/api.service';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { TextBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/textarea.builder';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
 import {
   EmployeeDocumentsTableModel,
   EmployeeModel,
   LicDetails,
   PreviousEmploymentDetails,
-} from 'src/app/core/shared/common/model/masters/employee.model';
+} from 'src/app/modules/hrm-shared/core/shared/common/model/masters/employee.model';
 import {
   EmployeeEnum,
   PreviousEmploymentDetailsEnum,
-} from 'src/app/core/shared/common/enum/masters_enum/employee-enum';
+} from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/employee-enum';
 import { Dropdown } from 'primeng/dropdown';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { FilterOptions } from 'src/app/core/shared/common/enum/app.enum';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
-import { TableBuilder } from 'src/app/core/shared/common/forms/core/builders/table.builder';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
+import { FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
+import { TableBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/table.builder';
 import { DesignationFormConfig } from './designation-form.config.service';
 import { DepartmentFormConfig } from './department-form.config.service';
 import { GradeFormConfig } from './grade-form.config.service';
 import * as moment from 'moment';
-import { FileField } from 'src/app/core/shared/common/forms/core/builders/file.builder';
-import { GlobalMasterFormConfig } from 'src/app/core/shared/common/forms/masters-forms/global-master-from.config.service';
-import { ToggleBuilder } from 'src/app/core/shared/common/forms/core/builders/toggle.builder';
-import { PasswordField } from 'src/app/core/shared/common/forms/core/builders/password.builder';
-import { CheckboxBuilder } from 'src/app/core/shared/common/forms/core/builders/checkbox.builder';
+import { FileField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/file.builder';
+import { GlobalMasterFormConfig } from 'src/app/modules/hrm-shared/core/shared/common/forms/masters-forms/global-master-from.config.service';
+import { ToggleBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/toggle.builder';
+import { PasswordField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/password.builder';
+import { CheckboxBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/checkbox.builder';
 import { EmployeeService } from 'src/app/modules/hrm-master/employee/services/employee.service';
-import { GapField } from 'src/app/core/shared/common/forms/core/builders/gap.builder';
-import { MultiSelectField } from 'src/app/core/shared/common/forms/core/builders/multiselect.builder';
+import { GapField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/gap.builder';
+import { MultiSelectField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/multiselect.builder';
 import { HttpHeaders } from '@angular/common/http';
-import { country } from 'src/app/core/shared/state/country';
+import { country } from 'src/app/modules/hrm-shared/core/shared/state/country';
 import { get } from 'http';
-import { updatePermissionsForRole } from 'src/app/core/shared/services/filed-readonly-permissions';
+import { updatePermissionsForRole } from 'src/app/modules/hrm-shared/core/shared/services/filed-readonly-permissions';
 import { UntypedFormGroup, Validators } from '@angular/forms';
-import { GlobalMasterService } from 'src/app/modules/masters/global-master/services/global-master.service';
-import { GlobalMasterModel } from 'src/app/core/shared/common/model/masters/global-master.model';
-import { CarouselField } from 'src/app/core/shared/common/forms/core/builders/carousel.builder';
+import { GlobalMasterService } from 'src/app/modules/hrm-shared/modules/masters/global-master/services/global-master.service';
+import { GlobalMasterModel } from 'src/app/modules/hrm-shared/core/shared/common/model/masters/global-master.model';
+import { CarouselField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/carousel.builder';
 import { bindCallback } from 'rxjs';
-import { SharedService } from 'src/app/core/shared/services/shared.service';
-import { OverlayPanelBuilder } from 'src/app/core/shared/common/forms/core/builders/table.builder';
+import { SharedService } from 'src/app/modules/hrm-shared/core/shared/services/shared.service';
+import { OverlayPanelBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/table.builder';
 
 @Injectable({
   providedIn: 'root',
@@ -1119,7 +1120,7 @@ export class EmployeeFormConfig {
                 .setDefaultObject(default_shift_object)
                 .getUrlConfig({
                   get: {
-                    url: `${ServiceUrlConstants.SHIFT_MASTER_DURATION}`,
+                    url: `${HrmServiceUrlConstants.SHIFT_MASTER_DURATION}`,
                     params: { page_size: 30, is_active: true },
                   },
                 })
@@ -2660,7 +2661,7 @@ export class EmployeeFormConfig {
                     .setDisabledField('false')
                     .setOverlayPanelSelectedArray([])
 
-                    .setUrls(ServiceUrlConstants.DOCUMENT_TYPE_MASTER_CRUD)
+                    .setUrls(HrmServiceUrlConstants.DOCUMENT_TYPE_MASTER_CRUD)
 
                     .setOverlayDialogConfig({
                       width: '70vw',
@@ -3609,7 +3610,7 @@ export class EmployeeFormConfig {
       // next is just the ID (number), need to fetch the full object
       return new Promise((resolve) => {
         this.apiService
-          .get(`${ServiceUrlConstants.SHIFT_MASTER_DURATION}${next}/`)
+          .get(`${HrmServiceUrlConstants.SHIFT_MASTER_DURATION}${next}/`)
           .subscribe({
             next: (response: any) => {
               console.log('Shift details response:', response);

@@ -2,12 +2,12 @@ import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
-import { NumberField } from 'src/app/core/shared/common/forms/core/builders/number.builder';
-import { TextBuilder } from 'src/app/core/shared/common/forms/core/builders/textarea.builder';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
+import { NumberField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/number.builder';
+import { TextBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/textarea.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
 
 import {
   PettyCashTransactionEnum,
@@ -15,9 +15,10 @@ import {
   pettyCashTransactionSourceTypeOptions,
 } from 'src/app/modules/hrm-main/hrm-enum/petty-cash-transaction.enum';
 
-import { PettyCashTransactionModel } from 'src/app/core/shared/common/model/hrm/petty-cash-transaction.model';
+import { PettyCashTransactionModel } from 'src/app/modules/hrm-shared/core/shared/common/model/hrm/petty-cash-transaction.model';
 
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
 
 @Injectable({
   providedIn: 'root',
@@ -95,7 +96,7 @@ export class PettyCashTransactionFormConfig {
                 .isReadOnly(isEditMode)
                 .getUrlConfig({
                   get: {
-                    url: ServiceUrlConstants.PETTY_CASH_FUND_CRUD,
+                    url: HrmServiceUrlConstants.PETTY_CASH_FUND_CRUD,
                     params: {
                       page_size: 30,
                       is_active: true,

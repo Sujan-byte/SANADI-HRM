@@ -1,0 +1,73 @@
+export enum ShipmentModelEnum {
+    shipmentNo = "shipment_no",
+    supplierInvoiceNo = "supplier_invoice_no",
+    customerInvoiceNo = "customer_invoice_no",
+    salesOrderNo = "sales_order_no",
+    purchaseOrderNo = "purchase_order_no",
+    customerPoNo = "customer_po_no",
+    customerPoDate = "customer_po_date",
+    customerName = "customer_name",
+    customerAddress = "customer_address",
+    remarks = "remarks",
+    eta = "eta",
+    shipmentStatus = "shipment_status",
+    deliveryMethod = "delivery_method",
+    forwarderName = "forwarder_name",
+    forwarderBookingNumber = "forwarder_booking_number",
+    freightCharge = "freight_charge",
+    freightChargeCurrency = "freight_charge_currency",
+    blNumber = "bl_number",
+    blDate = "bl_date",
+    departureDate = "departure_date",
+    grossWeight = "gross_weight",
+    actualTimeArrived = "actual_time_arrived",
+    shipmentRemarks = "shipment_remarks",
+
+    shipmentTermsConditions = 'shipment_list_terms_and_condition',
+    shipmentDetails = 'shipment_details',
+    shipmentOrderFileUpload = 'shipment_order_file_upload',
+
+
+    // from INVOICE
+    countryOfOrigin = 'country_of_origin',
+    portOfLoading = 'port_of_loading',
+    destination = 'destination',
+    netWeight = 'net_weight',
+    partOfShipment = 'part_of_shipment',
+    transportationTerms = 'transportation_terms',
+    descriptionOfPacking = 'description_of_packing',
+    paymentTerms = 'payment_terms',
+    modeOfTransportation = 'mode_of_transportation',
+    deliveryDate = 'delivery_date',
+    deliveryTerms = 'delivery_terms',
+    noOfContainer ='no_of_container',
+    type='type',
+    balancePaymentAmount = 'balance_payment_amount',
+    invoiceNumber = 'invoice_number',
+    invoiceDate = 'invoice_date',
+    created = 'created',
+    createdByName = 'created_by_name'
+}
+
+export enum ShipmentDetailsEnum {
+    id = "id",
+    shipment = "shipment",
+    itemCode = "item_code",
+    partNumber = "part_number",
+    productName = "product_name",
+    brand = "brand",
+    model = "model",
+    unitName="unit_name",
+    description = "description",
+    hsn = "hsn",
+    quantity = "quantity",
+    unit = "unit",
+    uom='uom',
+}
+
+export enum ShipmentTermsConditionEnum {
+    id = "id",
+    shipment = "shipment",
+    term = "term",
+    description = "description",
+}

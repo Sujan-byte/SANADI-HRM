@@ -1,14 +1,14 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { TextBuilder } from 'src/app/core/shared/common/forms/core/builders/textarea.builder';
-import { SalaryHoldModel } from 'src/app/core/shared/common/model/hrm/salary-hold.model';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { TextBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/textarea.builder';
+import { SalaryHoldModel } from 'src/app/modules/hrm-shared/core/shared/common/model/hrm/salary-hold.model';
 import { SalaryHoldEnum } from 'src/app/modules/hrm-main/hrm-enum/salary-hold.enum';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { CustomDialogService } from 'src/app/core/shared/services/custom-dialog';
-import { DynamicTableComponent } from 'src/app/sanadi-library/sanadi-components/dynamic-table/dynamic-table.component';
+import { CustomDialogService } from 'src/app/modules/hrm-shared/core/shared/services/custom-dialog';
+import { DynamicTableComponent } from 'src/app/modules/hrm-shared/sanadi-library/sanadi-components/dynamic-table/dynamic-table.component';
 
 @Injectable({ providedIn: 'root' })
 export class SalaryHoldFormConfig {

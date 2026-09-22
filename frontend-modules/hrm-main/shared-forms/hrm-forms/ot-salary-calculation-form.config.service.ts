@@ -1,19 +1,19 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TabBuilder } from 'src/app/core/shared/common/forms/core/builders/tab.builder';
-import { ApiService } from 'src/app/core/services/api.service';
-import { DateField } from 'src/app/core/shared/common/forms/core/builders/date.builder';
-import { InputField } from 'src/app/core/shared/common/forms/core/builders/input.builder';
-import { DropdownField } from 'src/app/core/shared/common/forms/core/builders/dropdown.builder';
-import { TableBuilder } from 'src/app/core/shared/common/forms/core/builders/table.builder';
-import { TextBuilder } from 'src/app/core/shared/common/forms/core/builders/textarea.builder';
+import { TabBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/tab.builder';
+import { ApiService } from 'src/app/modules/hrm-shared/core/services/api.service';
+import { DateField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/date.builder';
+import { InputField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/input.builder';
+import { DropdownField } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/dropdown.builder';
+import { TableBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/table.builder';
+import { TextBuilder } from 'src/app/modules/hrm-shared/core/shared/common/forms/core/builders/textarea.builder';
 import { lastValueFrom } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { CustomDialogService } from 'src/app/core/shared/services/custom-dialog';
-import { DynamicTableComponent } from 'src/app/sanadi-library/sanadi-components/dynamic-table/dynamic-table.component';
+import { CustomDialogService } from 'src/app/modules/hrm-shared/core/shared/services/custom-dialog';
+import { DynamicTableComponent } from 'src/app/modules/hrm-shared/sanadi-library/sanadi-components/dynamic-table/dynamic-table.component';
 import { OtAllowanceBreakdownDialogComponent } from 'src/app/modules/hrm-main/ot-salary-calculation/ot-allowance-breakdown-dialog/ot-allowance-breakdown-dialog.component';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { OTSalaryCalculationModel, OTEmployeeList } from 'src/app/core/shared/common/model/hrm/ot-salary-calculation.model';
+import { OTSalaryCalculationModel, OTEmployeeList } from 'src/app/modules/hrm-shared/core/shared/common/model/hrm/ot-salary-calculation.model';
 import {
   OTSalaryCalculationEnum,
   OTEmployeeListEnum,
