@@ -92,8 +92,17 @@ git submodule add https://github.com/Sujan-byte/SANADI-HRM.git sanadi-hrm
    ```
    Any key left out (or the whole file, if absent) falls back to the defaults shown above.
 5. Platform dependencies this plugin expects the host project to already provide (not bundled):
-   `branch`, `security`, `tenant`, `notifications`, `customdblogger`, plus the `sequences` pip package.
-6. Migrations for `hrm_audit_fields`/`hrm_master`/`hrm_dashboard`/`hrm_main` are **not** committed to
+   `branch`, `security`, `tenant`, `customdblogger`, plus the `sequences` pip package, plus a
+   `GlobalMaster`-shaped generic key/value lookup model (`global_key`/`global_value`) — `hrm_dashboard`
+   and a `violation_type` field on `hrm_main` read from it by that name.
+6. **`notifications` and outbound email are *not* hard dependencies — a host doesn't need either.**
+   HRM's own signal handlers (leave entry/application create, TaDa create) integrate with a host's
+   `notifications` app and send templated emails on a best-effort basis: if the host has no
+   `notifications` app, or hasn't supplied its own `email_templates/*.html` (this plugin doesn't bundle
+   any — templates and SMTP settings are host-provided, same as `ApiService`), those specific
+   side-effects are silently skipped (logged at `WARNING`/`DEBUG`) rather than blocking the save. A
+   leave entry/application/TaDa request always saves successfully regardless.
+7. Migrations for `hrm_audit_fields`/`hrm_master`/`hrm_dashboard`/`hrm_main` are **not** committed to
    this submodule (`.gitignore`'d, `__init__.py` excepted) — they're regenerated per host environment.
    Run `makemigrations`/`migrate` for these apps against the host's own database after step 1-2.
 
