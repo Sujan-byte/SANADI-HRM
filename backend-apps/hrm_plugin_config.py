@@ -16,6 +16,8 @@ that happens to reference plugin classes, not a plugin-owned app itself, so its
 INSTALLED_APPS entry and its own url include stay hand-wired in the host project.
 """
 
+from pathlib import Path
+
 # Apps to add to the host's INSTALLED_APPS. Order matters: hrm_audit_fields has no
 # dependencies of its own and must come first; hrm_master/hrm_dashboard/hrm_main all
 # depend on it (and hrm_master's models are referenced by the other two).
@@ -25,6 +27,15 @@ HRM_INSTALLED_APPS = [
     'hrm_dashboard',
     'hrm_main',
 ]
+
+# Template directories to add to the host's TEMPLATES[0]['DIRS'] - currently just
+# email_templates/ (leave entry/application/TaDa notification emails), kept as a
+# plain top-level directory rather than nested under any one app's own templates/,
+# since more than one HRM app renders from it. Not relied on via Django's implicit
+# APP_DIRS auto-discovery so the host's settings.py stays the single, explicit place
+# every template source is declared - consistent with how sys.path/INSTALLED_APPS
+# are wired here rather than left to happen implicitly.
+HRM_TEMPLATE_DIRS = [str(Path(__file__).resolve().parent / 'templates')]
 
 
 def get_hrm_urlpatterns(client_param: str = 'client', dashboard_prefix: str = 'dashboard'):

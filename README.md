@@ -49,11 +49,21 @@ git submodule add https://github.com/Sujan-byte/SANADI-HRM.git sanadi-hrm
 ### 2. Backend
 
 1. Add `sanadi-hrm/backend-apps` to `sys.path` in `settings.py`, before `INSTALLED_APPS` is
-   evaluated, then extend `INSTALLED_APPS` with `HRM_INSTALLED_APPS`:
+   evaluated, then extend `INSTALLED_APPS` with `HRM_INSTALLED_APPS` and `TEMPLATES[0]['DIRS']` with
+   `HRM_TEMPLATE_DIRS` (the plugin's `email_templates/`, used by leave entry/application/TaDa
+   notification emails):
    ```python
    sys.path.insert(0, str(BASE_DIR.parent / 'sanadi-hrm' / 'backend-apps'))
-   from hrm_plugin_config import HRM_INSTALLED_APPS
+   from hrm_plugin_config import HRM_INSTALLED_APPS, HRM_TEMPLATE_DIRS
    INSTALLED_APPS = [ ...your apps..., ] + HRM_INSTALLED_APPS
+
+   TEMPLATES = [
+       {
+           ...
+           'DIRS': [os.path.join(BASE_DIR, 'templates')] + HRM_TEMPLATE_DIRS,
+           ...
+       },
+   ]
    ```
 2. Wire the routes from the same manifest in the host's root `urls.py`:
    ```python
@@ -95,13 +105,13 @@ git submodule add https://github.com/Sujan-byte/SANADI-HRM.git sanadi-hrm
    `branch`, `security`, `tenant`, `customdblogger`, plus the `sequences` pip package, plus a
    `GlobalMaster`-shaped generic key/value lookup model (`global_key`/`global_value`) — `hrm_dashboard`
    and a `violation_type` field on `hrm_main` read from it by that name.
-6. **`notifications` and outbound email are *not* hard dependencies — a host doesn't need either.**
-   HRM's own signal handlers (leave entry/application create, TaDa create) integrate with a host's
-   `notifications` app and send templated emails on a best-effort basis: if the host has no
-   `notifications` app, or hasn't supplied its own `email_templates/*.html` (this plugin doesn't bundle
-   any — templates and SMTP settings are host-provided, same as `ApiService`), those specific
-   side-effects are silently skipped (logged at `WARNING`/`DEBUG`) rather than blocking the save. A
-   leave entry/application/TaDa request always saves successfully regardless.
+6. **`notifications` is *not* a hard dependency — a host doesn't need it.** HRM's own signal handlers
+   (leave entry/application create, TaDa create) integrate with a host's `notifications` app on a
+   best-effort basis: if the host has none, that specific side-effect is silently skipped (logged at
+   `DEBUG`) rather than blocking the save. Outbound email (leave entry/application approval
+   notifications) *is* bundled — see step 1's `HRM_TEMPLATE_DIRS` — but still needs the host's own SMTP
+   settings (`DEFAULT_FROM_EMAIL`, `EMAIL_BACKEND`, etc.) to actually send; if those aren't configured,
+   the same best-effort handling applies and the save still succeeds either way.
 7. Migrations for `hrm_audit_fields`/`hrm_master`/`hrm_dashboard`/`hrm_main` are **not** committed to
    this submodule (`.gitignore`'d, `__init__.py` excepted) — they're regenerated per host environment.
    Run `makemigrations`/`migrate` for these apps against the host's own database after step 1-2.
