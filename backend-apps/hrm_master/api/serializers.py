@@ -4130,6 +4130,24 @@ class LeavePolicySerializer(ApprovalModelMixinSerializer,AuditModelMixinSerializ
 
         validated_data = super().to_internal_value(data)
         validated_data['leave_policy_details'] = leave_policy_details
+
+        # A Yearly policy's effective_from must be exactly its own fiscal year's start
+        # date (fy_start_month, day 1) - not an arbitrary mid-year date. The yearly
+        # accrual task only ever credits a policy effective ON the FY's start date, so
+        # a mid-year effective_from silently produces zero credited days for everyone
+        # it applies to; catch that here at save time instead.
+        year_month = validated_data.get('year_month', getattr(self.instance, 'year_month', None))
+        if year_month == 'Year':
+            effective_from = validated_data.get('effective_from', getattr(self.instance, 'effective_from', None))
+            fy_start_month = validated_data.get('fy_start_month', getattr(self.instance, 'fy_start_month', None) or 1)
+            if effective_from and (effective_from.day != 1 or effective_from.month != fy_start_month):
+                raise serializers.ValidationError({
+                    'effective_from': (
+                        f"A Yearly policy's effective date must be the 1st of the financial year's "
+                        f"start month (month {fy_start_month}), not {effective_from.strftime('%d-%m-%Y')}."
+                    )
+                })
+
         return validated_data
 
 
