@@ -32,6 +32,7 @@ export class DesignationComponent {
         isFilterRequired: true,
       },
 
+      
     ],
     tableBody: ['designation_code', 'designation_name'],
     editable: true,
