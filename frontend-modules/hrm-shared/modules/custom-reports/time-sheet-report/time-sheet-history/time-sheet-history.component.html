@@ -1,0 +1,55 @@
+﻿<div class="flex flex-column w-full  py-2 px-0">
+        <div class="flex flex-row justify-content-between align-items-center p-3">
+            <div class=" flex flex-column">
+                <p class="text-xl font-semibold text-center ">Time Sheet Historical Records</p>
+            </div>
+            <div class="flex-column">
+                <i class="pi pi-times-circle cursor-pointer" style="font-size: 1.5rem" (click)="dialogRef.close()"></i>
+
+            </div>
+        </div>
+    <p-table #tb [value]="timeSheetHistoryDetails()" dataKey="id" editableRow [scrollable]="true"
+        [scrollHeight]="'60vh'" [columns]="getTableSchema()" paginator="true" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [lazy]="true"
+        [style]="{'font-size':'1rem','width':'100%','padding':'5px'}" [loading]="loading"
+        styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped" [resizableColumns]="true"
+        columnResizeMode="expand" [rows]="10" [columnResizeMode]="'expand'" responsiveLayout="scroll"
+        [totalRecords]="totalTimeSheetHistoryRecords" (onPage)="nextPage($event)" (onLazyLoad)="nextPage($event)">
+
+
+
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                @for(col of getTableSchema(); track col.label){
+                <ng-container>
+                    <th>
+                        {{ col.label }}
+                    </th>
+                </ng-container>
+                }
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <ng-container>
+                    @for(action of getTableSchema(); track action?.field){
+                    <td>{{item[action.field]}}</td>
+                    }
+                </ng-container>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+                <td colspan="100">
+                    <div class="flex flex-column justify-content-center align-items-center h-full w-full mt-7 mb-7"
+                        id="print">
+                        <img src="../../../../../../assets/images/no-content.png" [height]="'200'" [width]="'200'" />
+                        <p class="text-2xl font-bold">Nothing to show...!</p>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

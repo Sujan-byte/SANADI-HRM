@@ -176,7 +176,7 @@ export class TimesheetApprovalsComponent implements AfterViewInit {
   }
 
   getHolidayMasters() {
-    this.apiService.get(ServiceUrlConstants.HOLIDAY_MASTER_CRUD).subscribe((res: any) => {
+    this.apiService.get(HrmServiceUrlConstants.HOLIDAY_MASTER_CRUD).subscribe((res: any) => {
       if (res?.results) {
         this.holidayLists = res?.results;
       }
@@ -288,7 +288,7 @@ export class TimesheetApprovalsComponent implements AfterViewInit {
   }
 
   getGraceDetailMasters() {
-    this.apiService.get(ServiceUrlConstants.GRACE_DETAIL_CRUD).subscribe((res: any) => {
+    this.apiService.get(HrmServiceUrlConstants.GRACE_DETAIL_CRUD).subscribe((res: any) => {
       if (res?.results) {
         this.graceDetails = res?.results;
       }

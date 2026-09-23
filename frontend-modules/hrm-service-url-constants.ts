@@ -28,4 +28,6 @@ export class HrmServiceUrlConstants {
   public static SALARY_COMPONET_CRUD = '/master/salary-components/';
   public static EXPENSE_CLAIM_LINK_TYPE_CRUD = '/hrm/expense-claim-link-types/';
   public static TICKET_MASTER = '/master/ticket-master/';
+  public static GRACE_DETAIL_CRUD = '/hrm/grace-details/';
+  public static HISTORICAL_ATTENDANCE_DETAILS_API = '/hrm/historical_attendance_details/';
 }

@@ -1,0 +1,32 @@
+﻿<div class="flex flex-row justify-content-between align-items-center">
+    <div class="flex flex-row gap-4 p-2">
+        <div *ngFor="let type of timeSheetTypes" class="field-checkbox">
+            @if(!type?.hide){
+                <p-radioButton [inputId]="type.key" name="key" [value]="type.key" [(ngModel)]="selectedType" />
+                <label [for]="type.key" class="ml-2">
+                    {{ type.name }}
+                </label>
+            }
+        </div>
+    </div>
+    <!-- @if(showToggleProcessedButton()){ -->
+        <div class="flex flex-row gap-2 align-items-center  mb-2" *ngxPermissionsOnly="['hrm_main.custom_can_view_actual_timesheet']">
+            <p-inputSwitch [(ngModel)]="isProcessed" />
+            <label class="text-center">
+                {{isProcessed?'Processed':'Actual'}}
+            </label>
+        </div>
+    <!-- } -->
+</div>
+
+<div class="flex flex-row  gap-3 align-items-center p-2">
+    <p-dropdown id="Employee Type" [options]="employeeType()" [optionValue]="'id'" [optionLabel]="'name'"
+        [(ngModel)]="selectedEmployeeType" placeholder="Select Employee Type" class="footer-dropdown" [filter]="true"
+        showClear="true" (onClear)="onClearEmployeeType()"></p-dropdown>
+    <p-dropdown id="Employee Group" [options]="employeeGroup()" [optionValue]="'id'" [optionLabel]="'name'"
+        [(ngModel)]="selectedEmployeeGroup" placeholder="Select Employee Group" class="footer-dropdown" [filter]="true"
+        showClear="true" (onClear)="onClearEmployeeType()"></p-dropdown>
+    <p-dropdown id="Employee Reporting" [options]="employeeReportingTypes" [optionValue]="'key'" [optionLabel]="'name'"
+        [(ngModel)]="selectedEmployeeReportingType" placeholder="Select Employee Reporting" class="footer-dropdown" [filter]="true" (onChange)="onChangeEmployeeReporting($event)"
+        showClear="true" (onClear)="onClearEmployeeType()"></p-dropdown>
+</div>

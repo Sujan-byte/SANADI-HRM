@@ -1,0 +1,264 @@
+﻿<div class="p-1 w-full main-screen-header flex align-items-center gap-2">
+    <div class="text-center font-bold text-xl justify-content-center flex flex-row gap-2 align-items-center w-14rem">
+        <img src="../../../../../assets/images/icons8-timesheet-48.png" alt="" width="25">
+        <p>Time Sheet</p>
+    </div>
+    <div class="flex justify-content-between w-full align-items-center">
+        <div class="h-full flex flex-row gap-2">
+            <p-autoComplete [style]="{ 'min-width': '20vw' }" [inputStyle]="{ 'width': '100%' }" [suggestions]="[]"
+                placeholder="Select Employees By Name / Code" optionLabel="first_name" [(ngModel)]="selectedEmployee"
+                [suggestions]="suggestions" (completeMethod)="handleSearch($event)" (onSelect)="handleSelect($event)" [minLength]="3" showClear="true">
+                <ng-template let-data pTemplate="item">
+                    <div class="flex align-items-center gap-2">
+                        <div>{{ data.first_name }} | {{ data.employee_code }}</div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+            <p-dropdown id="serialNumbers" [options]="departments()" [optionValue]="'id'"
+                [optionLabel]="'department_name'" [(ngModel)]="selectedDepartment" placeholder="Select Department"
+                class="footer-dropdown" [filter]="true" showClear="true" (onClear)="onClearDepartment()"></p-dropdown>
+            <p-calendar [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" [placeholder]="'From Date'"
+                dateFormat="dd-mm-yy" readonlyInput="true" (onSelect)="onSelectDate('from',$event)"
+                [(ngModel)]="selectedFromDate" showButtonBar="true" />
+            <p-calendar [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" [placeholder]="'To Date'"
+                dateFormat="dd-mm-yy" readonlyInput="true" (onSelect)="onSelectDate('to',$event)"
+                [(ngModel)]="selectedToDate" showButtonBar="true" />
+            <button pButton pRipple icon="pi pi-book" class=" p-button-success p-button-sm font-semibold" label="Apply"
+                (click)="handleApply()" [disabled]="!selectedFromDate"></button>
+        </div>
+
+        <div class="h-full flex flex-row align-items-center">
+            <button style="background-color: transparent;border:none;" (click)="op.toggle($event)"
+                title="More Details">
+                @if(checkFilterApplied()){
+                    <i
+                    class="pi pi-ellipsis-v text-center cursor-pointer text-xl hover:shadow-2 p-2" pBadge  style="font-size: 2rem" severity="danger"></i>
+                }@else{
+                    <i
+                    class="pi pi-ellipsis-v text-center cursor-pointer text-xl hover:shadow-2 p-2"></i>
+                }
+            </button>
+            <button style="background-color: transparent;border:none;" title="View History" (click)="onClickHistory($event)"><i
+                    class="pi pi-history text-center cursor-pointer text-xl hover:shadow-2 p-2" *ngxPermissionsOnly="['hrm_main.custom_can_edit_timesheet','hrm_main.custom_can_approve_timesheet']"></i></button>
+            <button style="background-color: transparent;border:none;" (click)="clearFilters()" title="clear filter"><i
+                    class="pi pi-filter-slash text-center cursor-pointer text-xl hover:shadow-2 p-2"></i></button>
+            <button style="background-color: transparent;border:none;" title="Print" (click)="exportToPdf()" [disabled]="!this.timeSheetDetails?.length">
+                <i class="pi pi-print text-center cursor-pointer text-xl hover:shadow-2 p-2"></i>
+            </button>
+            <button style="background-color: transparent;border:none;" title="Excel Export" (click)="exportToExcel()"
+                [disabled]="!this.timeSheetDetails?.length">
+                <i class="pi pi-file-export text-center cursor-pointer text-xl hover:shadow-2 p-2"></i>
+            </button>
+            <button style="background-color: transparent;border:none;" title="Import Timesheet" (click)="importOp.toggle($event)">
+                <i class="pi pi-upload text-center cursor-pointer text-xl hover:shadow-2 p-2"></i>
+            </button>
+            <input #importFileInput type="file" accept=".xlsx,.xls" style="display:none" (change)="onImportFile($event)">
+        </div>
+    </div>
+</div>
+<p-contextMenu #cm [model]="contextitems" />
+<p-table #tb [value]="timeSheetDetails" dataKey="id"  editableRow [scrollable]="true" [scrollHeight]="getTableScrollHeight()"
+    [columns]="getTableSchema()" paginator="true" [showCurrentPageReport]="true" 
+    [rowsPerPageOptions]="[50,100,150,200,300,500]"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [lazy]="true"
+    [style]="{'font-size':'1rem','width':'100%','padding':'5px'}" [loading]="loading"
+    styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped" [resizableColumns]="true"
+    columnResizeMode="expand" [rows]="50" [columnResizeMode]="'expand'" responsiveLayout="scroll"
+    [totalRecords]="totalTimeSheetRecords" (onPage)="nextPage($event,tb)" [(contextMenuSelection)]="conetxtMenuSelectedItem" [contextMenu]="cm"
+    (onContextMenuSelect)="onContextMenuSelect($event)" (onFilter)="onFilter($event)">
+
+    <ng-template pTemplate="loadingbody">
+        <ng-container *ngFor="let _ of [1, 2, 3]">
+            <tr style="height: 30px">
+                <td *ngFor="let col of getTableSchema()">
+                    <p-skeleton [ngStyle]="{'width': '100%'}"></p-skeleton>
+                </td>
+            </tr>
+        </ng-container>
+    </ng-template>
+
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th pFrozenColumn [style]="{'width': '20px'}">
+                Sl No.
+            </th>
+            @for(col of getTableSchema(); track col.label){
+                <ng-container >
+                    <th [pSortableColumn]="col?.field" *ngIf="col?.show??true">
+                        {{ col.label }}
+                        <!-- <p-sortIcon [field]="col?.field"></p-sortIcon> -->
+      
+                         @if(col?.isFilterRequired && this.selectedFromDate){
+                            @if(col?.filterType == 'dropdown'){
+                                <p-columnFilter [field]="col?.field" [matchMode]="'iexact'" display="menu"
+                                    [showMatchModes]="false">
+                                    <ng-template pTemplate="filter" let-filterValue let-filter="filterCallback">
+                                        <p-dropdown [(ngModel)]="tb.filters[col.field][0].value" [optionValue]="'code'" [optionLabel]="'status_name'"  (onChange)="onChangeStatus($event,tb)" [options]="col?.filterOptions()"
+                                            [style]="{'width':'13vw'}" [placeholder]="'Any'" [filter]="true" [showClear]="true">
+                                            <ng-template let-option pTemplate="item">
+                                                <p-tag [value]="option.status_name" />
+                                                <!-- [severity]="option?.severity" -->
+                                            </ng-template>
+                                        </p-dropdown>
+                                    </ng-template>
+                                </p-columnFilter>
+                                }
+                                @else if(col?.filterType=='date'){
+                                    <p-columnFilter type="date" field="date" display="menu" [matchModeOptions]="col?.matchModeOptions"/>
+                                }
+                                @else {
+                                    <p-columnFilter  [matchModeOptions]="col?.matchModeOptions" [matchMode]="'istartswith'" [field]="col?.field" display="menu"
+                                    ></p-columnFilter>
+                                }
+
+                         }
+                    </th>
+                </ng-container>
+            }
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-item let-editing="editing" let-ri="rowIndex">
+        <tr [pContextMenuRow]="item" [pEditableRow]="item">
+            <td pFrozenColumn>
+                {{ri+1}}
+            </td>
+            <ng-container>
+                @for(action of getTableSchema(); track action?.field){
+                <td *ngIf="!action.editable && action?.show??true" >{{item[action.field]}}</td>
+                <td *ngIf="action.editable" pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            @if(action.type=='status'){
+                            <p-dropdown id="status" [options]="attendanceStatusList()" [optionValue]="'code'" optionDisabled="disabled"
+                                [optionLabel]="'status_name'" [(ngModel)]="item[action.field]" (ngModelChange)="onChangeStatusValue(item)"
+                                (onClick)="cloneDropdownRow(item)" placeholder="Select status" class="footer-dropdown"
+                                [filter]="true" [appendTo]="'body'" [disabled]="checkIsProcessed(action.type,item)" ></p-dropdown>
+                            }
+                            @else if(action.type=='time'){
+                                <input pInputText
+                                type="time"
+                                [value]="item[action.field]"
+                                (change)="onChangeTime($event, item, action.field,ri)"
+                                [disabled]="checkIsProcessed(action.type,item)"
+                                (keydown)="disableNavigation($event)"
+                                placeholder="Select time" />
+                            }
+                            @else{
+                            <input pInputText [value]="item[action.field]"
+                                (input)="onChangeCellValue($event,item,action.field)"
+                                (keydown)="disableNavigation($event)" [disabled]="checkIsProcessed(action.type,item)">
+                            }
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            @if(action.type=='status'){
+                            {{ getStatusText(item[action.field])}}
+                            }@else {
+                            {{item[action.field]}}
+                            }
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                }
+
+
+
+            </ng-container>
+            <td *ngIf="item?.editing" pFrozenColumn alignFrozen="right" [frozen]="true">
+                <div class="flex gap-2">
+                    <button pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                        (click)="onRowEditSave(item)" class="p-button-rounded p-button-text p-button-success p-mr-2"
+                        [pTooltip]="'Save'" *ngIf="item?.status!='-1'"></button>
+
+                    <button pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                        (click)="onRowEditCancel(item, ri)" class="p-button-rounded p-button-text p-button-danger"
+                        [pTooltip]="'Cancel'"></button>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+            <td colspan="100">
+                <div class="flex flex-column justify-content-center align-items-center h-full w-full mt-7 mb-7"
+                    id="print">
+                    <img src="../../../../../../assets/images/no-content.png" [height]="'200'" [width]="'200'" />
+                    <p class="text-2xl font-bold">Nothing to show...!</p>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+        <ng-template pTemplate="footer">
+            <tr>
+                <td class="text-center"></td>
+                <td colspan="2" class="text-center">Totals</td>
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+                <td class="text-center">{{this.aggregateColumns?.total_hours}}</td>
+                <td class="text-center" *ngIf="checkBreakColRequired()">{{this.aggregateColumns?.total_break_hours}}</td>
+                <td class="text-center">{{this.aggregateColumns?.total_working_hours}}</td>
+                <td class="text-center"></td>
+                <td class="text-center">{{this.aggregateColumns?.total_ot_hours}}</td>
+                <td class="text-center">{{this.aggregateColumns?.total_ot2_hours}}</td>
+                <td class="text-center">{{this.aggregateColumns?.total_hot_hours}}</td>
+                <td class="text-center">{{this.aggregateColumns?.total_less_hours}}</td>
+                <td class="text-center">{{this.aggregateColumns?.total_extra_hours}}</td>
+            </tr>
+            @if(selectedEmployee){
+            <tr>
+                <td></td>
+                <td  [attr.colspan]="checkBreakColRequired() ? 3 : 2" class="text-center">
+                    Present Working Day
+                  </td>
+                <td class="text-center">Weekly Off</td>
+                <td class="text-center">Weekly Off OT</td>
+                <td class="text-center">Holiday</td>
+                <td class="text-center">Holiday OT</td>
+                <td class="text-center">Absent</td>
+                <td class="text-center">Annual Leave</td>
+                <td class="text-center">Sick Leave</td>
+                <td class="text-center">Spl Leave</td>
+                <td class="text-center">Comp Off</td>
+                <td class="text-center">Total Days</td>
+            </tr>
+            <tr>
+                <td class="text-center"></td>
+                <td [attr.colspan]="checkBreakColRequired()  ? 3 : 2" class="text-center">{{overallStatusWiseCount?.present_working_days}}</td>
+                <td class="text-center">{{overallStatusWiseCount?.weekly_off}}</td>
+                <td class="text-center">{{overallStatusWiseCount?.weekly_off_ot}}</td>
+                <td class="text-center">{{overallStatusWiseCount?.holiday}}</td>
+                <td class="text-center">{{overallStatusWiseCount?.holiday_ot}}</td>
+                <td class="text-center">{{overallStatusWiseCount?.absent}}</td>
+                <td class="text-center">{{overallStatusWiseCount?.annual_leave}}</td>
+                <td class="text-center">{{overallStatusWiseCount?.sick_leave}}</td>
+                <td class="text-center">{{overallStatusWiseCount?.spl_leave}}</td>
+                <td class="text-center">{{overallStatusWiseCount?.comp_off}}</td>
+                <td class="text-center">{{overallStatusWiseCount?.total_days}}</td>
+            </tr>
+        }
+        </ng-template>
+
+</p-table>
+
+<p-overlayPanel #op>
+   <sanadi-ts-more-options></sanadi-ts-more-options>
+</p-overlayPanel>
+
+<p-overlayPanel #importOp>
+    <div class="flex flex-column gap-3 p-2" style="min-width: 220px;">
+        <div class="font-semibold text-base mb-1">Timesheet Import</div>
+        <button pButton pRipple icon="pi pi-download" label="Download Template"
+            class="p-button-outlined p-button-sm w-full"
+            (click)="downloadImportTemplate()"></button>
+        <button pButton pRipple icon="pi pi-upload" label="Import File"
+            class="p-button-sm w-full"
+            (click)="importFileInput.click(); importOp.hide()"></button>
+    </div>
+</p-overlayPanel>
+
+
+<!-- <p-dialog #th  [(visible)]="viewTimeSheetHistory" [responsive]="true" [autoZIndex]="true"
+    [baseZIndex]="10000" (onHide)="onHideTimeSheetHistory()"  [modal]="true" [showHeader]="false" [style]="{'width':'88vw'}"
+    [appendTo]="'body'" [dismissableMask]="true">
+    <sanadi-time-sheet-history></sanadi-time-sheet-history></p-dialog> -->
