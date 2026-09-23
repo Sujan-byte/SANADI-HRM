@@ -187,15 +187,13 @@ git submodule add https://github.com/Sujan-byte/SANADI-HRM.git sanadi-hrm
    `ApiService` with `get`/`post`/`put`/`delete` methods (an optional 3rd `headers` param on `get()`
    is needed for one call site) already wired before integrating this submodule.
 6. **`HrmStorage` — no setup required, override optional:** every HRM screen reads/writes session
-   data (`accessToken`, `b_id`, `employeeId`, `is_superuser`, `permissions`, `employeeCode`,
-   `employeeDesignationName`, `employeeDepartmentName`, `branchName`, `first_name`, `user_id`,
-   `employee_type`, etc.) through `HrmStorage`
-   (`hrm-shared/core/shared/services/hrm-storage.ts`) — unlike `ApiService`/`API_URL`, this one *is*
-   bundled, because unlike an HTTP client, "how a host stores session data" genuinely varies: some
-   hosts just use `localStorage`, some have their own encrypted/IndexedDB store. `HrmStorage`'s
-   default implementation is a plain `localStorage`-backed store, so a fresh host needs **zero**
-   setup — HRM just shares whatever plain `localStorage` that host's own login flow already writes
-   to.
+   data through `HrmStorage` (`hrm-shared/core/shared/services/hrm-storage.ts`) — unlike
+   `ApiService`/`API_URL`, this one *is* bundled, because unlike an HTTP client, "how a host stores
+   session data" genuinely varies: some hosts just use `localStorage`, some have their own
+   encrypted/IndexedDB store. `HrmStorage`'s default implementation is a plain `localStorage`-backed
+   store, so a fresh host needs **zero** setup — HRM just shares whatever plain `localStorage` that
+   host's own login flow already writes to.
+
    A host that has its **own** encrypted/IndexedDB storage service (matching the same
    `getItem`/`setItem`/`getItemSync`/`removeItem`/`clear` async shape) can make HRM share that exact
    store instead of the localStorage default, with one line in the host's own `app.config.ts`:
@@ -209,7 +207,8 @@ git submodule add https://github.com/Sujan-byte/SANADI-HRM.git sanadi-hrm
    ```
    This project (Mechellin) does exactly this in `app.config.ts`, since its own login flow already
    populates a real encrypted store via `EncryptedStorageService` and HRM should read the same one,
-   not a separate empty `localStorage`.
+   not a separate empty `localStorage`. See the **`HrmStorage` key reference** section at the end of
+   this README for exactly which keys need to be populated and by whom.
 7. **Required one-time local setup, every machine, after cloning/pulling this submodule:** Node's
    module resolution walks up from a file's own physical location looking for `node_modules`, and
    `sanadi-hrm/` is a sibling of the Angular project, not a descendant — so files under
@@ -233,4 +232,47 @@ git submodule add https://github.com/Sujan-byte/SANADI-HRM.git sanadi-hrm
 See the parent project's `HRM Plugin Blueprint` design doc for the full architecture (masters-canonical
 rule, migration runbook, ETL for a host migrating off its own pre-existing HR tables).
 git submodule update --remote sanadi-hrm to fetch latest changes.
+
+## `HrmStorage` key reference
+
+Every key HRM reads or writes via `HrmStorage`, and where — whatever a host uses for its own login
+(this project's own `login.component.ts`, or HRM's bundled
+`hrm-shared/core/shared/services/auth.service.ts` if a host chooses to use that instead) must
+populate the "read by" keys below for the corresponding HRM screen to work:
+
+- `accessToken` — read by `auth.service.ts` (`getToken`/`isAuthenticated`/`checkLogin`),
+  `admin-dashboard.component.ts`, `staff-dashboard.component.ts` (gate before fetching holidays);
+  written by `auth.service.ts` (login, token refresh)
+- `refresh` — read by `auth.service.ts` (`refreshToken`); written by host's own login
+- `b_id` — read by `timesheet-approvals.component.ts`; written by `auth.service.ts`
+  (`updateUser`, cleared on branch-switch failure)
+- `user_id` — read by `ta-da.component.ts`, `staff-dashboard.component.ts`,
+  `leave-reversal-request.component.ts`, `auth.service.ts` (`updateUser`); written by host's own login
+- `employeeId` — read by `ta-da.component.ts`, `staff-dashboard.component.ts`
+  (`getDateOfJoining`); written by host's own login
+- `first_name` — read by `staff-dashboard.component.ts`, `admin-dashboard.component.ts`,
+  `auth.service.ts` (`hydrateUsername`, for `getUserDetails()`); written by host's own login
+- `employeeDesignationName` — read by `staff-dashboard.component.ts`; written by host's own login
+- `employeeDepartmentName` — read by `staff-dashboard.component.ts`; written by host's own login
+- `employeeCode` — read by `staff-dashboard.component.ts`; written by host's own login
+- `is_superuser` — read by `leave-application-form.config.service.ts`,
+  `leave-reversal-request.component.ts`, `dialog-footer.component.ts`; written by host's own login
+- `branchName` — read by `leave-application-form.config.service.ts`; written by `auth.service.ts`
+  (`updateUser`)
+- `branchAppConfig` — read by `shared.service.ts` (`generateGST`), `currency-form.component.ts`;
+  written by host's own login
+- `theme`, `font-scale`, `scale-index` — not read by HRM; written by `auth.service.ts`
+  (preserved across its own `logout()`)
+
+`permissions` and `employee_type` are **not** read through `HrmStorage` despite earlier drafts of
+this doc implying otherwise — permission checks go through `NgxPermissionsService`
+(`permissionsService.getPermission(...)`), loaded once at login via
+`permissionsService.loadPermissions(...)`, not a storage read.
+
+Note `auth.service.ts` (HRM's own bundled login/session helper, part of the same
+self-contained-copy set as `SharedService`) also *writes* several of these keys (`accessToken`,
+`b_id`, `company`, `state_code`, `branchName`, `phone_no`, `branchEmail`, `gst_no`, `images`,
+`cin_no`, `fax`) — only relevant if a host chooses to use HRM's own bundled auth flow instead of
+its own; this project uses its own `login.component.ts` instead, so `auth.service.ts`'s writes
+are unused here.
 
