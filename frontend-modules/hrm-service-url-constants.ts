@@ -30,4 +30,6 @@ export class HrmServiceUrlConstants {
   public static TICKET_MASTER = '/master/ticket-master/';
   public static GRACE_DETAIL_CRUD = '/hrm/grace-details/';
   public static HISTORICAL_ATTENDANCE_DETAILS_API = '/hrm/historical_attendance_details/';
+  public static DASHBOARD_COUNTS_CRUD = '/hrm-dashboard/dashboard-counts';
+  public static DASHBOARD_LEAVE_TODAY_CRUD = '/hrm-dashboard/dashboard-leave-today';
 }

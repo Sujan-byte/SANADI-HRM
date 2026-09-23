@@ -151,7 +151,7 @@ export class StaffDashboardComponent {
   async getHolidayList(){
     const accessToken = await this.secureStorage.getItem('accessToken');
     if (accessToken) {
-    this.apiService.get(`${ServiceUrlConstants.HOLIDAY_MASTER_CRUD}get_all_holiday_dates/?approval_status=APPROVED`).subscribe((holidays: any) => {
+    this.apiService.get(`${HrmServiceUrlConstants.HOLIDAY_MASTER_CRUD}get_all_holiday_dates/?approval_status=APPROVED`).subscribe((holidays: any) => {
       this.holidayDescriptions = {};
       this.dates = holidays;
       holidays.forEach(h => {
@@ -169,7 +169,7 @@ export class StaffDashboardComponent {
   async onMonthChange(event){
     const accessToken = await this.secureStorage.getItem('accessToken');
     if (accessToken) {
-    this.apiService.get(`${ServiceUrlConstants.HOLIDAY_MASTER_CRUD}get_all_holiday_dates/?approval_status=APPROVED`,{month:event?.month,year:event?.year}).subscribe((holidays: any) => {
+    this.apiService.get(`${HrmServiceUrlConstants.HOLIDAY_MASTER_CRUD}get_all_holiday_dates/?approval_status=APPROVED`,{month:event?.month,year:event?.year}).subscribe((holidays: any) => {
       this.holidayDescriptions = {};
       this.dates = [];
       holidays.forEach(h => {
@@ -372,7 +372,7 @@ export class StaffDashboardComponent {
 
   getLeaveMasterById(leaveMasterId: any){
     return new Promise((resolve) => {
-      this.apiService.get(`${ServiceUrlConstants.LEAVE_MASTER_CRUD}${leaveMasterId}`).subscribe((res: any) => {
+      this.apiService.get(`${HrmServiceUrlConstants.LEAVE_MASTER_CRUD}${leaveMasterId}`).subscribe((res: any) => {
         resolve(res);
       })
     })

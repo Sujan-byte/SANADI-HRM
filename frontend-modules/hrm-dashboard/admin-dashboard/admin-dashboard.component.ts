@@ -148,7 +148,7 @@ export class AdminDashboardComponent implements OnInit {
   async getHolidayList() {
     const accessToken = await this.secureStorage.getItem('accessToken');
     if (accessToken) {
-      this.apiService.get(`${ServiceUrlConstants.HOLIDAY_MASTER_CRUD}get_all_holiday_dates/?approval_status=APPROVED`).subscribe((holidays: any) => {
+      this.apiService.get(`${HrmServiceUrlConstants.HOLIDAY_MASTER_CRUD}get_all_holiday_dates/?approval_status=APPROVED`).subscribe((holidays: any) => {
         this.holidayDescriptions = {};
         this.dates = holidays;
         holidays.forEach(h => {
@@ -166,7 +166,7 @@ export class AdminDashboardComponent implements OnInit {
   async onMonthChange(event) {
     const accessToken = await this.secureStorage.getItem('accessToken');
     if (accessToken) {
-      this.apiService.get(`${ServiceUrlConstants.HOLIDAY_MASTER_CRUD}get_all_holiday_dates/?approval_status=APPROVED`, { month: event?.month, year: event?.year }).subscribe((holidays: any) => {
+      this.apiService.get(`${HrmServiceUrlConstants.HOLIDAY_MASTER_CRUD}get_all_holiday_dates/?approval_status=APPROVED`, { month: event?.month, year: event?.year }).subscribe((holidays: any) => {
         this.holidayDescriptions = {};
         this.dates = [];
         holidays.forEach(h => {
@@ -225,8 +225,7 @@ export class AdminDashboardComponent implements OnInit {
 
   getAppliedLeaveApplicationData() {
     this.appliedLeaveApplicationLoading = true;
-    // this.apiService.get(HrmServiceUrlConstants.LEAVE_APPLICATION_CRUD, {
-    this.apiService.get(ServiceUrlConstants.LEAVE_APPLICATION_DASHBOARD, {
+    this.apiService.get(HrmServiceUrlConstants.LEAVE_APPLICATION_CRUD, {
       is_active: true,
       page: this.appliedLeaveApplicationPage,
       page_size: 10,
@@ -295,7 +294,7 @@ export class AdminDashboardComponent implements OnInit {
   getEmployeesOnLeaveDetails() {
     this.employeesOnLeaveLoading = true;
 
-    this.apiService.get(ServiceUrlConstants.DASHBORD_LEAVE_DETAIL_CRUD)
+    this.apiService.get(HrmServiceUrlConstants.DASHBOARD_LEAVE_TODAY_CRUD)
       .subscribe({
         next: (response: any) => {
           // Transform data to match HTML's 7 columns

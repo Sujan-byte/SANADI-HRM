@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
+import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
 import { HttpClient } from '@angular/common/http';
 import { SharedService } from '../core/shared/services/shared.service';
 import { Observable } from 'rxjs';
@@ -18,7 +19,7 @@ export class HomeService {
   serviceQuotationFormURL: string = '';
   MatrialIssueFormURL: string = '';
   raisedServiceQuotationURL: string = '';
-  dashboardCountCrudURL: string = ServiceUrlConstants.DASHBORD_COUNT_CRUD;
+  dashboardCountCrudURL: string = HrmServiceUrlConstants.DASHBOARD_COUNTS_CRUD;
 
   constructor(
     private http: HttpClient,
