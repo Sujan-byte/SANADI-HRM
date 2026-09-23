@@ -1,7 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
+import { ButtonModule } from 'primeng/button';
+import { NgxPrintModule } from 'ngx-print';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { PrintTemplateService } from '../services/print-template.service';
-import { After } from 'node:v8';
+import { ReceiptFieldBuilderComponent } from '../receipt-field-builder/receipt-field-builder.component';
 
 interface receiptFields {
   type: '',
@@ -16,6 +20,8 @@ interface receiptFields {
 
 @Component({
   selector: 'app-receipt-builder',
+  standalone: true,
+  imports: [CommonModule, ButtonModule, NgxPrintModule, NgxExtendedPdfViewerModule, ReceiptFieldBuilderComponent],
   templateUrl: './receipt-builder.component.html',
   styleUrls: ['./receipt-builder.component.scss']
 })

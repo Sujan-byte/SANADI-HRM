@@ -16,7 +16,7 @@ import { LeaveApplicationEnum } from 'src/app/modules/hrm-shared/core/shared/com
 import { EmployeeEnum } from 'src/app/modules/hrm-shared/core/shared/common/enum/masters_enum/employee-enum';
 import * as moment from 'moment';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { EncryptedStorageService } from 'src/app/modules/hrm-shared/core/shared/services/secure-cookie-service';
+import { HrmStorage } from 'src/app/modules/hrm-shared/core/shared/services/hrm-storage';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +26,7 @@ export class LeaveApplicationFormConfig {
   private apiService = inject(ApiService);
   private sharedService = inject(SharedService);
   private permissionService = inject(NgxPermissionsService);
-  private readonly secureStorage = inject(EncryptedStorageService);
+  private readonly secureStorage = inject(HrmStorage);
   private readonly leavedProvidedBy = signal([
     {
       key: 'Company',

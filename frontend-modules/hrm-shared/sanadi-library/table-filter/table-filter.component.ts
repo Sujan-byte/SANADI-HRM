@@ -19,7 +19,6 @@ import { Router } from '@angular/router';
 import { ProgressKnobComponent } from 'src/app/modules/hrm-shared/core/shared/components/progress-knob/progress-knob.component';
 import { SharedService } from 'src/app/modules/hrm-shared/core/shared/services/shared.service';
 import { ReceiptBuilderComponent } from '../dynamic-print-receipt-generator/components/receipt-builder/receipt-builder.component';
-import { DynamicPrintReceiptGeneratorModule } from '../dynamic-print-receipt-generator/dynamic-print-receipt-generator.module';
 import { SidebarModule } from 'primeng/sidebar';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { CalendarModule } from 'primeng/calendar';
@@ -60,7 +59,7 @@ export interface UpdateConfigModel {
     FlexLayoutModule,
     MenuModule,
     // ProgressKnobComponent,
-    DynamicPrintReceiptGeneratorModule,
+    ReceiptBuilderComponent,
     SidebarModule,
     CalendarModule,
     TagModule,

@@ -6,7 +6,7 @@ import { TaDaModel } from 'src/app/modules/hrm-shared/core/shared/common/model/h
 import { AppUtils } from 'src/app/modules/hrm-shared/core/utils/app.utils';
 import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/table-filter.component';
 import { TaDaService } from './services/ta-da.service';
-import { EncryptedStorageService } from 'src/app/modules/hrm-shared/core/shared/services/secure-cookie-service';
+import { HrmStorage } from 'src/app/modules/hrm-shared/core/shared/services/hrm-storage';
 
 @Component({
   selector: 'sanadi-ta-da',
@@ -19,7 +19,7 @@ export class TaDaComponent {
   private translate = inject(TranslateService);
   private appUtils = inject(AppUtils);
   private taDaService = inject(TaDaService);
-  private readonly secureStorage = inject(EncryptedStorageService);
+  private readonly secureStorage = inject(HrmStorage);
   private readonly taDaRequiredFields = signal('id,tada_number,employee,employee_first_name,employee_department_name,employee_designation_name,approval_status')
   configReady = signal(false);
   taDaConfig = signal({

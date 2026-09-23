@@ -15,7 +15,7 @@ import { leaveEntryConfig } from 'src/app/modules/hrm-master/shared-forms/master
 import { LeaveMasterFormConfig } from 'src/app/modules/hrm-master/shared-forms/masters-forms/leave-master-form.config.service';
 import { CustomDialogService } from 'src/app/modules/hrm-shared/core/shared/services/custom-dialog';
 import { DialogHandlerService } from 'src/app/modules/hrm-shared/core/shared/services/dialog-form.service';
-import { EncryptedStorageService } from 'src/app/modules/hrm-shared/core/shared/services/secure-cookie-service';
+import { HrmStorage } from 'src/app/modules/hrm-shared/core/shared/services/hrm-storage';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
 import { LeaveApplicationComponent } from 'src/app/modules/hrm-master/leave-application/leave-application.component';
@@ -38,7 +38,7 @@ export class StaffDashboardComponent {
   private dialogHandlerService = inject(DialogHandlerService);
   public _customDialogService = inject(CustomDialogService);
   private spinner = inject(NgxSpinnerService);
-  private readonly secureStorage = inject(EncryptedStorageService);
+  private readonly secureStorage = inject(HrmStorage);
   private leaveDetailsComp = new LeaveMasterComponent();
   private leaveDetailsForm = inject(LeaveMasterFormConfig);
   private leaveEntryComp = new LeaveEntryComponent();

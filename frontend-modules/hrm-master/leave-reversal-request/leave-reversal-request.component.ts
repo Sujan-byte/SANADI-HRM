@@ -5,7 +5,7 @@ import { NgxPermissionsService } from 'ngx-permissions';
 import { ApprovalOptions, FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
 import { FormConfig } from 'src/app/modules/hrm-shared/core/shared/common/form-config.service';
 import { TableFilterComponent } from 'src/app/modules/hrm-shared/sanadi-library/table-filter/table-filter.component';
-import { EncryptedStorageService } from 'src/app/modules/hrm-shared/core/shared/services/secure-cookie-service';
+import { HrmStorage } from 'src/app/modules/hrm-shared/core/shared/services/hrm-storage';
 
 @Component({
   selector: 'sanadi-leave-reversal-request',
@@ -18,7 +18,7 @@ export class LeaveReversalRequestComponent {
   private translate = inject(TranslateService);
   private readonly leaveReversalRequiredFields = signal('id,employee,reverse_from_date,reverse_to_date,approval_remarks,reason_for_reversal,approval_status,leave_entry,leave_application')
   private permissionService = inject(NgxPermissionsService);
-  private readonly secureStorage = inject(EncryptedStorageService);
+  private readonly secureStorage = inject(HrmStorage);
   configReady = signal(false);
 
   leaveReversalConfig = signal({

@@ -27,9 +27,11 @@ sibling to that project's own backend/frontend directories.
     submodule's own components depend on (form-builder field classes, `sanadi-library` components —
     dynamic-form-generator, dynamic-print-receipt-generator, table-filter, dialogs — and the shared
     models/enums they use). This exists so a host project does **not** need to already have matching
-    versions of this infrastructure; the two exceptions are `ApiService`/`API_URL` and
-    `SharedService`'s `environment` dependency, which are **not** duplicated here — see the
-    mandatory-prerequisites note below for why.
+    versions of this infrastructure; the exceptions are `ApiService`/`API_URL` and `SharedService`'s
+    `environment` dependency, which are **not** duplicated here — see the mandatory-prerequisites
+    note below for why. Session storage (`HrmStorage`) *is* bundled, but as an adapter with a
+    zero-config `localStorage` default — a host can optionally override it to point at its own
+    storage instead (see below), rather than being required to already have one.
   - `hrm-menu-items.ts` — the menu contract: `getHrmMenuGroup(callbacks, checkModulePermissions)`
     returns one top-level "HRM" `MenuItem` (a nested "Masters" submenu plus the transaction screens)
   - `hrm-service-url-constants.ts` — `HrmServiceUrlConstants`, the URL path fragments for
@@ -184,10 +186,30 @@ git submodule add https://github.com/Sujan-byte/SANADI-HRM.git sanadi-hrm
    `NullInjectorError: No provider for InjectionToken API_URL!`. The host must have a real, working
    `ApiService` with `get`/`post`/`put`/`delete` methods (an optional 3rd `headers` param on `get()`
    is needed for one call site) already wired before integrating this submodule.
-6. **Mandatory prerequisite — `environment.storageEncryptionKey`:** the submodule's
-   `EncryptedStorageService` copy reads `environment.storageEncryptionKey` from the host's own
-   `src/environments/environment.ts` (a 32-byte string) — it is not something this submodule can
-   provide a default for.
+6. **`HrmStorage` — no setup required, override optional:** every HRM screen reads/writes session
+   data (`accessToken`, `b_id`, `employeeId`, `is_superuser`, `permissions`, `employeeCode`,
+   `employeeDesignationName`, `employeeDepartmentName`, `branchName`, `first_name`, `user_id`,
+   `employee_type`, etc.) through `HrmStorage`
+   (`hrm-shared/core/shared/services/hrm-storage.ts`) — unlike `ApiService`/`API_URL`, this one *is*
+   bundled, because unlike an HTTP client, "how a host stores session data" genuinely varies: some
+   hosts just use `localStorage`, some have their own encrypted/IndexedDB store. `HrmStorage`'s
+   default implementation is a plain `localStorage`-backed store, so a fresh host needs **zero**
+   setup — HRM just shares whatever plain `localStorage` that host's own login flow already writes
+   to.
+   A host that has its **own** encrypted/IndexedDB storage service (matching the same
+   `getItem`/`setItem`/`getItemSync`/`removeItem`/`clear` async shape) can make HRM share that exact
+   store instead of the localStorage default, with one line in the host's own `app.config.ts`:
+   ```typescript
+   import { HrmStorage } from 'src/app/modules/hrm-shared/core/shared/services/hrm-storage';
+   import { EncryptedStorageService } from './core/shared/services/secure-cookie-service';
+   providers: [
+     ...,
+     { provide: HrmStorage, useExisting: EncryptedStorageService },
+   ]
+   ```
+   This project (Mechellin) does exactly this in `app.config.ts`, since its own login flow already
+   populates a real encrypted store via `EncryptedStorageService` and HRM should read the same one,
+   not a separate empty `localStorage`.
 7. **Required one-time local setup, every machine, after cloning/pulling this submodule:** Node's
    module resolution walks up from a file's own physical location looking for `node_modules`, and
    `sanadi-hrm/` is a sibling of the Angular project, not a descendant — so files under
@@ -210,3 +232,5 @@ git submodule add https://github.com/Sujan-byte/SANADI-HRM.git sanadi-hrm
 
 See the parent project's `HRM Plugin Blueprint` design doc for the full architecture (masters-canonical
 rule, migration runbook, ETL for a host migrating off its own pre-existing HR tables).
+git submodule update --remote sanadi-hrm to fetch latest changes.
+

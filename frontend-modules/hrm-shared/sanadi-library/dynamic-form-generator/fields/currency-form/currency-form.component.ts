@@ -2,7 +2,7 @@ import { AfterViewInit, Component, inject, Input, OnDestroy, ViewChild } from '@
 import { DatePipe } from '@angular/common';
 import { ApiService } from 'src/app/core/services/api.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
-import { EncryptedStorageService } from 'src/app/modules/hrm-shared/core/shared/services/secure-cookie-service';
+import { HrmStorage } from 'src/app/modules/hrm-shared/core/shared/services/hrm-storage';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, pairwise, startWith } from 'rxjs/operators';
 import { OverlayPanel } from 'primeng/overlaypanel';
@@ -20,7 +20,7 @@ export class CurrencyFormComponent implements AfterViewInit, OnDestroy {
   @ViewChild('editOverlay') editOverlay!: OverlayPanel;
 
   private readonly apiService = inject(ApiService);
-  private readonly secureStorage = inject(EncryptedStorageService);
+  private readonly secureStorage = inject(HrmStorage);
   private readonly datePipe = inject(DatePipe);
   private targetCurrencySubscription?: Subscription;
   private exchangeRateDateSubscription?: Subscription;

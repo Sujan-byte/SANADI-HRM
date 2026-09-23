@@ -15,7 +15,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ApprovalOptions, BranchTypes, FilterOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
 import { TimeSheetDetailsEnum } from 'src/app/modules/hrm-main/hrm-enum/attendance.enum';
 import { CustomDialogService } from 'src/app/modules/hrm-shared/core/shared/services/custom-dialog';
-import { EncryptedStorageService } from 'src/app/modules/hrm-shared/core/shared/services/secure-cookie-service';
+import { HrmStorage } from 'src/app/modules/hrm-shared/core/shared/services/hrm-storage';
 import { SharedService } from 'src/app/modules/hrm-shared/core/shared/services/shared.service';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
@@ -36,7 +36,7 @@ export class TimesheetApprovalsComponent implements AfterViewInit {
   private apiService = inject(ApiService)
   private sharedService = inject(SharedService)
   private spinner = inject(NgxSpinnerService)
-  private readonly secureStorage = inject(EncryptedStorageService);
+  private readonly secureStorage = inject(HrmStorage);
   loading: boolean = false;
   totalTimeSheetRecords: number = 0;
   holidayLists: any = [];

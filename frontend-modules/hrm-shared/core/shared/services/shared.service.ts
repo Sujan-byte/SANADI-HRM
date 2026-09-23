@@ -6,7 +6,7 @@ import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-const
 import { ApiService } from 'src/app/core/services/api.service';
 import { TranslateService } from '@ngx-translate/core';
 import { decimalDigits } from '../utils/common.constants';
-import { EncryptedStorageService } from './secure-cookie-service';
+import { HrmStorage } from 'src/app/modules/hrm-shared/core/shared/services/hrm-storage';
 
 export class GSTModel {
   branchCountry?: string = '';
@@ -34,7 +34,7 @@ export class SharedService {
   private readonly _httpClient = inject(HttpClient);
   private readonly _messageService = inject(MessageService);
   private translate = inject(TranslateService);
-  private readonly secureStorage = inject(EncryptedStorageService);
+  private readonly secureStorage = inject(HrmStorage);
 
   // BEHAVIOR SUBJECT
   private triggerSubject = new BehaviorSubject<any>('default message');

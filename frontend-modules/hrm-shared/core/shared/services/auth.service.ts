@@ -12,7 +12,7 @@ import {
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { SharedService } from './shared.service';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { EncryptedStorageService } from './secure-cookie-service';
+import { HrmStorage } from 'src/app/modules/hrm-shared/core/shared/services/hrm-storage';
 import { Observable, from, switchMap, throwError, catchError } from 'rxjs';
 @Injectable({
   providedIn: 'root',
@@ -37,7 +37,7 @@ export class AuthService {
   private readonly _sharedService = inject(SharedService);
   private readonly translate = inject(TranslateService);
   private readonly permissionsService = inject(NgxPermissionsService);
-  private readonly secureStorage = inject(EncryptedStorageService);
+  private readonly secureStorage = inject(HrmStorage);
 
   constructor() {
     // Restore the username after a page reload (it is only kept in memory on login,

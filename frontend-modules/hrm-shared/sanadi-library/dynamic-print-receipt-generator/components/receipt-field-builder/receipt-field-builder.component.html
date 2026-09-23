@@ -1,23 +1,12 @@
 <div class="container">
     <div *ngFor="let field of fields">
         <div [ngSwitch]="field.type">
-            <!-- <app-sales-invoice-print *ngSwitchCase="'salesInvoice'" [field]="field"></app-sales-invoice-print> -->
-            <sanadi-sales-quotation-print *ngSwitchCase="'sales-quotation'" [field]="field"></sanadi-sales-quotation-print>
-            <sanadi-sales-order-profile-print *ngSwitchCase="'sales-order-profile'" [field]="field"></sanadi-sales-order-profile-print>
-            <sanadi-service-quotation-print  *ngSwitchCase="'service-quotation'" [field]="field"></sanadi-service-quotation-print>
-            <sanadi-service-order-profile-print *ngSwitchCase="'service-order-profile-print'" [field]="field"></sanadi-service-order-profile-print>
-            <sanadi-invoice-print *ngSwitchCase="'invoice-print'" [field]="field" [selectedColorClass]="selectedColorClass"></sanadi-invoice-print>
-            <sanadi-purchase-order-print *ngSwitchCase="'purchase-order-print'" [field]="field"></sanadi-purchase-order-print>
-            <sanadi-delivery-challen-print *ngSwitchCase="'delivery-challen-print'" [field]="field"></sanadi-delivery-challen-print>
+            <!-- Add a new *ngSwitchCase + matching standalone import here whenever HRM needs
+                 another static print type (see hrm-shared/sanadi-library/dynamic-print-receipt-generator/README
+                 note in the component - this used to carry 16 more cases for print types no HRM
+                 screen ever configured; removed since they were dead weight copied in wholesale
+                 from the host's own generic print engine). -->
             <sanadi-career-letter-print *ngSwitchCase="'career-letter-print'" [field]="field"></sanadi-career-letter-print>
-            <sanadi-grn-print *ngSwitchCase="'grn-print'" [field]="field"></sanadi-grn-print>
-            <sanadi-proforma-invoice-print *ngSwitchCase="'proforma-invoice-print'" [field]="field"></sanadi-proforma-invoice-print>
-            <sanadi-debit-note-print *ngSwitchCase="'debit-note-print'" [field]="field"></sanadi-debit-note-print>
-            <sanadi-credit-note-print *ngSwitchCase="'credit-note-print'" [field]="field"></sanadi-credit-note-print>
-            <sanadi-bank-details-print *ngSwitchCase="'bank-details-print'" [field]="field"></sanadi-bank-details-print>
-            <sanadi-tt-form-print *ngSwitchCase="'tt-form-print'" [field]="field"></sanadi-tt-form-print>
-            <sanadi-packing-list-print *ngSwitchCase="'packing-list-print'" [field]="field"></sanadi-packing-list-print>
-            <sanadi-shipment-details-print *ngSwitchCase="'shipment-print'" [field]="field"></sanadi-shipment-details-print>      
-
+        </div>
     </div>
 </div>

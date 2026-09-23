@@ -10,7 +10,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { ApprovalOptions } from 'src/app/modules/hrm-shared/core/shared/common/enum/app.enum';
 import { CustomDialogService } from 'src/app/modules/hrm-shared/core/shared/services/custom-dialog';
 import { DialogHandlerService } from 'src/app/modules/hrm-shared/core/shared/services/dialog-form.service';
-import { EncryptedStorageService } from 'src/app/modules/hrm-shared/core/shared/services/secure-cookie-service';
+import { HrmStorage } from 'src/app/modules/hrm-shared/core/shared/services/hrm-storage';
 import { ServiceUrlConstants } from 'src/app/core/shared/utils/service-url-constants';
 import { HrmServiceUrlConstants } from 'src/app/modules/hrm-service-url-constants';
 import { HomeService } from 'src/app/modules/hrm-shared/components/home.service';
@@ -33,7 +33,7 @@ export class AdminDashboardComponent implements OnInit {
   private dialogHandlerService = inject(DialogHandlerService);
   public _customDialogService = inject(CustomDialogService);
   private spinner = inject(NgxSpinnerService);
-  private readonly secureStorage = inject(EncryptedStorageService);
+  private readonly secureStorage = inject(HrmStorage);
 
   username: string;
   appliedLeaveData: any = [];

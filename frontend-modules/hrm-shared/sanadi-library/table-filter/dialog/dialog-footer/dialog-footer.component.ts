@@ -13,7 +13,7 @@ import { ButtonConfig, ParamtersConfig, ReturnConfig, TableFilterFormConfig } fr
 import { SharedService } from 'src/app/modules/hrm-shared/core/shared/services/shared.service';
 import { RemarksDialogComponent } from '../remarks-dialog/remarks-dialog.component';
 import { ConfirmationCustomDialogService } from 'src/app/modules/hrm-shared/sanadi-library/sanadi-components/confirmation-custom-dialog/confirmation-custom-dialog.service';
-import { EncryptedStorageService } from 'src/app/modules/hrm-shared/core/shared/services/secure-cookie-service';
+import { HrmStorage } from 'src/app/modules/hrm-shared/core/shared/services/hrm-storage';
 import { After } from 'v8';
 
 @Component({
@@ -34,7 +34,7 @@ export class DialogFooterComponent implements OnInit {
   dialogService = inject(DialogService);
   translate = inject(TranslateService);
   _sharedService = inject(SharedService);
-  secureStorageService = inject(EncryptedStorageService);
+  secureStorageService = inject(HrmStorage);
   customConfirmationService = inject(ConfirmationCustomDialogService);
   isDisabledSaveButton: boolean = false;
   // approval model code

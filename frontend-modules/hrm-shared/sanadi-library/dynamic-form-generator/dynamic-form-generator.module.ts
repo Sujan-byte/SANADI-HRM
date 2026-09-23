@@ -24,7 +24,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { NumberComponent } from './fields/number/number.component';
 import { MultiselectComponent } from './fields/multiselect/multiselect.component';
 import { ChipsComponent } from './fields/chips/chips.component';
-import { DynamicPrintReceiptGeneratorModule } from '../dynamic-print-receipt-generator/dynamic-print-receipt-generator.module';
+import { ReceiptBuilderComponent } from '../dynamic-print-receipt-generator/components/receipt-builder/receipt-builder.component';
 import { MapComponent } from './fields/map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { MaterialLibModuleModule } from 'src/app/modules/hrm-shared/material-lib-module/material-lib-module.module';
@@ -89,7 +89,7 @@ import { PostingPreviewComponent } from '../sanadi-components/posting-preview/po
     FlexLayoutModule,
     TranslateModule,
     NgxPrintModule,
-    DynamicPrintReceiptGeneratorModule,
+    ReceiptBuilderComponent,
     LeafletModule,
     NgxPermissionsModule.forChild(),
     PostingPreviewComponent,
