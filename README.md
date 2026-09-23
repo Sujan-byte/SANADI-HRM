@@ -112,9 +112,16 @@ git submodule add https://github.com/Sujan-byte/SANADI-HRM.git sanadi-hrm
    notifications) *is* bundled — see step 1's `HRM_TEMPLATE_DIRS` — but still needs the host's own SMTP
    settings (`DEFAULT_FROM_EMAIL`, `EMAIL_BACKEND`, etc.) to actually send; if those aren't configured,
    the same best-effort handling applies and the save still succeeds either way.
-7. Migrations for `hrm_audit_fields`/`hrm_master`/`hrm_dashboard`/`hrm_main` are **not** committed to
-   this submodule (`.gitignore`'d, `__init__.py` excepted) — they're regenerated per host environment.
-   Run `makemigrations`/`migrate` for these apps against the host's own database after step 1-2.
+7. Migrations for `hrm_master` and `hrm_main` (the only two of the four apps with real models -
+   `hrm_audit_fields` is abstract mixins only, `hrm_dashboard` has none) **are committed to this
+   submodule** — a host just runs `migrate` after step 1-2, no `makemigrations` needed for these two
+   apps. This is a deliberate reversal of an earlier "regenerate per host" approach: this plugin's own
+   models change far less often than a specific host's database history, so a known-good, versioned
+   migration set removes an entire class of per-host migration problems (`db_table` collisions,
+   inconsistent history against a restored backup, etc.) instead of asking every host to regenerate
+   from scratch. If the host's own database already has conflicting tables under these same names from
+   before adopting this plugin, see the parent project's migration runbook for the ETL/retirement
+   steps - these migrations assume a clean slate for `hrm_master`/`hrm_main`'s own tables.
 
 ### 3. Frontend
 
