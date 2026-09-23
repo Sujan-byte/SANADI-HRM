@@ -202,6 +202,14 @@ export class FormBuilderComponent implements OnInit, OnChanges {
                   }
                 }
               }
+              if (f2?.type === 'multi-blocks') {
+                for (let multiblock of f2?.fields) {
+                  fieldsCtrls[multiblock?.name] = new UntypedFormControl(
+                    multiblock?.value || '',
+                    this.mapValidators(multiblock?.validation)
+                  );
+                }
+              }
               if (f2?.type === 'accordion') {
                 for (let sub of f2?.fields) {
                   for (let accord of sub?.fields) {

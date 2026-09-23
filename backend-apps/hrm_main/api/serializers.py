@@ -779,8 +779,11 @@ class GratuityEmployeeFormSerializer(ApprovalModelMixinSerializer,UniqueConstrai
 
         # Last modified date â€” formatted
         if instance.modified:
-            from django.utils.timezone import localtime
-            data['last_modified_date'] = localtime(instance.modified).strftime('%d-%m-%Y %I:%M %p')
+            from django.utils import timezone
+            modified = instance.modified
+            if timezone.is_naive(modified):
+                modified = timezone.make_aware(modified, timezone.utc)
+            data['last_modified_date'] = timezone.localtime(modified).strftime('%d-%m-%Y %I:%M %p')
         else:
             data['last_modified_date'] = ''
 
@@ -1167,7 +1170,10 @@ class SalaryCalculationSerializer(AuditModelMixinSerializer, ApprovalModelMixinS
         # Format modified datetime to DD-MM-YYYY hh:mm AM/PM
         if instance.modified:
             from django.utils import timezone as tz
-            local_dt = tz.localtime(instance.modified)
+            modified = instance.modified
+            if tz.is_naive(modified):
+                modified = tz.make_aware(modified, tz.utc)
+            local_dt = tz.localtime(modified)
             data['modified'] = local_dt.strftime('%d-%m-%Y %I:%M %p')
 
         if hasattr(instance, 'approval_status'):

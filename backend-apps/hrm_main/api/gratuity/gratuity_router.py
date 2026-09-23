@@ -103,15 +103,15 @@ def _get_advance_refs(employee):
 
 def _get_branch_config(b_id):
     """Return (formula_type, apply_statutory_cap, cap_years) for the branch."""
-    from branch.models import Branch
-    branch = Branch.objects.filter(id=b_id).values(
+    from hrm_master.models import GratuityConfigMaster
+    config = GratuityConfigMaster.objects.filter(branch_id=b_id).values(
         'gratuity_formula_type', 'gratuity_apply_statutory_cap', 'gratuity_cap_years'
     ).first()
-    if branch:
+    if config:
         return (
-            branch['gratuity_formula_type'],
-            branch['gratuity_apply_statutory_cap'],
-            float(branch['gratuity_cap_years'] or 2.0),
+            config['gratuity_formula_type'],
+            config['gratuity_apply_statutory_cap'],
+            float(config['gratuity_cap_years'] or 2.0),
         )
     return 'UAE', True, 2.0   # safe defaults
 

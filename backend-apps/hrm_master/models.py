@@ -836,6 +836,40 @@ class ShiftMaster(AuditUuidModelMixin):
     class Meta:
         pass
 
+class GratuityConfigMaster(AuditUuidModelMixin):
+    """One row per branch — which gratuity formula/statutory cap applies there.
+
+    Kept in hrm_master (not on the host's Branch model) so a consuming
+    project never needs its own migration just to configure this; new
+    countries/formulas only ever add a choice (and, if needed, fields) here.
+    """
+    GRATUITY_FORMULA_CHOICES = [
+        ('UAE',   'UAE (MoHRE)'),
+        ('INDIA', 'India (Gratuity Act 1972)'),
+    ]
+    branch = models.OneToOneField(
+        resolve("BRANCH"), on_delete=models.CASCADE, related_name='gratuity_config'
+    )
+    gratuity_formula_type = models.CharField(
+        max_length=10, choices=GRATUITY_FORMULA_CHOICES, default='UAE',
+        help_text='Which gratuity law to apply for this branch'
+    )
+    gratuity_apply_statutory_cap = models.BooleanField(
+        default=True,
+        help_text='Enable statutory cap on total gratuity'
+    )
+    gratuity_cap_years = models.DecimalField(
+        max_digits=4, decimal_places=1, default=2.0,
+        help_text='Cap ceiling in years of basic salary (UAE law=2, generous policy=3 etc.)'
+    )
+
+    class Meta:
+        verbose_name = "Gratuity Config"
+        verbose_name_plural = "Gratuity Configs"
+
+    def __str__(self):
+        return f'{self.branch} — {self.gratuity_formula_type}'
+
 class LeaveReversalRequest(AuditUuidModelMixin, ApprovalModelMixin,metaclass=MultiApprovalMixinBase):
     leave_entry = models.ForeignKey('LeaveEntry', on_delete=models.CASCADE, related_name='reversals' , default=None, null=True)
     leave_application = models.ForeignKey('LeaveApplication', on_delete=models.CASCADE, related_name='reverApplicationSals' , default=None, null=True)

@@ -274,7 +274,6 @@ class GratuityEmployeeForm(AuditUuidModelMixin, ApprovalModelMixin, metaclass=Mu
         help_text='Lifecycle status of this gratuity form')
 
     class Meta:
-        default_permissions = {}
         permissions = [
             ('custom_approval_stage_initiator', 'Can approve as initiator'),
             ('custom_approval_stage_HR', 'Can approve as HR'),
