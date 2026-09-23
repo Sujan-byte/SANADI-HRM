@@ -1,0 +1,289 @@
+[
+  {
+    "code": "-1",
+    "status_name": "Break",
+    "type": "Attendance",
+    "is_paid": false,
+    "description": "Status For Break"
+  },
+  {
+    "code": "0",
+    "status_name": "On Time",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": "PRESENT"
+  },
+  {
+    "code": "1",
+    "status_name": "Late",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": "Signed in after 9.30"
+  },
+  {
+    "code": "10",
+    "status_name": "Emergency Leave",
+    "type": "Leave",
+    "is_paid": false,
+    "description": ""
+  },
+  {
+    "code": "102",
+    "status_name": "duty",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": ""
+  },
+  {
+    "code": "1061",
+    "status_name": "National Service Leave",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": ""
+  },
+  {
+    "code": "11",
+    "status_name": "Weekly  Off Over Time",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": "Worked during Fridays & Saturdays"
+  },
+  {
+    "code": "12",
+    "status_name": "Holiday Comp Off",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": ""
+  },
+  {
+    "code": "13",
+    "status_name": "Compensatory Off",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": ""
+  },
+  {
+    "code": "14",
+    "status_name": "On Time",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": "Present today"
+  },
+  {
+    "code": "15",
+    "status_name": "Yet to Punch-Today",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": ""
+  },
+  {
+    "code": "16",
+    "status_name": "Late Today",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": "late today"
+  },
+  {
+    "code": "17",
+    "status_name": "Weekly Off",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": "Fridays & Saturdays"
+  },
+  {
+    "code": "18",
+    "status_name": "Holiday",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": ""
+  },
+  {
+    "code": "19",
+    "status_name": "Holiday Over Time",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": "Worked during holiday"
+  },
+  {
+    "code": "2",
+    "status_name": "Left Early",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": "Signed out before the shift time"
+  },
+  {
+    "code": "20",
+    "status_name": "Half Day Sick Leave",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": ""
+  },
+  {
+    "code": "200",
+    "status_name": "Paternity Leave",
+    "type": "Leave",
+    "is_paid": true,
+    "description": ""
+  },
+  {
+    "code": "21",
+    "status_name": "Maternity Leave",
+    "type": "Leave",
+    "is_paid": true,
+    "description": ""
+  },
+  {
+    "code": "22",
+    "status_name": "LOP",
+    "type": "Attendance",
+    "is_paid": false,
+    "description": ""
+  },
+  {
+    "code": "23",
+    "status_name": "SPL LEAVE",
+    "type": "Leave",
+    "is_paid": true,
+    "description": ""
+  },
+  {
+    "code": "24",
+    "status_name": "Worked on OFF day",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": "worked on off day"
+  },
+  {
+    "code": "26",
+    "status_name": "Penalty Deduction",
+    "type": "Attendance",
+    "is_paid": false,
+    "description": ""
+  },
+  {
+    "code": "3",
+    "status_name": "Late & Left Early",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": "Signed in Late and Left Early"
+  },
+  {
+    "code": "4",
+    "status_name": "Absent",
+    "type": "Attendance",
+    "is_paid": false,
+    "description": "Unpaid - absent"
+  },
+  {
+    "code": "5",
+    "status_name": "Swipe Miss",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": "Missed either to swipe in or swipe out"
+  },
+  {
+    "code": "6",
+    "status_name": "Regular & Overtime",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": "Worked more than actual hours and eligible for overtime"
+  },
+  {
+    "code": "62",
+    "status_name": "Leave Accident",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": "Leave Accident"
+  },
+  {
+    "code": "64",
+    "status_name": "Casual Leave",
+    "type": "Leave",
+    "is_paid": true,
+    "description": "Casual Leave"
+  },
+  {
+    "code": "65",
+    "status_name": "Compassionate Leave",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": "Compassionate Leave"
+  },
+  {
+    "code": "68",
+    "status_name": "Work From Home",
+    "type": "Leave",
+    "is_paid": true,
+    "description": "Work from Home"
+  },
+  {
+    "code": "69",
+    "status_name": "Leave Encashment Days",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": "Leave Encashment Days"
+  },
+  {
+    "code": "7",
+    "status_name": "Late and Overtime",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": ""
+  },
+  {
+    "code": "71",
+    "status_name": "Official Trip",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": "Official Trip"
+  },
+  {
+    "code": "73",
+    "status_name": "Sick Leave Half",
+    "type": "Attendance",
+    "is_paid": true,
+    "description": "Sick Leave Half"
+  },
+  {
+    "code": "74",
+    "status_name": "Sick Leave Unpaid",
+    "type": "Attendance",
+    "is_paid": false,
+    "description": "Sick Leave Unpaid"
+  },
+  {
+    "code": "75",
+    "status_name": "Study Leave",
+    "type": "Attendance",
+    "is_paid": false,
+    "description": "Study Leave"
+  },
+  {
+    "code": "76",
+    "status_name": "Unpaid Leave",
+    "type": "Leave",
+    "is_paid": false,
+    "description": "Unpaid Leave"
+  },
+  {
+    "code": "77",
+    "status_name": "Over Stay",
+    "type": "Attendance",
+    "is_paid": false,
+    "description": ""
+  },
+  {
+    "code": "8",
+    "status_name": "Annual Leave",
+    "type": "Leave",
+    "is_paid": true,
+    "description": ""
+  },
+  {
+    "code": "9",
+    "status_name": "Sick Leave",
+    "type": "Leave",
+    "is_paid": true,
+    "description": ""
+  }
+]
