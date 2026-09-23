@@ -653,7 +653,7 @@ class LeaveApplication(AuditUuidModelMixin, ProtectDeleteMixin, ApprovalModelMix
         )
         return config
 
-class LeavePolicy(AuditUuidModelMixin, ProtectDeleteMixin):
+class LeavePolicy(AuditUuidModelMixin, ProtectDeleteMixin,ApprovalModelMixin):
     employee_type = models.CharField(max_length=100, null=True, blank=True)
     employee = models.ForeignKey(EmployeeMaster, on_delete=models.SET_NULL, null=True, blank=True)
     employee_group = models.CharField(max_length=100, null=True, blank=True)
