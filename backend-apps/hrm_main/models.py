@@ -162,7 +162,7 @@ class GratuityEmployeeForm(AuditUuidModelMixin, ApprovalModelMixin, metaclass=Mu
 
     # â”€â”€ Manual Basic Salary Override â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     basic_salary_manual_override = models.BooleanField(default=False,
-        help_text='If True, present_basic_pay was entered manually by HR (not auto-fetched)')
+        help_text='If True, present_basic_pay was entered manually by HR (not auto-fetched).')
 
     # â”€â”€ Forfeiture Reference â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     forfeiture_ref = models.CharField(max_length=200, blank=True, null=True,

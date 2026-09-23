@@ -18,7 +18,7 @@ export class SalaryHoldComponent {
     formName: 'salary-hold',
     modelName: 'SalaryHold',
     headerTitleKey: 'employee_names',
-    pageTitle: this.translate.instant('salaryHold_TC'),
+    pageTitle: 'Employee Salary Hold',
     tableHeaders: [
       {
         label: 'employee_names_TC',
@@ -133,6 +133,7 @@ export class SalaryHoldComponent {
   });
 
   salaryHoldForm = signal(null);
+
 
   ngOnInit(): void {
     this.salaryHoldForm.set(this.salaryHoldConfig.getForm()['salary-hold']);
