@@ -3990,7 +3990,7 @@ class LeavePolicyDetailSerializer(AuditModelMixinSerializer):
         return validated_data
 
 
-class LeavePolicySerializer(AuditModelMixinSerializer):
+class LeavePolicySerializer(ApprovalModelMixinSerializer,AuditModelMixinSerializer):
     leave_policy_details = LeavePolicyDetailSerializer(many=True, required=False)
     employee = serializers.PrimaryKeyRelatedField(
         queryset=EmployeeMaster.objects.all(), required=False, allow_null=True, default=None
@@ -4016,9 +4016,20 @@ class LeavePolicySerializer(AuditModelMixinSerializer):
 
     def update(self, instance, validated_data):
         request = self.context.get('request')
-        leave_policy_details_data = validated_data.pop('leave_policy_details', [])    
+        leave_policy_details_data = validated_data.pop('leave_policy_details', [])
         instance = super().update(instance, validated_data)
         self._create_or_update_leave_policy_details(instance, leave_policy_details_data, request=request)
+
+        # Accrual only ever runs against APPROVED policies (accrue_leave_task's own
+        # query filters on this), so a policy that just got approved needs its
+        # covered employees credited now instead of waiting for the next scheduled
+        # accrue_leave() run over every employee. Safe to call on every update that
+        # resolves to APPROVED (not just the pending->approved transition): accrual
+        # only ever backfills missing periods, so it's a no-op if already credited.
+        if instance.approval_status == ApprovalModelMixin.APPROVED:
+            from hrm_master.tasks.accrue_leave_task import accrue_leave_for_policy
+            accrue_leave_for_policy(instance)
+
         return instance
 
     def _create_or_update_leave_policy_details(self, policy_instance, details_data, **kwargs):

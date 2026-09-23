@@ -1,6 +1,7 @@
 from datetime import date as date_type
 from django.utils.timezone import now
 from branch.models import Branch
+from hrm_audit_fields.models.approval_model_mixin import ApprovalModelMixin
 from hrm_master.models import EmployeeMaster, LeavePolicy, LeavePolicyDetail, LeaveMaster, LeaveMasterDetails, LeaveMasterDetailBreakup
 from django.db import models
 import calendar
@@ -88,7 +89,11 @@ def get_leave_policies_for_employee(employee_type, employee_group, employee_repo
         ('All',         'All',              'All'),
     ]
 
-    all_policies = LeavePolicy.objects.filter(b_id=b_id, is_active=True).order_by('effective_from')
+    # Only an APPROVED leave policy should ever grant accrual - a policy still
+    # pending approval (or rejected) must not be considered, even if is_active.
+    all_policies = LeavePolicy.objects.filter(
+        b_id=b_id, is_active=True, approval_status=ApprovalModelMixin.APPROVED
+    ).order_by('effective_from')
 
     # Map leave_type_id → best priority rank
     best_priority = {}
@@ -278,11 +283,267 @@ def _credit_one_period(
     return new_breakup
 
 
+def _accrue_leave_for_employee(employee, today):
+    """Process leave accrual for a single employee for `today`. Factored out of
+    accrue_leave() so accrue_leave_for_policy() can trigger this immediately for
+    just the employees a specific newly-approved policy applies to, instead of
+    waiting for the next scheduled accrue_leave() run over every employee.
+    """
+    # Guard: skip employees with no DOJ
+    if not employee.doj:
+        print(f'⚠ Skipping {employee.employee_code} — no DOJ')
+        return
+
+    with transaction.atomic():
+        try:
+            # Returns dict: { leave_type_id: [policy_v1, policy_v2, ...] }
+            policies_by_leave_type = get_leave_policies_for_employee(
+                employee.employee_type,
+                employee.employee_group,
+                employee.reporting,
+                employee.b_id,
+            )
+
+            for _, policy_versions in policies_by_leave_type.items():
+
+                # Use the policy effective TODAY for all general config
+                # (fy_start_month, year_month, carry settings).
+                # Fall back to latest version if nothing matches today.
+                current_policy = get_policy_for_date(policy_versions, today) or policy_versions[-1]
+
+                if not current_policy.type_of_leave:
+                    continue
+
+                # ── Parental leave gate ───────────────────────────────
+                if current_policy.type_of_leave.status_name in ('Maternity Leave', 'Paternity Leave'):
+                    if (not employee.eligible_for_parental_leave or
+                            employee.eligible_for_parental_leave != current_policy.type_of_leave.status_name):
+                        continue
+
+                # ── FY bounds from current policy ─────────────────────
+                fy_start_month = current_policy.fy_start_month or 1
+                (
+                    fy_year_start,
+                    _,
+                    financial_year_str,
+                    previous_fy_str,
+                    _,
+                    _,
+                ) = get_fy_bounds(fy_start_month, today)
+
+                # ── Accrual frequency from current policy ─────────────
+                year_month = current_policy.year_month if current_policy.year_month in ('Year', 'Month') else 'Month'
+
+                # ── Carry cap: use policy effective at END of this FY ──
+                # e.g. FY 2028-2028 (Jan–Dec) ends Dec 31 2028.
+                # The policy active on that date governs the carry cap,
+                # not today's policy (which may have a different cap).
+                fy_end_month_num  = (fy_start_month - 1) if fy_start_month > 1 else 12
+                fy_end_year       = fy_year_start if fy_start_month == 1 else fy_year_start + 1
+                fy_last_day       = date_type(fy_end_year, fy_end_month_num,
+                                              calendar.monthrange(fy_end_year, fy_end_month_num)[1])
+                end_of_fy_policy  = get_policy_for_date(policy_versions, fy_last_day) or current_policy
+                carry_forward_cap = float(end_of_fy_policy.carry_threshold_value or 0)
+
+                # ── Get or create LeaveMaster + LeaveMasterDetails ────
+                leave_master, _ = LeaveMaster.objects.get_or_create(
+                    employee=employee,
+                    defaults={'b_id': employee.b_id},
+                )
+
+                leave_master_detail, created = LeaveMasterDetails.objects.get_or_create(
+                    leave_master=leave_master,
+                    leave_type=current_policy.type_of_leave.status_name,
+                    financial_year=financial_year_str,
+                )
+
+                # ── Carry forward from previous FY on first creation ──
+                if created:
+                    previous_year_detail = LeaveMasterDetails.objects.filter(
+                        leave_master=leave_master,
+                        leave_type=current_policy.type_of_leave.status_name,
+                        financial_year=previous_fy_str,
+                    ).first()
+
+                    if previous_year_detail and current_policy.year_to_year_carry:
+                        available = round(float(previous_year_detail.available_leaves or 0), 2)
+
+                        # Cap comes from the policy at end of the PREVIOUS FY
+                        prev_fy_end_month_num = (fy_start_month - 1) if fy_start_month > 1 else 12
+                        prev_fy_end_year      = (fy_year_start - 1) if fy_start_month == 1 else fy_year_start
+                        prev_fy_last_day      = date_type(
+                            prev_fy_end_year, prev_fy_end_month_num,
+                            calendar.monthrange(prev_fy_end_year, prev_fy_end_month_num)[1]
+                        )
+                        prev_end_policy   = get_policy_for_date(policy_versions, prev_fy_last_day) or current_policy
+                        prev_carry_cap    = float(prev_end_policy.carry_threshold_value or 0)
+
+                        if available > prev_carry_cap:
+                            carry_forward = prev_carry_cap
+                            lapse_days    = available - prev_carry_cap
+                        else:
+                            carry_forward = available
+                            lapse_days    = 0.0
+
+                        leave_master_detail.opening_balance    = carry_forward
+                        leave_master_detail.available_leaves   = carry_forward
+                        leave_master_detail.carry_forward_days = carry_forward
+                        leave_master_detail.lapse_days         = lapse_days
+
+                        # Stamp the previous FY row with the correct carry/lapse
+                        previous_year_detail.carry_forward_days = carry_forward
+                        previous_year_detail.lapse_days         = round(available - carry_forward, 2)
+                        previous_year_detail.save()
+
+                leave_master_detail.b_id             = employee.b_id
+                leave_master_detail.leave_policy_key = current_policy
+                leave_master_detail.save()
+
+                # ── YEARLY policy ─────────────────────────────────────
+                if year_month == 'Year':
+                    already_allocated = LeaveMasterDetailBreakup.objects.filter(
+                        leave_master_detail=leave_master_detail,
+                        allocated_year=str(fy_year_start),
+                        entry_type='accrual',
+                    ).exists()
+                    if already_allocated:
+                        continue
+
+                    fy_start_date = date_type(fy_year_start, fy_start_month, 1)
+                    leave_policy  = get_policy_for_date(policy_versions, fy_start_date)
+                    if not leave_policy:
+                        print(f'⚠ No effective policy on {fy_start_date} for '
+                              f'{employee.employee_code} ({current_policy.type_of_leave.status_name})')
+                        continue
+
+                    leave_policy_details = LeavePolicyDetail.objects.filter(leave_policy=leave_policy)
+                    new_breakup = _credit_one_period(
+                        employee, leave_policy, leave_policy_details,
+                        leave_master_detail,
+                        credit_date=fy_start_date,
+                        allocated_month=calendar.month_abbr[fy_start_month],
+                        allocated_year=str(fy_year_start),
+                        fy_start_month=fy_start_month,
+                        financial_year_str=financial_year_str,
+                        year_month=year_month,
+                        prorate_on_join=bool(leave_policy.prorate_on_join),
+                    )
+                    if not new_breakup:
+                        continue
+
+                    print(
+                        f'✅ Credited {new_breakup.allocated_leaves:.2f} days to '
+                        f'{employee.employee_code} ({leave_policy.type_of_leave.status_name}) '
+                        f'FY {financial_year_str} [Yearly]'
+                    )
+
+                # ── MONTHLY policy — backfill all missing months ───────
+                else:
+                    existing = set(
+                        LeaveMasterDetailBreakup.objects.filter(
+                            leave_master_detail=leave_master_detail,
+                            entry_type='accrual',
+                        ).values_list('allocated_month', 'allocated_year')
+                    )
+
+                    missing_months = get_missing_months(
+                        employee_doj=employee.doj,
+                        fy_start_month=fy_start_month,
+                        fy_year_start=fy_year_start,
+                        today=today,
+                        existing_month_years=existing,
+                    )
+
+                    if not missing_months:
+                        continue
+
+                    print(f'  📅 Missing months for {employee.employee_code}: {[(m,y) for m,y,_ in missing_months]}')
+                    for (allocated_month, allocated_year, credit_date) in missing_months:
+                        # Pick policy version effective on this credit date
+                        leave_policy = get_policy_for_date(policy_versions, credit_date)
+                        if not leave_policy:
+                            print(f'⚠ No effective policy on {credit_date} for '
+                                  f'{employee.employee_code} ({current_policy.type_of_leave.status_name}) '
+                                  f'— skipping {allocated_month} '
+                                  f'[policy eff_from={current_policy.effective_from} eff_to={current_policy.effective_to}]')
+                            continue
+
+                        leave_policy_details = LeavePolicyDetail.objects.filter(leave_policy=leave_policy)
+                        new_breakup = _credit_one_period(
+                            employee, leave_policy, leave_policy_details,
+                            leave_master_detail,
+                            credit_date=credit_date,
+                            allocated_month=allocated_month,
+                            allocated_year=allocated_year,
+                            fy_start_month=fy_start_month,
+                            financial_year_str=financial_year_str,
+                            year_month=year_month,
+                            prorate_on_join=bool(leave_policy.prorate_on_join),
+                        )
+                        if not new_breakup:
+                            continue
+
+                        print(
+                            f'✅ Credited {new_breakup.allocated_leaves:.2f} days to '
+                            f'{employee.employee_code} ({leave_policy.type_of_leave.status_name}) '
+                            f'{allocated_month} {allocated_year} '
+                            f'[policy effective {leave_policy.effective_from}]'
+                        )
+
+                # ── Recalculate LeaveMasterDetails totals ─────────────
+                last_breakup = LeaveMasterDetailBreakup.objects.filter(
+                    leave_master_detail=leave_master_detail
+                ).order_by('id').last()
+
+                total_allocated = round(float(
+                    LeaveMasterDetailBreakup.objects.filter(
+                        leave_master_detail=leave_master_detail
+                    ).aggregate(total=models.Sum('allocated_leaves'))['total'] or 0.0
+                ), 2)
+
+                leave_master_detail.allocated_leaves = total_allocated
+                leave_master_detail.available_leaves = (
+                    float(last_breakup.available_leaves) if last_breakup else total_allocated
+                )
+
+                if current_policy.year_to_year_carry:
+                    av = leave_master_detail.available_leaves
+                    if av > carry_forward_cap:
+                        leave_master_detail.carry_forward_days = carry_forward_cap
+                        leave_master_detail.lapse_days         = av - carry_forward_cap
+                    else:
+                        leave_master_detail.carry_forward_days = av
+                        leave_master_detail.lapse_days         = 0.0
+
+                leave_master_detail.b_id             = employee.b_id
+                leave_master_detail.leave_policy_key = current_policy
+                leave_master_detail.save()
+
+                # ── Recalculate LeaveMaster totals ────────────────────
+                agg = LeaveMasterDetails.objects.filter(
+                    leave_master=leave_master,
+                    financial_year=financial_year_str,
+                ).aggregate(
+                    total_alloc=models.Sum('allocated_leaves'),
+                    total_avail=models.Sum('available_leaves'),
+                )
+                leave_master.total_allocated_leaves = round(float(agg['total_alloc'] or 0), 2)
+                leave_master.total_available_leaves = round(float(agg['total_avail'] or 0), 2)
+                leave_master.b_id = employee.b_id
+                leave_master.save()
+
+        except Exception as e:
+            import traceback
+            transaction.set_rollback(True)
+            print(f'❌ Error processing leave for {employee.employee_code}: {e}')
+            print(traceback.format_exc())
+
+
 def accrue_leave():
-    # ── TEST DATE — comment out in production ─────────────────────────────────
+    # ── TEST DATE ─ comment out in production ─────────────────────────────────
     # from datetime import date as _date
     # today = _date(2030, 8, 1)
-    # ─────────────────────────────────────────────────────────────────────────
+    # ─────────────────────────────────────────────────────────────────
     today = now().date()
 
     b_ids = list(Branch.objects.all().values_list('id', flat=True))
@@ -294,251 +555,33 @@ def accrue_leave():
         all_employees = EmployeeMaster.objects.filter(is_active=True, b_id=b_id)
 
         for employee in all_employees:
-            # Guard: skip employees with no DOJ
-            if not employee.doj:
-                print(f'⚠ Skipping {employee.employee_code} — no DOJ')
-                continue
+            _accrue_leave_for_employee(employee, today)
 
-            with transaction.atomic():
-                try:
-                    # Returns dict: { leave_type_id: [policy_v1, policy_v2, ...] }
-                    policies_by_leave_type = get_leave_policies_for_employee(
-                        employee.employee_type,
-                        employee.employee_group,
-                        employee.reporting,
-                        employee.b_id,
-                    )
 
-                    for _, policy_versions in policies_by_leave_type.items():
+def accrue_leave_for_policy(policy, today=None):
+    """Run accrual immediately for just the employees a specific (now-approved)
+    LeavePolicy applies to, instead of waiting for the next scheduled accrue_leave()
+    run over every employee. Uses the same per-employee resolution logic as
+    accrue_leave() (get_leave_policies_for_employee/get_policy_for_date), so if an
+    employee actually has a MORE SPECIFIC policy that outranks this one, that one -
+    correctly - wins; this just re-evaluates those employees now rather than later."""
+    if today is None:
+        today = now().date()
 
-                        # Use the policy effective TODAY for all general config
-                        # (fy_start_month, year_month, carry settings).
-                        # Fall back to latest version if nothing matches today.
-                        current_policy = get_policy_for_date(policy_versions, today) or policy_versions[-1]
+    # 'All' is this policy's own wildcard sentinel (see get_leave_policies_for_employee's
+    # PRIORITY matching above) meaning "every value of this dimension", not a literal
+    # value to filter employees by - no real employee has employee_type == 'All'.
+    emp_filter = {}
+    if policy.employee_type and policy.employee_type != 'All':
+        emp_filter['employee_type'] = policy.employee_type
+    if policy.employee_group and policy.employee_group != 'All':
+        emp_filter['employee_group'] = policy.employee_group
+    if policy.employee_reporting and policy.employee_reporting != 'All':
+        emp_filter['reporting'] = policy.employee_reporting
 
-                        if not current_policy.type_of_leave:
-                            continue
+    employees = EmployeeMaster.objects.filter(is_active=True, **emp_filter)
+    if policy.b_id:
+        employees = employees.filter(b_id=policy.b_id)
 
-                        # ── Parental leave gate ───────────────────────────────
-                        if current_policy.type_of_leave.status_name in ('Maternity Leave', 'Paternity Leave'):
-                            if (not employee.eligible_for_parental_leave or
-                                    employee.eligible_for_parental_leave != current_policy.type_of_leave.status_name):
-                                continue
-
-                        # ── FY bounds from current policy ─────────────────────
-                        fy_start_month = current_policy.fy_start_month or 1
-                        (
-                            fy_year_start,
-                            _,
-                            financial_year_str,
-                            previous_fy_str,
-                            _,
-                            _,
-                        ) = get_fy_bounds(fy_start_month, today)
-
-                        # ── Accrual frequency from current policy ─────────────
-                        year_month = current_policy.year_month if current_policy.year_month in ('Year', 'Month') else 'Month'
-
-                        # ── Carry cap: use policy effective at END of this FY ──
-                        # e.g. FY 2028-2028 (Jan–Dec) ends Dec 31 2028.
-                        # The policy active on that date governs the carry cap,
-                        # not today's policy (which may have a different cap).
-                        fy_end_month_num  = (fy_start_month - 1) if fy_start_month > 1 else 12
-                        fy_end_year       = fy_year_start if fy_start_month == 1 else fy_year_start + 1
-                        fy_last_day       = date_type(fy_end_year, fy_end_month_num,
-                                                      calendar.monthrange(fy_end_year, fy_end_month_num)[1])
-                        end_of_fy_policy  = get_policy_for_date(policy_versions, fy_last_day) or current_policy
-                        carry_forward_cap = float(end_of_fy_policy.carry_threshold_value or 0)
-
-                        # ── Get or create LeaveMaster + LeaveMasterDetails ────
-                        leave_master, _ = LeaveMaster.objects.get_or_create(
-                            employee=employee,
-                            defaults={'b_id': employee.b_id},
-                        )
-
-                        leave_master_detail, created = LeaveMasterDetails.objects.get_or_create(
-                            leave_master=leave_master,
-                            leave_type=current_policy.type_of_leave.status_name,
-                            financial_year=financial_year_str,
-                        )
-
-                        # ── Carry forward from previous FY on first creation ──
-                        if created:
-                            previous_year_detail = LeaveMasterDetails.objects.filter(
-                                leave_master=leave_master,
-                                leave_type=current_policy.type_of_leave.status_name,
-                                financial_year=previous_fy_str,
-                            ).first()
-
-                            if previous_year_detail and current_policy.year_to_year_carry:
-                                available = round(float(previous_year_detail.available_leaves or 0), 2)
-
-                                # Cap comes from the policy at end of the PREVIOUS FY
-                                prev_fy_end_month_num = (fy_start_month - 1) if fy_start_month > 1 else 12
-                                prev_fy_end_year      = (fy_year_start - 1) if fy_start_month == 1 else fy_year_start
-                                prev_fy_last_day      = date_type(
-                                    prev_fy_end_year, prev_fy_end_month_num,
-                                    calendar.monthrange(prev_fy_end_year, prev_fy_end_month_num)[1]
-                                )
-                                prev_end_policy   = get_policy_for_date(policy_versions, prev_fy_last_day) or current_policy
-                                prev_carry_cap    = float(prev_end_policy.carry_threshold_value or 0)
-
-                                if available > prev_carry_cap:
-                                    carry_forward = prev_carry_cap
-                                    lapse_days    = available - prev_carry_cap
-                                else:
-                                    carry_forward = available
-                                    lapse_days    = 0.0
-
-                                leave_master_detail.opening_balance    = carry_forward
-                                leave_master_detail.available_leaves   = carry_forward
-                                leave_master_detail.carry_forward_days = carry_forward
-                                leave_master_detail.lapse_days         = lapse_days
-
-                                # Stamp the previous FY row with the correct carry/lapse
-                                previous_year_detail.carry_forward_days = carry_forward
-                                previous_year_detail.lapse_days         = round(available - carry_forward, 2)
-                                previous_year_detail.save()
-
-                        leave_master_detail.b_id             = employee.b_id
-                        leave_master_detail.leave_policy_key = current_policy
-                        leave_master_detail.save()
-
-                        # ── YEARLY policy ─────────────────────────────────────
-                        if year_month == 'Year':
-                            already_allocated = LeaveMasterDetailBreakup.objects.filter(
-                                leave_master_detail=leave_master_detail,
-                                allocated_year=str(fy_year_start),
-                                entry_type='accrual',
-                            ).exists()
-                            if already_allocated:
-                                continue
-
-                            fy_start_date = date_type(fy_year_start, fy_start_month, 1)
-                            leave_policy  = get_policy_for_date(policy_versions, fy_start_date)
-                            if not leave_policy:
-                                print(f'⚠ No effective policy on {fy_start_date} for '
-                                      f'{employee.employee_code} ({current_policy.type_of_leave.status_name})')
-                                continue
-
-                            leave_policy_details = LeavePolicyDetail.objects.filter(leave_policy=leave_policy)
-                            new_breakup = _credit_one_period(
-                                employee, leave_policy, leave_policy_details,
-                                leave_master_detail,
-                                credit_date=fy_start_date,
-                                allocated_month=calendar.month_abbr[fy_start_month],
-                                allocated_year=str(fy_year_start),
-                                fy_start_month=fy_start_month,
-                                financial_year_str=financial_year_str,
-                                year_month=year_month,
-                                prorate_on_join=bool(leave_policy.prorate_on_join),
-                            )
-                            if not new_breakup:
-                                continue
-
-                            print(
-                                f'✅ Credited {new_breakup.allocated_leaves:.2f} days to '
-                                f'{employee.employee_code} ({leave_policy.type_of_leave.status_name}) '
-                                f'FY {financial_year_str} [Yearly]'
-                            )
-
-                        # ── MONTHLY policy — backfill all missing months ───────
-                        else:
-                            existing = set(
-                                LeaveMasterDetailBreakup.objects.filter(
-                                    leave_master_detail=leave_master_detail,
-                                    entry_type='accrual',
-                                ).values_list('allocated_month', 'allocated_year')
-                            )
-
-                            missing_months = get_missing_months(
-                                employee_doj=employee.doj,
-                                fy_start_month=fy_start_month,
-                                fy_year_start=fy_year_start,
-                                today=today,
-                                existing_month_years=existing,
-                            )
-
-                            if not missing_months:
-                                continue
-
-                            print(f'  📅 Missing months for {employee.employee_code}: {[(m,y) for m,y,_ in missing_months]}')
-                            for (allocated_month, allocated_year, credit_date) in missing_months:
-                                # Pick policy version effective on this credit date
-                                leave_policy = get_policy_for_date(policy_versions, credit_date)
-                                if not leave_policy:
-                                    print(f'⚠ No effective policy on {credit_date} for '
-                                          f'{employee.employee_code} ({current_policy.type_of_leave.status_name}) '
-                                          f'— skipping {allocated_month} '
-                                          f'[policy eff_from={current_policy.effective_from} eff_to={current_policy.effective_to}]')
-                                    continue
-
-                                leave_policy_details = LeavePolicyDetail.objects.filter(leave_policy=leave_policy)
-                                new_breakup = _credit_one_period(
-                                    employee, leave_policy, leave_policy_details,
-                                    leave_master_detail,
-                                    credit_date=credit_date,
-                                    allocated_month=allocated_month,
-                                    allocated_year=allocated_year,
-                                    fy_start_month=fy_start_month,
-                                    financial_year_str=financial_year_str,
-                                    year_month=year_month,
-                                    prorate_on_join=bool(leave_policy.prorate_on_join),
-                                )
-                                if not new_breakup:
-                                    continue
-
-                                print(
-                                    f'✅ Credited {new_breakup.allocated_leaves:.2f} days to '
-                                    f'{employee.employee_code} ({leave_policy.type_of_leave.status_name}) '
-                                    f'{allocated_month} {allocated_year} '
-                                    f'[policy effective {leave_policy.effective_from}]'
-                                )
-
-                        # ── Recalculate LeaveMasterDetails totals ─────────────
-                        last_breakup = LeaveMasterDetailBreakup.objects.filter(
-                            leave_master_detail=leave_master_detail
-                        ).order_by('id').last()
-
-                        total_allocated = round(float(
-                            LeaveMasterDetailBreakup.objects.filter(
-                                leave_master_detail=leave_master_detail
-                            ).aggregate(total=models.Sum('allocated_leaves'))['total'] or 0.0
-                        ), 2)
-
-                        leave_master_detail.allocated_leaves = total_allocated
-                        leave_master_detail.available_leaves = (
-                            float(last_breakup.available_leaves) if last_breakup else total_allocated
-                        )
-
-                        if current_policy.year_to_year_carry:
-                            av = leave_master_detail.available_leaves
-                            if av > carry_forward_cap:
-                                leave_master_detail.carry_forward_days = carry_forward_cap
-                                leave_master_detail.lapse_days         = av - carry_forward_cap
-                            else:
-                                leave_master_detail.carry_forward_days = av
-                                leave_master_detail.lapse_days         = 0.0
-
-                        leave_master_detail.b_id             = employee.b_id
-                        leave_master_detail.leave_policy_key = current_policy
-                        leave_master_detail.save()
-
-                        # ── Recalculate LeaveMaster totals ────────────────────
-                        agg = LeaveMasterDetails.objects.filter(
-                            leave_master=leave_master,
-                            financial_year=financial_year_str,
-                        ).aggregate(
-                            total_alloc=models.Sum('allocated_leaves'),
-                            total_avail=models.Sum('available_leaves'),
-                        )
-                        leave_master.total_allocated_leaves = round(float(agg['total_alloc'] or 0), 2)
-                        leave_master.total_available_leaves = round(float(agg['total_avail'] or 0), 2)
-                        leave_master.b_id = employee.b_id
-                        leave_master.save()
-
-                except Exception as e:
-                    import traceback
-                    transaction.set_rollback(True)
-                    print(f'❌ Error processing leave for {employee.employee_code}: {e}')
-                    print(traceback.format_exc())
+    for employee in employees:
+        _accrue_leave_for_employee(employee, today)

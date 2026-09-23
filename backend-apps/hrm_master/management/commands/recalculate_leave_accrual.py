@@ -134,12 +134,15 @@ class Command(BaseCommand):
         )
 
         # â”€â”€ Find all employees covered by this policy â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        # 'All' is this policy's own wildcard sentinel meaning "every value of this
+        # dimension", not a literal value to filter employees by - no real employee
+        # has employee_type == 'All'.
         emp_filter = {}
-        if policy.employee_type:
+        if policy.employee_type and policy.employee_type != 'All':
             emp_filter['employee_type'] = policy.employee_type
-        if policy.employee_group:
+        if policy.employee_group and policy.employee_group != 'All':
             emp_filter['employee_group'] = policy.employee_group
-        if policy.employee_reporting:
+        if policy.employee_reporting and policy.employee_reporting != 'All':
             emp_filter['reporting'] = policy.employee_reporting
 
         employees = EmployeeMaster.objects.filter(**emp_filter).filter(
